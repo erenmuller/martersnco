@@ -1,21 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import {
+  Fraunces,
+  Schibsted_Grotesk,
+  Inter,
+  IBM_Plex_Mono,
+} from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
+// Fraunces now earns its download on one word: the wordmark. Its italic
+// ampersand is the identity mark, so the serif survives there and nowhere
+// else. Page type moved to sans for legibility at long reading lengths.
 const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-fraunces",
-  // WONK gives Fraunces its angled terminals at display sizes; SOFT 0 keeps
-  // the corners sharp so it reads institutional rather than artisanal.
   axes: ["SOFT", "WONK", "opsz"],
 });
 
-const instrument = Instrument_Sans({
+// Display: a grotesque with tight apertures and real presence at 4rem, so
+// headlines keep institutional weight without a serif's fussy detail.
+const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-instrument",
+  variable: "--font-schibsted",
+});
+
+// Body: chosen for x-height and open counters. This is the face people read
+// three paragraphs of, so it is picked for stamina rather than character.
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -82,7 +98,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AE"
-      className={`${fraunces.variable} ${instrument.variable} ${plexMono.variable}`}
+      className={`${schibsted.variable} ${inter.variable} ${plexMono.variable} ${fraunces.variable}`}
     >
       <body>{children}</body>
     </html>

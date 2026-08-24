@@ -62,7 +62,7 @@ export default function SiteHeader() {
               Client login
             </Link>
             <Link href="/contact" className="btn btn-primary btn-sm">
-              Book an assessment
+              Book a free inspection
             </Link>
           </div>
 
@@ -116,7 +116,7 @@ export default function SiteHeader() {
               Client login
             </Link>
             <Link href="/contact" className="btn btn-primary mt-6">
-              Book an assessment
+              Book a free inspection
             </Link>
           </nav>
         </div>

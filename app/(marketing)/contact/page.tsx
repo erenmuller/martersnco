@@ -3,7 +3,7 @@ import ContactForm from "./ContactForm";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Book an assessment",
+  title: "Book a free inspection",
   description:
     "Describe one process that frustrates you. We reply with what we would measure, what an audit would cost, and whether it is worth doing at all.",
   alternates: { canonical: "/contact" },
@@ -32,7 +32,7 @@ export default function ContactPage() {
     <section className="page section section-flush pb-20 pt-14 md:pt-20">
       <div className="max-w-[52rem]">
         <span className="eyebrow eyebrow-pine">Contact</span>
-        <h1 className="display-xl mt-6">Book an assessment.</h1>
+        <h1 className="display-xl mt-6">Book a free inspection.</h1>
         <p className="lede mt-7">
           Describe one process that annoys you. We will reply with what we would
           measure, roughly what an audit of it costs, and whether we think it is

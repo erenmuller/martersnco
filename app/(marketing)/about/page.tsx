@@ -194,7 +194,7 @@ export default function AboutPage() {
             </div>
 
             <Link href="/contact" className="btn btn-primary mt-10">
-              Book an assessment
+              Book a free inspection
             </Link>
           </div>
         </div>

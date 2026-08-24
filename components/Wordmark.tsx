@@ -3,6 +3,7 @@ import Link from "next/link";
 /**
  * The wordmark. Fraunces' italic ampersand is the one flourish in the
  * identity — a partnership mark for a firm whose name ends in "& Co."
+ * It is the only place the serif appears now that page type is set in sans.
  */
 export default function Wordmark({
   href = "/",
@@ -13,7 +14,7 @@ export default function Wordmark({
 }) {
   const content = (
     <span
-      className={`font-display inline-flex items-baseline whitespace-nowrap text-[1.0625rem] leading-none tracking-[-0.01em] ${className}`}
+      className={`font-mark inline-flex items-baseline whitespace-nowrap text-[1.09rem] leading-none ${className}`}
       style={{ fontVariationSettings: '"SOFT" 0, "WONK" 1, "opsz" 20' }}
     >
       Marters{" "}

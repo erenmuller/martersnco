@@ -142,7 +142,7 @@ export default function ServicesPage() {
               frustrates you and we will tell you where it sits.
             </p>
             <Link href="/contact" className="btn btn-primary mt-7">
-              Book an assessment
+              Book a free inspection
             </Link>
           </div>
         </div>

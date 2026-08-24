@@ -264,8 +264,8 @@ export interface Phase {
 export const phases: Phase[] = [
   {
     marker: "WK 1–3",
-    title: "Map",
-    body: "We follow real jobs through your business and measure them. No recommendations at this stage — just what the process costs in touch time, elapsed time and rework.",
+    title: "Inspect and map",
+    body: "We follow real jobs through your business and measure them, then audit where AI and automation would pay. No recommendations while we are still counting — just what the process costs in touch time, elapsed time and rework. This stage is free.",
     output: "Measured process map",
   },
   {
@@ -285,6 +285,71 @@ export const phases: Phase[] = [
     title: "Hand over",
     body: "Runbooks, training and access. Everything runs on accounts you control. Continue with a programme if it is useful, stop if it is not — nothing switches off either way.",
     output: "Ownership, with the source",
+  },
+];
+
+/* -------------------------------------------------------------------------
+   The journey — what a client actually moves through, in order.
+
+   Markers carry cost and timing rather than a decorative 01/02/03, because
+   the first thing a reader wants to know is what the inspection costs and
+   how long they are committing to.
+   ------------------------------------------------------------------------- */
+
+export interface Stage {
+  marker: string;
+  title: string;
+  body: string;
+  output: string;
+}
+
+export const journey: Stage[] = [
+  {
+    marker: "No fee",
+    title: "Inspection",
+    body: "We sit with the people doing the work and follow real jobs end to end, timing every step, handoff and wait. Nothing is recommended at this stage. We are only establishing what the work costs you today.",
+    output: "Measured process map",
+  },
+  {
+    marker: "No fee",
+    title: "AI potential audit",
+    body: "Against that map we mark where AI and automation would genuinely pay, and where they would not. Judgement calls, low-volume exceptions and anything expensive to get wrong are named as things to leave alone.",
+    output: "Ranked shortlist, with the rejections",
+  },
+  {
+    marker: "Week 3",
+    title: "The plan",
+    body: "A written plan of what to build and in what order, costed, with the office hours each change returns attached to it. It is a finished piece of work on its own — take it in-house or to another firm if you prefer.",
+    output: "Costed plan, hours attached",
+  },
+  {
+    marker: "Week 4–12",
+    title: "Build",
+    body: "Custom tools for your process, not a product you have to bend the business around. Each one runs alongside the manual version until the two agree for a full cycle, and only then does the manual version stop.",
+    output: "Tools in service",
+  },
+  {
+    marker: "Ongoing",
+    title: "We look after it",
+    body: "Monitoring, incident response, and keeping up with the vendor and model changes underneath your workflow. You own the source and the accounts throughout, so nothing switches off if you stop.",
+    output: "Nothing left for you to maintain",
+  },
+];
+
+/* -------------------------------------------------------------------------
+   Commitments — the two numbers we are willing to be held to.
+   ------------------------------------------------------------------------- */
+
+export const commitments = [
+  {
+    figure: "Hours",
+    title: "Office hours come back",
+    body: "Every plan names the hours it returns. After go-live we re-time the same process against the same clock. If the hours are not there, we keep working on it at no further fee until they are.",
+  },
+  {
+    figure: "Errors",
+    title: "Error rates go down",
+    body: "Re-keyed figures, missed references, wrong bank details. The inspection records today's error rate, and a build is not signed off until the measured rate is lower than the one we started with.",
   },
 ];
 
