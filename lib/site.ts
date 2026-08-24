@@ -7,6 +7,11 @@ const difcLicenceNumber =
   process.env.NEXT_PUBLIC_DIFC_LICENCE?.trim() || null;
 const legalName =
   process.env.NEXT_PUBLIC_LEGAL_NAME?.trim() || "Marters & Co.";
+// An env var that is present but blank must fall back like a missing one, or
+// `new URL(site.url)` in the root layout throws and the whole build fails.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ||
+  "https://martersandco.com";
 
 export const site = {
   name: "Marters & Co.",
@@ -14,7 +19,7 @@ export const site = {
   tagline: "Boutique AI and automation implementation partner",
   description:
     "Marters & Co. is a DIFC-licensed boutique consultancy in Dubai. We map SME processes, build the automation, and train the team that runs it.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://martersandco.com",
+  url: siteUrl,
   email:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
     "hello@martersandco.com",

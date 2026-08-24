@@ -33,7 +33,7 @@ function rateLimitDigest(value: string): string {
   // The service key is already required for this action and is a safe fallback
   // for local setup. Production may use a dedicated secret for easier rotation.
   const secret =
-    process.env.CONTACT_RATE_LIMIT_SECRET ??
+    process.env.CONTACT_RATE_LIMIT_SECRET?.trim() ||
     process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!secret) throw new Error("Contact rate-limit secret is not configured.");
 
