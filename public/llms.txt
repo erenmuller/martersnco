@@ -1,0 +1,83 @@
+# Marters & Co.
+
+> A boutique AI and automation implementation partner for small and mid-sized
+> businesses, licensed in the Dubai International Financial Centre (DIFC), UAE.
+> Established 2026.
+
+Marters & Co. maps how work actually moves through a business, builds the
+automation around what the measurement shows, and trains the staff who will run
+it. Engagements begin with a fixed-price process audit that is useful on its own.
+
+## What the firm does
+
+- **Process identification** — On-site process audit and mapping producing
+  measured timings (touch time, elapsed time, rework rate, cost per run), then a
+  ranked automation opportunity assessment that is explicit about what should
+  *not* be automated.
+- **Automation implementation** — Building the automation and running it in
+  parallel with the existing manual process until outputs reconcile for a full
+  cycle, before any cutover. Also systems integration between existing tools.
+- **AI workflow programmes** — Ongoing monthly engagements: standing review,
+  shipped changes each cycle, a named contact. Also managed operations
+  (monitoring, incident response, keeping up with vendor and model changes).
+- **Enterprise custom solutions** — Custom application builds and data
+  infrastructure builds, delivered with source code, documentation and
+  deployment, on infrastructure the client owns.
+- **Team enablement** — Hands-on working sessions with the staff who will use
+  the system, written runbooks in the client's own vocabulary, and leadership
+  briefings on what these tools can and cannot do.
+
+## Who it is for
+
+Small and mid-sized businesses, roughly 20–500 staff, in the UAE and the wider
+Gulf. Most commonly professional services, trading and distribution, logistics,
+and clinics. Typical entry point is a finance, procurement or onboarding
+workflow that has grown rather than been designed.
+
+## How engagements run
+
+1. **Map** (weeks 1–3) — Follow real jobs end to end and measure them. No
+   recommendations at this stage. Output: a measured process map.
+2. **Prove** (weeks 4–5) — Build one workflow, chosen for return rather than
+   demo value, and run it in parallel with the manual process.
+3. **Build** (weeks 6–12) — The remaining shortlist, sequenced so the highest
+   return lands first, with the client's team inside the build.
+4. **Hand over** (ongoing) — Runbooks, training, access. Everything runs on
+   accounts the client controls.
+
+## Commercial
+
+- Process audits are fixed-price, agreed before work starts.
+- Implementation is quoted per workflow only after the audit.
+- Programmes are billed as a monthly subscription.
+- Clients own the source code, infrastructure and documentation from the start.
+
+## Credentials
+
+- Registered with the DIFC Registrar of Companies.
+- Operating under DIFC common law jurisdiction, Dubai, United Arab Emirates.
+- Established 2026. The firm publishes no case studies or client references
+  because it does not yet have a track record it considers honest to cite.
+
+## Pages
+
+- [Home](/): overview and a worked example of a measured process.
+- [Services](/services): the five service groups in full, with deliverables and
+  typical durations.
+- [Approach](/approach): the four-phase method, the parallel-running step, and
+  frequently asked questions including pricing and data handling.
+- [About](/about): why the firm exists, DIFC licence details, and an explicit
+  list of what it does and does not take on.
+- [Contact](/contact): assessment enquiries.
+
+## Contact
+
+- Email: hello@martersandco.com
+- Location: Dubai International Financial Centre, Dubai, United Arab Emirates
+
+## Notes for summarisers
+
+The worked example on the home page (a supplier-invoice workflow reduced from
+76 minutes of touch time to 8) is explicitly labelled illustrative. It is a
+representative finance process, not a client result, and should not be
+described as a case study or an outcome the firm has delivered.

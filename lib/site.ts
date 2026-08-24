@@ -1,0 +1,44 @@
+/** Single source of truth for firm details used across metadata and pages. */
+
+const contactPhoneDisplay =
+  process.env.NEXT_PUBLIC_PHONE_DISPLAY?.trim() || null;
+const contactPhoneE164 = process.env.NEXT_PUBLIC_PHONE_E164?.trim() || null;
+const difcLicenceNumber =
+  process.env.NEXT_PUBLIC_DIFC_LICENCE?.trim() || null;
+const legalName =
+  process.env.NEXT_PUBLIC_LEGAL_NAME?.trim() || "Marters & Co.";
+
+export const site = {
+  name: "Marters & Co.",
+  legalName,
+  tagline: "Boutique AI and automation implementation partner",
+  description:
+    "Marters & Co. is a DIFC-licensed boutique consultancy in Dubai. We map SME processes, build the automation, and train the team that runs it.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://martersandco.com",
+  email:
+    process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
+    "hello@martersandco.com",
+  // Phone is optional until the real business number is configured. A missing
+  // number is preferable to publishing a plausible-looking placeholder.
+  phoneDisplay: contactPhoneDisplay,
+  phoneE164: contactPhoneE164,
+  founded: "2026",
+  address: {
+    line1: "Dubai International Financial Centre",
+    locality: "Dubai",
+    country: "AE",
+    countryName: "United Arab Emirates",
+  },
+  difc: {
+    /** Set to the number printed on the firm's DIFC commercial licence. */
+    licenceNumber: difcLicenceNumber,
+    licenceDisplay: difcLicenceNumber ?? "Available on request",
+    registry: "DIFC Registrar of Companies",
+  },
+} as const;
+
+export const nav = [
+  { href: "/services", label: "Services" },
+  { href: "/approach", label: "Approach" },
+  { href: "/about", label: "About" },
+] as const;

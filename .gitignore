@@ -1,0 +1,27 @@
+node_modules/
+.next/
+out/
+build/
+.DS_Store
+*.pem
+
+.env
+.env.local
+.env*.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+
+# Local agent and visual-QA artifacts
+.claude/
+.shots/
+
+supabase/.branches
+supabase/.temp

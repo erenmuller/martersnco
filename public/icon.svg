@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <title>Marters &amp; Co.</title>
+  <rect width="32" height="32" fill="#16181A"/>
+  <!-- The trace mark: the long process, then the short one. -->
+  <rect x="6" y="11" width="20" height="3.5" fill="none" stroke="#F5F3ED" stroke-width="1.2"/>
+  <rect x="6" y="18.5" width="6" height="3.5" fill="#3E8F73"/>
+</svg>
