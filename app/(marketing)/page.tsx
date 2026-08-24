@@ -3,9 +3,14 @@ import Link from "next/link";
 import Image from "next/image";
 // Relative, not "@/…": the alias covers source modules, not /public assets.
 import heroImage from "../../public/martersnco.png";
-import ProcessTrace from "@/components/ProcessTrace";
 import JsonLd from "@/components/JsonLd";
-import { serviceGroups, journey, commitments } from "@/lib/content";
+import {
+  serviceGroups,
+  journey,
+  commitments,
+  inspectionSpec,
+  work,
+} from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -100,8 +105,8 @@ export default function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* The inspection — the signature, and the thing we are actually     */}
-      {/* selling. It sits directly under the claim that makes it.          */}
+      {/* The inspection — stated as a record card. The rows carry it, so    */}
+      {/* the prose above them stays to one line.                            */}
       {/* ---------------------------------------------------------------- */}
       <section className="page section">
         <div className="rail">
@@ -109,21 +114,70 @@ export default function HomePage() {
             <span className="eyebrow">The inspection</span>
           </div>
           <div>
-            <h2 className="display-l max-w-[22ch]">
-              This is what an inspection hands you.
+            <h2 className="display-l max-w-[20ch]">
+              Two weeks. One process. Every step timed.
             </h2>
-            <p className="prose-block mb-10 mt-6 max-w-[58ch]">
-              We follow one real, recurring process end to end and time every
-              step. The result is a plan to automate what repeats — faster
-              completion, fewer errors — plus whatever else the inspection
-              turns up: reports that should exist but don&apos;t, or gaps too
-              deep for automation alone, calling for custom code or AI built
-              into the workflow. Below, one process is timed before and
-              after: <strong>touch time</strong> is what your staff are paid
-              for, <strong>elapsed time</strong> is what your customer or
-              supplier waits through.
+            <p className="lede mt-5">You leave with three things.</p>
+
+            <dl className="spec mt-9">
+              {inspectionSpec.map((row) => (
+                <div
+                  key={row.key}
+                  className="spec-row"
+                  data-accent={row.accent ? "true" : undefined}
+                >
+                  <dt className="spec-key">{row.key}</dt>
+                  <dd className="spec-value">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/* Selected work — the proof, as a ledger. One line each, and the     */}
+      {/* figure it gave back.                                               */}
+      {/* ---------------------------------------------------------------- */}
+      <section className="page section">
+        <div className="rail">
+          <div className="rail-label">
+            <span className="eyebrow">Selected work</span>
+          </div>
+
+          <div>
+            <h2 className="display-l max-w-[24ch]">
+              Seven builds, and what each one gave back.
+            </h2>
+            <p className="prose-block mt-6 max-w-[56ch]">
+              The same method every time: measure the process, automate what
+              repeats, leave the judgement calls with your people.
             </p>
-            <ProcessTrace />
+
+            <ol className="mt-10 list-none border-t border-rule p-0">
+              {work.map((item) => (
+                <li key={item.ref} className="work-row">
+                  <span className="work-ref" aria-hidden="true">
+                    {item.ref}
+                  </span>
+                  <div>
+                    <h3 className="display-s text-ink">{item.title}</h3>
+                    <p className="mt-2 max-w-[54ch] text-[0.9375rem] leading-relaxed text-ink-70">
+                      {item.body}
+                    </p>
+                  </div>
+                  <div className="work-return">
+                    <span className="work-figure">{item.figure}</span>
+                    <span className="work-unit">{item.unit}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <p className="mono mt-6 text-[0.75rem] leading-relaxed text-ink-45">
+              Roughly 300 staff hours returned each month across these seven.
+              Client names withheld by agreement.
+            </p>
           </div>
         </div>
       </section>

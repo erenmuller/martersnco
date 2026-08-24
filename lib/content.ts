@@ -1,5 +1,5 @@
 /**
- * Marketing copy and the hero trace data.
+ * Marketing copy for the public pages.
  *
  * Kept out of the database on purpose: the public pages stay static, render
  * without a network call, and cannot break because Supabase is having a bad
@@ -7,55 +7,105 @@
  * keep them in step when you add a service.
  */
 
-export type StepKind = "human" | "wait" | "auto" | "kept";
+/* -------------------------------------------------------------------------
+   The inspection — what the two free weeks actually hand over. Kept short
+   on purpose: the home page states it, /approach explains it.
+   ------------------------------------------------------------------------- */
 
-export interface TraceStep {
-  label: string;
-  minutes: number;
-  kind: StepKind;
+export interface SpecRow {
+  key: string;
+  value: string;
+  /** The fee line is the one we want read, so it gets the pine. */
+  accent?: boolean;
 }
 
-/**
- * A supplier invoice moving from arrival to paid. Illustrative — this is a
- * standard finance workflow, not a client's numbers. Two measures matter and
- * they are not the same thing: touch time is what staff are paid for, elapsed
- * time is what the supplier experiences.
- */
-export const traceBefore: TraceStep[] = [
-  { label: "Invoice lands in a shared inbox", minutes: 5, kind: "human" },
-  { label: "Saved, renamed, filed to the drive", minutes: 6, kind: "human" },
-  { label: "Keyed into the accounting system", minutes: 12, kind: "human" },
-  { label: "Matched to a purchase order by hand", minutes: 15, kind: "human" },
-  { label: "Waiting on a missing PO reference", minutes: 40, kind: "wait" },
-  { label: "Forwarded to a manager", minutes: 4, kind: "human" },
-  { label: "Sitting unread", minutes: 80, kind: "wait" },
-  { label: "Approved", minutes: 2, kind: "human" },
-  { label: "Added to the payment run", minutes: 18, kind: "human" },
-  { label: "Bank details checked a second time", minutes: 9, kind: "human" },
-  { label: "Marked paid and filed", minutes: 5, kind: "human" },
+export const inspectionSpec: SpecRow[] = [
+  {
+    key: "The map",
+    value:
+      "Every step, handoff and wait in one real, recurring process — as it runs, not as the org chart says it runs.",
+  },
+  {
+    key: "The numbers",
+    value:
+      "Touch time, which is what your staff are paid for, and elapsed time, which is what your customer waits through.",
+  },
+  {
+    key: "The plan",
+    value:
+      "What to automate first, what we would leave alone, and the hours each item returns.",
+  },
+  {
+    key: "Fee",
+    value: "None. The map is yours whether or not we build anything.",
+    accent: true,
+  },
 ];
 
-export const traceAfter: TraceStep[] = [
-  { label: "Captured, read and matched", minutes: 1, kind: "auto" },
-  { label: "Exception queue — 1 invoice in 9", minutes: 6, kind: "kept" },
-  { label: "Approved in one tap", minutes: 2, kind: "kept" },
-  { label: "Paid and reconciled", minutes: 1, kind: "auto" },
-];
+/* -------------------------------------------------------------------------
+   Selected work — one line each, and the figure it returned. Names are
+   withheld by agreement, so the row carries the process, not the client.
+   ------------------------------------------------------------------------- */
 
-export const touchTime = (steps: TraceStep[]) =>
-  steps
-    .filter((s) => s.kind === "human" || s.kind === "kept")
-    .reduce((total, s) => total + s.minutes, 0);
-
-export const elapsedTime = (steps: TraceStep[]) =>
-  steps.reduce((total, s) => total + s.minutes, 0);
-
-export function formatMinutes(mins: number): string {
-  if (mins < 60) return `${mins}m`;
-  const h = Math.floor(mins / 60);
-  const m = mins % 60;
-  return m === 0 ? `${h}h` : `${h}h ${String(m).padStart(2, "0")}m`;
+export interface WorkItem {
+  ref: string;
+  title: string;
+  body: string;
+  figure: string;
+  unit: string;
 }
+
+export const work: WorkItem[] = [
+  {
+    ref: "01",
+    title: "Marketplace sales into the ERP",
+    body: "Orders from every online marketplace post themselves into the ERP, priced and coded. Nothing is rekeyed.",
+    figure: "40–50h",
+    unit: "a month returned",
+  },
+  {
+    ref: "02",
+    title: "Sales reconciled to invoices",
+    body: "Every sale matched to its invoice automatically. The accounts team sees the exceptions and nothing else.",
+    figure: "100h",
+    unit: "a month returned",
+  },
+  {
+    ref: "03",
+    title: "Daily sales and variance report",
+    body: "Sales, movement and what changed, built every morning before anyone arrives. The monthly pack is gone.",
+    figure: "Daily",
+    unit: "was monthly, by hand",
+  },
+  {
+    ref: "04",
+    title: "Orders out of email, into WhatsApp",
+    body: "New orders are read out of the inbox and posted to the operations group the moment they land.",
+    figure: "10h",
+    unit: "a month returned",
+  },
+  {
+    ref: "05",
+    title: "Purchase planning and forecasting",
+    body: "Daily sales data drives the forecast, so stock is ordered at the right quantity at the right time.",
+    figure: "100–150h",
+    unit: "a month returned",
+  },
+  {
+    ref: "06",
+    title: "Packing list generator",
+    body: "Packing lists build themselves from the ERP for high-volume export runs, in the format each buyer wants.",
+    figure: "30h",
+    unit: "a month returned",
+  },
+  {
+    ref: "07",
+    title: "Pricing analytics",
+    body: "Prices set from demand and elasticity rather than habit, and tested statistically before they go live.",
+    figure: "+20%",
+    unit: "gross profit",
+  },
+];
 
 /* -------------------------------------------------------------------------
    Services
