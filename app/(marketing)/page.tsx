@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+// Relative, not "@/…": the alias covers source modules, not /public assets.
+import heroImage from "../../public/martersnco.png";
 import ProcessTrace from "@/components/ProcessTrace";
 import JsonLd from "@/components/JsonLd";
 import { serviceGroups, journey, commitments } from "@/lib/content";
@@ -18,16 +21,6 @@ const websiteSchema = {
   url: site.url,
   publisher: { "@id": `${site.url}/#organisation` },
 };
-
-/**
- * Placeholder motif for the hero frame — a column of measure lines in the
- * same visual language as the trace. Fixed heights so server and client
- * render the same thing.
- */
-const scanBars = [
-  18, 34, 27, 52, 41, 66, 38, 74, 49, 88, 57, 71, 44, 92, 63, 79, 51, 68, 36,
-  59, 47, 83, 55, 40, 29,
-];
 
 export default function HomePage() {
   return (
@@ -79,24 +72,28 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Picture slot. To use a photograph, drop the file in /public and
-              replace the .scan div with:
-                <Image src="/hero.jpg" alt="…" fill sizes="(max-width: 64rem) 100vw, 34rem" />
-              importing Image from "next/image". Everything else stays. */}
           <figure
             className="frame rise lg:mt-1"
             style={{ animationDelay: "390ms" }}
           >
             <div className="frame-body">
-              <div className="scan" aria-hidden="true">
-                {scanBars.map((h, i) => (
-                  <i key={i} style={{ height: `${h}%` }} />
-                ))}
-              </div>
+              {/* Static import, so Next generates the blur placeholder and
+                  serves sized WebP/AVIF rather than the 1.8MB source PNG.
+                  priority — this is the LCP image. */}
+              <Image
+                src={heroImage}
+                alt="Marters & Co. — the Dubai skyline at sunset, with the Burj Khalifa and the Burj Al Arab."
+                placeholder="blur"
+                priority
+                fill
+                sizes="(max-width: 64rem) 100vw, 29rem"
+              />
             </div>
+            {/* The artwork carries the wordmark, so the caption gives the
+                things it does not: where the firm is, and since when. */}
             <figcaption className="frame-caption">
-              <span>Fig. 1 — Inspection</span>
-              <span>Dubai</span>
+              <span>Dubai International Financial Centre</span>
+              <span>Est. {site.founded}</span>
             </figcaption>
           </figure>
         </div>
@@ -116,11 +113,15 @@ export default function HomePage() {
               This is what an inspection hands you.
             </h2>
             <p className="prose-block mb-10 mt-6 max-w-[58ch]">
-              We follow one real job from end to end and time every step,
-              handoff and wait. Two numbers matter and they are not the same:{" "}
-              <strong>touch time</strong> is what your staff are paid for,{" "}
-              <strong>elapsed time</strong> is what your customer or supplier
-              waits through.
+              We follow one real, recurring process end to end and time every
+              step. The result is a plan to automate what repeats — faster
+              completion, fewer errors — plus whatever else the inspection
+              turns up: reports that should exist but don&apos;t, or gaps too
+              deep for automation alone, calling for custom code or AI built
+              into the workflow. Below, one process is timed before and
+              after: <strong>touch time</strong> is what your staff are paid
+              for, <strong>elapsed time</strong> is what your customer or
+              supplier waits through.
             </p>
             <ProcessTrace />
           </div>
