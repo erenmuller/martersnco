@@ -260,12 +260,13 @@ In Authentication → Email Templates, make the **Reset password** action link:
 </a>
 ```
 
-`resetPasswordForEmail` passes `/auth/callback?next=/reset-password` as
-`redirectTo`, so the destination survives even when the template drops `type`.
-The callback verifies whichever parameters it gets, establishes the cookie
-session, and lands the user on the password form. Recovery signs them out at
-the end so they prove the new password; an invitation does not, because they
-have just set it.
+`resetPasswordForEmail` passes a bare `/auth/callback` as `redirectTo`, with no
+query string of its own — the template appends `?token_hash=…` to it, and a
+second `?` in the URL would swallow the token. The callback verifies whichever
+parameters it gets, establishes the cookie session, and defaults to the
+password form, because nothing but invitations and recoveries reaches it.
+Recovery signs the user out at the end so they prove the new password; an
+invitation does not, because they have just set it.
 
 Also add every callback origin to Authentication → URL Configuration →
 Redirect URLs, including `http://localhost:3000/**` for local work. Supabase
@@ -649,11 +650,25 @@ Invitation email arrives in spam
 
 Reset link goes to the site and errors
 
-: Almost always the stock Supabase recovery template. It returns `?code=` with
-  no `type`, and the code can only be exchanged in the browser that requested
-  the reset. Switch the **Reset password** template to the `token_hash` form
-  above. Check the server log for a `[auth:callback]` line, which carries
-  Supabase's own reason.
+: Almost always the stock Supabase recovery template. It returns `?code=`,
+  which can only be exchanged in the browser that requested the reset — so
+  opening the email on a phone, or in Gmail's in-app browser, fails. Switch the
+  **Reset password** template to the `token_hash` form above; that flow carries
+  no browser state and works anywhere. The server log carries a
+  `[auth:callback]` line with Supabase's own reason.
+
+`/login?error=samebrowser`
+
+: The PKCE verifier cookie was not in the browser that opened the link. Same
+  cause and same fix as above.
+
+Reset link lands on the site but no token arrives
+
+: The **Reset password** template must append its parameters to a URL that has
+  no query string of its own. `{{ .RedirectTo }}` is a bare
+  `https://…/auth/callback`; if you have added anything after a `?` to it, the
+  `?token_hash=` that follows becomes part of the previous value and the token
+  is lost.
 
 Invite links open the wrong domain
 

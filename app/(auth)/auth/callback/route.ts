@@ -66,7 +66,17 @@ export async function GET(request: NextRequest) {
 
   if (error) {
     console.error("[auth:callback]", error.message);
-    return NextResponse.redirect(new URL("/login?error=expired", url));
+
+    // A `code` can only be exchanged in the browser that asked for the reset,
+    // because the PKCE verifier lives in that browser's cookie. Opening the
+    // email on a phone, or in a webmail client's in-app browser, fails here
+    // through no fault of the user — so say what to do rather than implying
+    // the link is stale. Switching the Supabase template to the token_hash
+    // form removes this failure entirely; see the README.
+    const missingVerifier = /code.?verifier/i.test(error.message);
+    return NextResponse.redirect(
+      new URL(`/login?error=${missingVerifier ? "samebrowser" : "expired"}`, url),
+    );
   }
 
   return NextResponse.redirect(new URL(destination, url));

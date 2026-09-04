@@ -14,6 +14,8 @@ const errorMessages: Record<string, string> = {
   auth: "We could not complete that sign-in. Please try again.",
   expired:
     "That link is invalid or has already been used. Ask for a new one below, or contact Marters & Co. if it was an invitation.",
+  samebrowser:
+    "That reset link has to be opened in the same browser you requested it from. Ask for a new link below and open it on this device.",
 };
 
 function first(value: string | string[] | undefined): string | undefined {

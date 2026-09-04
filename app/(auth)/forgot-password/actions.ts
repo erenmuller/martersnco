@@ -39,17 +39,18 @@ async function originForCallback(): Promise<string> {
 }
 
 /**
- * The callback URL, with the destination already attached.
+ * The callback URL. Deliberately carries no query string of its own.
  *
- * Supabase's stock recovery template bounces through /auth/v1/verify and
- * arrives back carrying only `code` — no `type` — so the callback cannot tell
- * a recovery from anything else. Pinning `next` here means the destination
- * survives whichever shape comes back.
+ * Supabase renders this as `{{ .RedirectTo }}` and the email template appends
+ * `?token_hash=…` to it. Anything already after a `?` here would produce a URL
+ * with two of them, and `token_hash` would be parsed as part of the previous
+ * value rather than as its own parameter — so the token would never arrive.
+ *
+ * The destination does not need pinning: /auth/callback already treats a
+ * recovery as its default, because nothing else sends people there.
  */
 async function callbackUrl(): Promise<string> {
-  const url = new URL("/auth/callback", await originForCallback());
-  url.searchParams.set("next", "/reset-password");
-  return url.toString();
+  return `${await originForCallback()}/auth/callback`;
 }
 
 export async function requestPasswordReset(
