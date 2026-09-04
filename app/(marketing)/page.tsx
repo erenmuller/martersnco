@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import { site } from "@/lib/site";
+import ProcessDiscoveryPrompt from "./ProcessDiscoveryPrompt";
 
 export const metadata: Metadata = {
   title: "AI & automation consultancy for SMEs",
@@ -110,7 +111,7 @@ export default function HomePage() {
 
       <section className="home-hero section-flush">
         <div className="page py-14 md:py-20 lg:py-24">
-          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.82fr)] lg:gap-20">
+          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)] lg:gap-16">
             <div>
               <span className="eyebrow eyebrow-pine">
                 AI &amp; automation consultancy for SMEs
@@ -128,13 +129,8 @@ export default function HomePage() {
                 the software too.
               </p>
 
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-                <Link href="/contact" className="btn btn-primary">
-                  Book a free discovery call
-                </Link>
-                <a href="#discovery-audit" className="link-rule">
-                  See what the audit includes
-                </a>
+              <div className="mt-9">
+                <ProcessDiscoveryPrompt />
               </div>
 
               <p className="mt-7 text-[0.8125rem] leading-relaxed text-ink-45">
@@ -143,7 +139,10 @@ export default function HomePage() {
               </p>
             </div>
 
-            <aside className="audit-card" aria-label="Discovery Audit overview">
+            <aside
+              className="audit-card lg:mt-10"
+              aria-label="Discovery Audit overview"
+            >
               <div className="audit-card-head">
                 <span className="audit-kicker">Start here</span>
                 <span className="audit-duration">2–3 weeks</span>

@@ -47,9 +47,9 @@ async function clientAddress(): Promise<string | null> {
   return value ? value.slice(0, 128) : null;
 }
 
-export async function submitLead(
-  _prev: LeadState,
+async function recordLead(
   formData: FormData,
+  source: "website:contact" | "website:homepage-process-prompt",
 ): Promise<LeadState> {
   // Honeypot. A real person never fills a field they cannot see.
   if (formData.get("website")) {
@@ -129,7 +129,7 @@ export async function submitLead(
       company: parsed.data.company || null,
       employees: parsed.data.employees || null,
       message: parsed.data.message,
-      source: "website:contact",
+      source,
     });
 
     if (error) throw error;
@@ -143,4 +143,18 @@ export async function submitLead(
   }
 
   return { status: "ok" };
+}
+
+export async function submitLead(
+  _prev: LeadState,
+  formData: FormData,
+): Promise<LeadState> {
+  return recordLead(formData, "website:contact");
+}
+
+export async function submitProcessLead(
+  _prev: LeadState,
+  formData: FormData,
+): Promise<LeadState> {
+  return recordLead(formData, "website:homepage-process-prompt");
 }

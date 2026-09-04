@@ -1807,3 +1807,403 @@
     }
   }
 }
+
+/* ==========================================================================
+   Homepage process prompt — a small, useful first interaction.
+   ========================================================================== */
+
+@layer components {
+  .process-prompt {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--color-ink);
+    background-color: var(--color-paper);
+    box-shadow: 0.6rem 0.6rem 0 rgba(30, 74, 60, 0.1);
+  }
+  .process-prompt::before {
+    content: "";
+    display: block;
+    height: 3px;
+    background-color: var(--color-pine);
+  }
+  .process-prompt-title {
+    border-bottom: 1px solid var(--color-rule);
+    padding: 1.15rem 1.25rem 1rem;
+  }
+  .process-prompt-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-pine);
+  }
+  .process-prompt-title h2,
+  .process-prompt-sent h2 {
+    margin-top: 0.45rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+    font-weight: 450;
+    line-height: 1.15;
+    letter-spacing: -0.014em;
+    color: var(--color-ink);
+  }
+  .process-prompt-title p,
+  .process-prompt-sent p {
+    margin-top: 0.5rem;
+    max-width: 58ch;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--color-ink-70);
+  }
+  .process-prompt form {
+    padding: 1rem 1.25rem 1.15rem;
+  }
+  .process-prompt textarea {
+    display: block;
+    width: 100%;
+    min-height: 7.25rem;
+    resize: vertical;
+    border: 1px solid var(--color-rule-strong);
+    background-color: var(--color-bone);
+    padding: 0.9rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-ink);
+    transition: border-color 160ms ease, box-shadow 160ms ease,
+      background-color 160ms ease;
+  }
+  .process-prompt textarea::placeholder {
+    color: var(--color-ink-45);
+    opacity: 1;
+  }
+  .process-prompt textarea:hover {
+    border-color: var(--color-ink-45);
+  }
+  .process-prompt textarea:focus {
+    outline: none;
+    border-color: var(--color-pine);
+    background-color: var(--color-paper);
+    box-shadow: 0 0 0 2px var(--color-pine-wash);
+  }
+  .prompt-under-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem 1rem;
+    margin-top: 0.7rem;
+  }
+  @media (min-width: 42rem) {
+    .prompt-under-input {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+  .prompt-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .prompt-examples button {
+    border: 1px solid var(--color-rule);
+    background-color: transparent;
+    padding: 0.28rem 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    color: var(--color-ink-70);
+    cursor: pointer;
+    transition: border-color 150ms ease, color 150ms ease,
+      background-color 150ms ease;
+  }
+  .prompt-examples button:hover {
+    border-color: var(--color-pine);
+    background-color: var(--color-pine-wash);
+    color: var(--color-pine-deep);
+  }
+  .prompt-under-input > span {
+    flex: 0 0 auto;
+    padding-top: 0.2rem;
+    font-size: 0.6875rem;
+    color: var(--color-ink-45);
+  }
+
+  .prompt-contact-fields {
+    max-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    transition: max-height 380ms ease, margin-top 380ms ease,
+      opacity 240ms ease, transform 300ms ease, visibility 0s 380ms;
+    pointer-events: none;
+  }
+  .prompt-contact-fields[data-visible="true"] {
+    max-height: 34rem;
+    margin-top: 1.25rem;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: max-height 420ms ease, margin-top 420ms ease,
+      opacity 260ms 80ms ease, transform 320ms 50ms ease, visibility 0s;
+    pointer-events: auto;
+  }
+  .prompt-contact-intro {
+    margin: 0 0 0.7rem;
+    border-top: 1px solid var(--color-rule);
+    padding-top: 0.9rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .prompt-contact-grid {
+    display: grid;
+    gap: 0.8rem;
+  }
+  @media (min-width: 36rem) {
+    .prompt-contact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .prompt-contact-grid > div:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+  .prompt-contact-grid label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-ink-70);
+  }
+  .prompt-contact-grid label span {
+    font-weight: 400;
+    color: var(--color-ink-45);
+  }
+  .prompt-contact-grid input {
+    width: 100%;
+    border: 1px solid var(--color-rule-strong);
+    background-color: var(--color-bone);
+    padding: 0.62rem 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    color: var(--color-ink);
+  }
+  .prompt-contact-grid input:focus {
+    outline: 2px solid var(--color-pine);
+    outline-offset: 1px;
+    border-color: var(--color-pine);
+    background-color: var(--color-paper);
+  }
+  .prompt-field-error {
+    margin-top: 0.35rem;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    color: var(--color-burgundy);
+  }
+  .prompt-error {
+    margin: 0 0 0.8rem;
+    border-left: 2px solid var(--color-burgundy);
+    background-color: var(--color-burgundy-wash);
+    padding: 0.55rem 0.7rem;
+    font-size: 0.75rem;
+    color: #5e1f26;
+  }
+
+  .prompt-send-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem 1rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: 36rem) {
+    .prompt-send-row {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+  .prompt-submit {
+    display: inline-flex;
+    min-height: 3rem;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    overflow: hidden;
+    border: 1px solid var(--color-pine);
+    background-color: var(--color-pine);
+    padding: 0.62rem 0.75rem 0.62rem 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #f2f5f1;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+  .prompt-submit:hover {
+    border-color: var(--color-pine-deep);
+    background-color: var(--color-pine-deep);
+  }
+  .prompt-submit:disabled {
+    cursor: wait;
+  }
+  .prompt-button-plane {
+    width: 1.35rem;
+    height: 1.35rem;
+    color: #f2f5f1;
+  }
+  .prompt-button-plane.is-sending {
+    animation: prompt-button-flight 950ms ease-in-out infinite;
+  }
+  .prompt-send-row > p {
+    max-width: 31ch;
+    font-size: 0.6875rem;
+    line-height: 1.45;
+    color: var(--color-ink-45);
+  }
+  .process-prompt-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.45rem 1.25rem;
+    border-top: 1px solid var(--color-rule);
+    padding: 0.75rem 1.25rem 0.85rem;
+    font-size: 0.75rem;
+  }
+  .process-prompt-footer a {
+    color: var(--color-ink-70);
+    text-decoration: underline;
+    text-decoration-color: var(--color-rule-strong);
+    text-underline-offset: 3px;
+    transition: color 150ms ease;
+  }
+  .process-prompt-footer a:hover {
+    color: var(--color-pine);
+  }
+
+  .process-prompt-sent {
+    display: grid;
+    min-height: 17rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1.5rem;
+    background-color: var(--color-pine);
+    color: #ffffff;
+  }
+  .process-prompt-sent::before {
+    display: none;
+  }
+  @media (min-width: 36rem) {
+    .process-prompt-sent {
+      grid-template-columns: minmax(0, 1fr) 11rem;
+    }
+  }
+  .process-prompt-sent .process-prompt-kicker {
+    color: rgba(255, 255, 255, 0.64);
+  }
+  .process-prompt-sent h2 {
+    color: #ffffff;
+  }
+  .process-prompt-sent p {
+    color: rgba(255, 255, 255, 0.74);
+  }
+  .plane-stage {
+    position: relative;
+    min-height: 9rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background-image: radial-gradient(
+      circle at 30% 70%,
+      rgba(255, 255, 255, 0.1),
+      transparent 58%
+    );
+  }
+  .launched-plane {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--color-paper);
+    filter: drop-shadow(0 0.3rem 0.35rem rgba(0, 0, 0, 0.16));
+    animation: prompt-plane-takeoff 1600ms cubic-bezier(0.2, 0.72, 0.28, 1)
+      180ms both;
+  }
+  .plane-trail {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 0.4rem;
+    height: 1px;
+    width: 4.5rem;
+    transform: rotate(-28deg);
+    transform-origin: left center;
+    background-color: rgba(255, 255, 255, 0.5);
+    animation: prompt-trail 1250ms ease-out 350ms both;
+  }
+  .plane-trail-two {
+    bottom: 1.7rem;
+    left: 1rem;
+    width: 2.8rem;
+    animation-delay: 480ms;
+  }
+}
+
+@keyframes prompt-button-flight {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  50% {
+    transform: translate(0.18rem, -0.18rem) rotate(-5deg);
+  }
+}
+
+@keyframes prompt-plane-takeoff {
+  0% {
+    transform: translate(0, 0) rotate(-8deg) scale(0.92);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  52% {
+    transform: translate(4rem, -3.4rem) rotate(-27deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(10.5rem, -8rem) rotate(-38deg) scale(0.72);
+    opacity: 0;
+  }
+}
+
+@keyframes prompt-trail {
+  from {
+    transform: rotate(-28deg) scaleX(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  to {
+    transform: rotate(-28deg) scaleX(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt-contact-fields,
+  .prompt-contact-fields[data-visible="true"] {
+    transition: none;
+  }
+  .prompt-button-plane.is-sending,
+  .launched-plane,
+  .plane-trail {
+    animation: none;
+  }
+  .launched-plane {
+    left: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%) rotate(-24deg);
+    opacity: 1;
+  }
+}
