@@ -1399,3 +1399,411 @@
     letter-spacing: -0.012em;
   }
 }
+
+/* ==========================================================================
+   Services — one buying journey, with the audit visibly leading the page.
+   ========================================================================== */
+
+@layer components {
+  .services-hero {
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-rule);
+    background-color: var(--color-bone);
+    background-image:
+      linear-gradient(to right, rgba(21, 32, 27, 0.028) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(21, 32, 27, 0.028) 1px, transparent 1px);
+    background-size: 4rem 4rem;
+  }
+
+  .service-sequence {
+    border: 1px solid var(--color-rule-strong);
+    background-color: var(--color-paper);
+    box-shadow: 0.75rem 0.75rem 0 var(--color-pine-wash);
+  }
+  .service-sequence-label {
+    display: block;
+    border-bottom: 1px solid var(--color-rule);
+    padding: 0.9rem 1.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+    color: var(--color-ink-45);
+  }
+  .service-sequence ol {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+  }
+  .service-sequence li {
+    border-bottom: 1px solid var(--color-rule);
+  }
+  .service-sequence li a {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.9rem;
+    padding: 1rem 1.15rem;
+    transition: background-color 160ms ease;
+  }
+  .service-sequence li a:hover {
+    background-color: var(--color-pine-wash);
+  }
+  .service-sequence li a > span {
+    padding-top: 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-pine);
+  }
+  .service-sequence strong {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .service-sequence li p {
+    margin-top: 0.15rem;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-ink-70);
+  }
+  .service-sequence-note {
+    margin: 0;
+    padding: 1rem 1.15rem 1.15rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--color-ink-45);
+  }
+
+  .discovery-service-section {
+    border-bottom: 1px solid var(--color-rule);
+    background-color: var(--color-paper);
+  }
+  .service-terms {
+    margin-bottom: 0;
+    border-top: 1px solid var(--color-ink);
+  }
+  .service-terms > div {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-rule);
+    padding-block: 0.7rem;
+  }
+  .service-terms dt {
+    font-size: 0.75rem;
+    color: var(--color-ink-45);
+  }
+  .service-terms dd {
+    margin: 0;
+    text-align: right;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .discovery-service-panel {
+    overflow: hidden;
+    border: 1px solid var(--color-pine-deep);
+    background-color: var(--color-pine-deep);
+    color: #ffffff;
+  }
+  .discovery-service-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.35rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 1rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+  }
+  .discovery-service-head span:last-child {
+    color: rgba(255, 255, 255, 0.48);
+  }
+  .discovery-output-grid {
+    display: grid;
+  }
+  @media (min-width: 36rem) {
+    .discovery-output-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .discovery-output-grid article {
+    min-height: 12.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 1.35rem;
+  }
+  @media (min-width: 36rem) {
+    .discovery-output-grid article:nth-child(odd) {
+      border-right: 1px solid rgba(255, 255, 255, 0.18);
+    }
+  }
+  .discovery-output-grid article > span {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .discovery-output-grid h3 {
+    margin-top: 2rem;
+    font-size: 0.975rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  .discovery-output-grid p {
+    margin-top: 0.45rem;
+    max-width: 29ch;
+    font-size: 0.8375rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.66);
+  }
+  .discovery-service-note {
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem 1.25rem 1.2rem;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.62);
+  }
+  .discovery-modules {
+    display: grid;
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+  @media (min-width: 52rem) {
+    .discovery-modules {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .services-section-intro {
+    display: grid;
+    gap: 1.5rem 4rem;
+  }
+  @media (min-width: 60rem) {
+    .services-section-intro {
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.68fr);
+      align-items: end;
+    }
+  }
+  .services-section-intro > p {
+    max-width: 50ch;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-ink-70);
+  }
+  @media (min-width: 60rem) {
+    .services-section-intro > p {
+      padding-bottom: 0.25rem;
+    }
+  }
+
+  .service-lanes {
+    margin-top: 4rem;
+  }
+  .service-lane {
+    display: grid;
+    gap: 2rem 3.5rem;
+    border-top: 1px solid var(--color-ink);
+    padding-block: 2.5rem 3.5rem;
+  }
+  .service-lane:last-child {
+    padding-bottom: 0;
+  }
+  @media (min-width: 64rem) {
+    .service-lane {
+      grid-template-columns: 15rem minmax(0, 1fr);
+    }
+  }
+  .service-lane-intro > span,
+  .support-lane-head > span {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+    color: var(--color-pine);
+  }
+  .service-lane-intro h3,
+  .support-lane-head h3 {
+    margin-top: 0.8rem;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    line-height: 1.16;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
+  }
+  .service-lane-intro p,
+  .support-lane-head p {
+    margin-top: 0.8rem;
+    font-size: 0.8375rem;
+    line-height: 1.6;
+    color: var(--color-ink-70);
+  }
+  .service-card-grid {
+    display: grid;
+    gap: 1rem;
+  }
+  @media (min-width: 44rem) {
+    .service-card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .service-card {
+    display: flex;
+    min-height: 31rem;
+    flex-direction: column;
+    border: 1px solid var(--color-rule);
+    background-color: var(--color-paper);
+    padding: 1.4rem;
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+  .service-card:hover {
+    border-color: var(--color-pine);
+    transform: translateY(-2px);
+  }
+  .service-card-compact {
+    min-height: 23rem;
+  }
+  .service-card-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--color-rule);
+    padding-bottom: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    color: var(--color-ink-45);
+  }
+  .service-card-meta span:first-child {
+    color: var(--color-pine);
+  }
+  .service-card > h3 {
+    margin-top: 1.45rem;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
+  }
+  .service-card-lede {
+    margin-top: 0.65rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+  }
+  .service-card-detail {
+    margin-top: 0.8rem;
+    font-size: 0.8125rem;
+    line-height: 1.58;
+    color: var(--color-ink-70);
+  }
+  .service-card-deliverables {
+    margin: auto 0 0;
+    list-style: none;
+    border-top: 1px solid var(--color-ink);
+    padding: 0.85rem 0 0;
+  }
+  .service-card-deliverables li {
+    position: relative;
+    padding: 0.3rem 0 0.3rem 0.9rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-ink-70);
+  }
+  .service-card-deliverables li::before {
+    content: "";
+    position: absolute;
+    top: 0.85rem;
+    left: 0;
+    width: 0.35rem;
+    height: 1px;
+    background-color: var(--color-pine);
+  }
+
+  .support-services-section {
+    border-block: 1px solid var(--color-rule);
+    background-color: var(--color-shade);
+  }
+  .support-lanes {
+    margin-top: 4rem;
+  }
+  .support-lane {
+    display: grid;
+    gap: 2rem 3.5rem;
+    border-top: 1px solid var(--color-ink);
+    padding-block: 2.5rem;
+  }
+  .support-lane:last-child {
+    padding-bottom: 0;
+  }
+  @media (min-width: 64rem) {
+    .support-lane {
+      grid-template-columns: 15rem minmax(0, 1fr);
+    }
+  }
+  .support-services-section .service-card {
+    background-color: var(--color-paper);
+  }
+
+  .commercial-grid {
+    display: grid;
+    border-top: 1px solid var(--color-ink);
+  }
+  @media (min-width: 48rem) {
+    .commercial-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .commercial-grid article {
+    border-bottom: 1px solid var(--color-rule);
+    padding: 1.35rem 0;
+  }
+  @media (min-width: 48rem) {
+    .commercial-grid article {
+      min-height: 13rem;
+      border-right: 1px solid var(--color-rule);
+      padding: 1.35rem 1.5rem;
+    }
+    .commercial-grid article:first-child {
+      padding-left: 0;
+    }
+    .commercial-grid article:last-child {
+      border-right: 0;
+      padding-right: 0;
+    }
+  }
+  .commercial-grid article > span {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    color: var(--color-pine);
+  }
+  .commercial-grid h3 {
+    margin-top: 1.4rem;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    line-height: 1.15;
+    color: var(--color-ink);
+  }
+  .commercial-grid p {
+    margin-top: 0.6rem;
+    max-width: 34ch;
+    font-size: 0.8375rem;
+    line-height: 1.55;
+    color: var(--color-ink-70);
+  }
+
+  @media (max-width: 43.99rem) {
+    .service-card,
+    .service-card-compact {
+      min-height: 0;
+    }
+    .service-card-deliverables {
+      margin-top: 1.6rem;
+    }
+  }
+}

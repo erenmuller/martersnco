@@ -191,13 +191,13 @@ export interface ServiceGroup {
 export const serviceGroups: ServiceGroup[] = [
   {
     slug: "identify",
-    title: "Finding the work worth automating",
+    title: "Discovery Audit",
     intro:
-      "Most automation projects fail because nobody measured the process first. We start by watching how work actually moves, which is usually not how the org chart says it moves.",
+      "A focused review of how work actually moves through your business, where time and accuracy are being lost, and which AI or automation opportunities justify investment.",
     services: [
       {
         code: "PI-01",
-        name: "Process audit and mapping",
+        name: "Process discovery and mapping",
         lede: "A measured map of how work moves through your business today.",
         detail:
           "We sit with the people doing the work, follow a real job end to end, and record every step, handoff and wait. You get numbers: touch time, elapsed time, rework rate, and cost per run. Several clients have stopped here, fixed three things by hand, and been better off.",
@@ -210,7 +210,7 @@ export const serviceGroups: ServiceGroup[] = [
       },
       {
         code: "PI-02",
-        name: "Automation opportunity assessment",
+        name: "AI and automation opportunity roadmap",
         lede: "What to automate first, and what to leave alone.",
         detail:
           "Each candidate is costed against the hours it returns and the risk it carries. We are explicit about the ones we would not touch — judgement calls, low-volume exceptions, and anything where a wrong answer is expensive and hard to spot.",
@@ -225,7 +225,7 @@ export const serviceGroups: ServiceGroup[] = [
   },
   {
     slug: "implement",
-    title: "Building it and putting it into service",
+    title: "Automation and integration",
     intro:
       "Implementation is the part most consultancies hand to someone else. We do it ourselves, and we stay until the new process is the one your team actually uses.",
     services: [
@@ -259,7 +259,7 @@ export const serviceGroups: ServiceGroup[] = [
   },
   {
     slug: "programme",
-    title: "Keeping it working",
+    title: "Ongoing improvement and support",
     intro:
       "An automated process is not finished. Suppliers change formats, staff change habits, and the models underneath these tools change every few months.",
     services: [
@@ -327,7 +327,7 @@ export const serviceGroups: ServiceGroup[] = [
   },
   {
     slug: "people",
-    title: "Your team",
+    title: "Team adoption and enablement",
     intro:
       "The system is only as good as the confidence of the people running it. This is not an add-on; it is part of every engagement.",
     services: [

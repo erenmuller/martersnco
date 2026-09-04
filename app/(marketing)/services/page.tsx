@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import { serviceGroups } from "@/lib/content";
+import { serviceGroups, type ServiceCopy } from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "AI and automation services for SMEs",
   description:
-    "Process identification, automation implementation, AI workflow programmes, custom software and infrastructure builds, and team enablement for SMEs in the UAE.",
+    "Start with a Discovery Audit, then turn the strongest opportunities into workflow automations, AI-assisted operations or custom internal software.",
   alternates: { canonical: "/services" },
 };
 
@@ -15,143 +15,398 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Marters & Co. services",
-  itemListElement: serviceGroups.flatMap((g, gi) =>
-    g.services.map((s, si) => ({
+  itemListElement: serviceGroups.flatMap((group, groupIndex) =>
+    group.services.map((service, serviceIndex) => ({
       "@type": "ListItem",
-      position: gi * 10 + si + 1,
+      position: groupIndex * 10 + serviceIndex + 1,
       item: {
         "@type": "Service",
-        name: s.name,
-        description: s.lede,
-        serviceType: g.title,
-        provider: { "@id": `${site.url}/#organisation` },
+        name: service.name,
+        description: service.lede,
+        serviceType: group.title,
+        provider: { "@id": site.url + "/#organisation" },
         areaServed: { "@type": "Country", name: "United Arab Emirates" },
       },
     })),
   ),
 };
 
-const totalServices = serviceGroups.reduce(
-  (count, group) => count + group.services.length,
-  0,
-);
+const [
+  discoveryGroup,
+  implementationGroup,
+  programmeGroup,
+  enterpriseGroup,
+  peopleGroup,
+] = serviceGroups;
+
+const discoveryOutputs = [
+  {
+    title: "Measured process maps",
+    body: "The real steps, systems, handoffs, delays and failure points.",
+  },
+  {
+    title: "Opportunity register",
+    body: "Every useful AI, automation and process-improvement candidate.",
+  },
+  {
+    title: "Business cases",
+    body: "Estimated hours returned, errors avoided, effort, cost and risk.",
+  },
+  {
+    title: "Prioritised roadmap",
+    body: "What to do first, what can wait and what should stay human.",
+  },
+];
+
+const engagementPath = [
+  {
+    number: "01",
+    title: "Discover",
+    body: "Find and quantify the right opportunities.",
+    href: "#identify",
+  },
+  {
+    number: "02",
+    title: "Build",
+    body: "Automate, integrate or create the right tool.",
+    href: "#implement",
+  },
+  {
+    number: "03",
+    title: "Embed",
+    body: "Train the team, monitor and keep improving.",
+    href: "#programme",
+  },
+];
+
+const buildLanes = [
+  {
+    group: implementationGroup,
+    eyebrow: "Workflow delivery",
+    title: "Automations and integrations",
+    intro:
+      "For recurring work that crosses inboxes, spreadsheets and business systems—and should move without being re-keyed.",
+  },
+  {
+    group: enterpriseGroup,
+    eyebrow: "Purpose-built systems",
+    title: "Custom software and infrastructure",
+    intro:
+      "For important workflows where off-the-shelf products do not fit and bending the business around them would cost more.",
+  },
+];
+
+const supportLanes = [
+  {
+    group: programmeGroup,
+    eyebrow: "Operate",
+    title: "Keep the system useful",
+    intro:
+      "Monitoring, small improvements and a team that already understands the workflow underneath the software.",
+  },
+  {
+    group: peopleGroup,
+    eyebrow: "Adopt",
+    title: "Bring your team with it",
+    intro:
+      "Hands-on enablement for the people using the new process and clear guidance for the leaders responsible for it.",
+  },
+];
+
+function ServiceCard({
+  service,
+  compact = false,
+}: {
+  service: ServiceCopy;
+  compact?: boolean;
+}) {
+  return (
+    <article className={compact ? "service-card service-card-compact" : "service-card"}>
+      <div className="service-card-meta">
+        <span>{service.code}</span>
+        <span>{service.duration}</span>
+      </div>
+
+      <h3>{service.name}</h3>
+      <p className="service-card-lede">{service.lede}</p>
+      {!compact && <p className="service-card-detail">{service.detail}</p>}
+
+      <ul className="service-card-deliverables">
+        {service.deliverables.map((deliverable) => (
+          <li key={deliverable}>{deliverable}</li>
+        ))}
+      </ul>
+    </article>
+  );
+}
 
 export default function ServicesPage() {
   return (
     <>
       <JsonLd data={schema} />
 
-      <section className="page section section-flush pb-4 pt-14 md:pb-6 md:pt-[4.5rem]">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
-          <div>
-            <h1 className="display-xl max-w-[15ch]">What we actually do.</h1>
-            <p className="lede mt-7">
-              Five groups of work. Most clients start with the first and decide
-              about the rest once they have seen the numbers.
-            </p>
-          </div>
+      <section className="services-hero">
+        <div className="page py-14 md:py-20 lg:py-24">
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(21rem,0.72fr)] lg:gap-20">
+            <div>
+              <span className="eyebrow eyebrow-pine">Services</span>
+              <h1 className="display-xl mt-6 max-w-[13ch]">
+                Know where to use AI. Then make it work.
+              </h1>
+              <p className="lede mt-7 max-w-[57ch]">
+                We help SMEs find the work worth improving, make the business
+                case and build the automation or software when the numbers
+                support it. No transformation theatre. No technology looking
+                for a problem.
+              </p>
+              <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                <Link href="/contact" className="btn btn-primary">
+                  Discuss a Discovery Audit
+                </Link>
+                <a href="#identify" className="link-rule">
+                  Start with the audit
+                </a>
+              </div>
+            </div>
 
-          {/* Contents. The old version set five full sentences in tracked-out
-              mono capitals, which wrapped into an unreadable block. A list of
-              links with their counts is what a reader actually wants. */}
-          <nav aria-label="On this page" className="lg:pt-2">
-            <ol className="m-0 list-none border-t border-ink p-0">
-              {serviceGroups.map((group) => (
-                <li key={group.slug} className="border-b border-rule">
-                  <a
-                    href={`#${group.slug}`}
-                    className="group flex items-baseline justify-between gap-5 py-3 text-[0.9375rem] text-ink-70 transition-colors hover:text-pine"
-                  >
-                    <span className="text-ink transition-colors group-hover:text-pine">
-                      {group.title}
-                    </span>
-                    <span className="mono shrink-0 text-[0.8125rem] text-ink-45">
-                      {group.services.length}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-            <p className="mt-3 text-[0.8125rem] text-ink-45">
-              {totalServices} services in total.
-            </p>
-          </nav>
+            <nav aria-label="Service journey" className="service-sequence">
+              <span className="service-sequence-label">
+                One sensible sequence
+              </span>
+              <ol>
+                {engagementPath.map((step) => (
+                  <li key={step.number}>
+                    <a href={step.href}>
+                      <span>{step.number}</span>
+                      <div>
+                        <strong>{step.title}</strong>
+                        <p>{step.body}</p>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+              <p className="service-sequence-note">
+                The audit is useful on its own. Continue with us only if the
+                roadmap earns the investment.
+              </p>
+            </nav>
+          </div>
         </div>
       </section>
 
-      {serviceGroups.map((group) => (
-        <section
-          key={group.slug}
-          id={group.slug}
-          className="page section scroll-mt-24"
-        >
-          <div>
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end lg:gap-16">
-              <h2 className="display-l max-w-[22ch]">{group.title}</h2>
-              <p className="max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-70 lg:pb-1">
-                {group.intro}
+      <section
+        id="identify"
+        className="discovery-service-section scroll-mt-24"
+      >
+        <div className="page py-16 md:py-24">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-20">
+            <div>
+              <span className="eyebrow">01 / Discover</span>
+              <p className="mt-7 text-[0.75rem] font-semibold uppercase tracking-[0.08em] text-pine">
+                Our primary engagement
+              </p>
+              <h2 className="display-l mt-3 max-w-[15ch]">
+                The Discovery Audit
+              </h2>
+              <p className="mt-6 max-w-[46ch] text-[1rem] leading-relaxed text-ink-70">
+                A focused review of the workflows creating the most friction
+                in your business. We map how the work runs today, find where AI
+                or automation could help and give you a commercially grounded
+                order of action.
+              </p>
+
+              <dl className="service-terms mt-8">
+                <div>
+                  <dt>Typical duration</dt>
+                  <dd>2–3 weeks</dd>
+                </div>
+                <div>
+                  <dt>Commercial model</dt>
+                  <dd>Fixed scope, fixed fee</dd>
+                </div>
+                <div>
+                  <dt>Obligation to build</dt>
+                  <dd>None</dd>
+                </div>
+              </dl>
+
+              <Link href="/contact" className="btn btn-primary mt-9">
+                Scope your Discovery Audit
+              </Link>
+            </div>
+
+            <div className="discovery-service-panel">
+              <div className="discovery-service-head">
+                <span>What you leave with</span>
+                <span>Decision-ready, not a slide deck</span>
+              </div>
+
+              <div className="discovery-output-grid">
+                {discoveryOutputs.map((output, index) => (
+                  <article key={output.title}>
+                    <span>0{index + 1}</span>
+                    <h3>{output.title}</h3>
+                    <p>{output.body}</p>
+                  </article>
+                ))}
+              </div>
+
+              <p className="discovery-service-note">
+                Every recommendation is tied to a measurable operational
+                outcome: staff hours returned, avoidable errors reduced, work
+                completed faster or a combination of the three.
               </p>
             </div>
-
-              {/* Ruled rows, not boxes. These are entries on a schedule of
-                  services; a card grid gave five identical containers no
-                  matter how different the entries were. */}
-            <div className="mt-11">
-              {group.services.map((s) => (
-                <article key={s.code} className="offer-row">
-                    <div>
-                      <h3 className="display-m">{s.name}</h3>
-                      <p className="mt-2 max-w-[54ch] text-[1rem] leading-relaxed text-ink">
-                        {s.lede}
-                      </p>
-                      <p className="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-70">
-                        {s.detail}
-                      </p>
-
-                      <ul className="m-0 mt-5 grid list-none gap-x-8 gap-y-1.5 p-0 sm:grid-cols-2">
-                        {s.deliverables.map((d) => (
-                          <li
-                            key={d}
-                            className="flex gap-2.5 text-[0.875rem] leading-snug text-ink-70"
-                          >
-                            <span
-                              aria-hidden="true"
-                              className="mt-[0.45rem] block h-px w-2.5 shrink-0 bg-rule-strong"
-                            />
-                            {d}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                  <div className="offer-meta">
-                    <span className="mono text-[0.8125rem] text-pine">
-                      {s.code}
-                    </span>
-                    <span>{s.duration}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
           </div>
-        </section>
-      ))}
+
+          <div className="discovery-modules">
+            {discoveryGroup.services.map((service) => (
+              <ServiceCard key={service.code} service={service} compact />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="implement" className="page section scroll-mt-24">
+        <div className="services-section-intro">
+          <div>
+            <span className="eyebrow">02 / Build</span>
+            <h2 className="display-l mt-6 max-w-[19ch]">
+              Implementation, when the numbers support it.
+            </h2>
+          </div>
+          <p>
+            We design around the process we measured, test the new workflow
+            beside the old one and put it into service with the people who will
+            use it. The aim is a better operation—not simply more software.
+          </p>
+        </div>
+
+        <div className="service-lanes">
+          {buildLanes.map((lane) => (
+            <section
+              key={lane.group.slug}
+              id={lane.group.slug === "implement" ? undefined : lane.group.slug}
+              className="service-lane scroll-mt-24"
+            >
+              <div className="service-lane-intro">
+                <span>{lane.eyebrow}</span>
+                <h3>{lane.title}</h3>
+                <p>{lane.intro}</p>
+              </div>
+              <div className="service-card-grid">
+                {lane.group.services.map((service) => (
+                  <ServiceCard key={service.code} service={service} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+
+      <section id="programme" className="support-services-section scroll-mt-24">
+        <div className="page py-16 md:py-24">
+          <div className="services-section-intro">
+            <div>
+              <span className="eyebrow">03 / Embed</span>
+              <h2 className="display-l mt-6 max-w-[17ch]">
+                Make the change stick.
+              </h2>
+            </div>
+            <p>
+              Workflows drift, tools change and teams need confidence in the
+              systems they inherit. We stay close enough to keep the operation
+              healthy, without making you dependent on us.
+            </p>
+          </div>
+
+          <div className="support-lanes">
+            {supportLanes.map((lane) => (
+              <section
+                key={lane.group.slug}
+                id={lane.group.slug === "programme" ? undefined : lane.group.slug}
+                className="support-lane scroll-mt-24"
+              >
+                <div className="support-lane-head">
+                  <span>{lane.eyebrow}</span>
+                  <h3>{lane.title}</h3>
+                  <p>{lane.intro}</p>
+                </div>
+                <div className="service-card-grid">
+                  {lane.group.services.map((service) => (
+                    <ServiceCard key={service.code} service={service} compact />
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="page section">
         <div className="rail">
           <div className="rail-label">
-            <span className="eyebrow">Next</span>
+            <span className="eyebrow">Commercial model</span>
           </div>
           <div>
-            <h2 className="display-l max-w-[24ch]">
-              Not sure which of these you need?
+            <h2 className="display-l max-w-[19ch]">
+              A clear commitment at each stage.
             </h2>
-            <p className="prose-block mt-5 max-w-[52ch]">
-              That is what the Discovery Audit is for. We find the opportunity,
-              quantify it and give you a clear order of action.
-            </p>
-            <Link href="/contact" className="btn btn-primary mt-8">
-              Discuss a Discovery Audit
+            <div className="commercial-grid mt-10">
+              <article>
+                <span>Discovery Audit</span>
+                <h3>Fixed fee</h3>
+                <p>
+                  Scope and price agreed before we begin. The roadmap is yours
+                  whether or not we build from it.
+                </p>
+              </article>
+              <article>
+                <span>Implementation</span>
+                <h3>Quoted per workflow</h3>
+                <p>
+                  Costed only after discovery, when the systems, risks and
+                  expected return are known.
+                </p>
+              </article>
+              <article>
+                <span>Ongoing support</span>
+                <h3>Monthly, when useful</h3>
+                <p>
+                  A defined service for monitoring and improvements. Stop when
+                  it no longer earns its place.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="plate border-t border-rule">
+        <div className="page py-16 md:py-24">
+          <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-16">
+            <div>
+              <span className="eyebrow">Not sure what you need?</span>
+              <h2 className="display-l mt-6 max-w-[20ch]">
+                Bring us the operational problem, not the solution.
+              </h2>
+              <p className="mt-5 max-w-[54ch] leading-relaxed text-[rgba(226,232,226,0.74)]">
+                Tell us where work is repetitive, slow or error-prone. We will
+                help you decide whether it belongs in a Discovery Audit—and say
+                plainly if it does not.
+              </p>
+            </div>
+            <Link
+              href="/contact"
+              className="btn"
+              style={{
+                background: "var(--color-bone)",
+                color: "var(--color-ink)",
+                borderColor: "var(--color-bone)",
+              }}
+            >
+              Book a free discovery call
             </Link>
           </div>
         </div>
