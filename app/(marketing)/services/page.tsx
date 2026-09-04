@@ -147,11 +147,11 @@ export default function ServicesPage() {
               Not sure which of these you need?
             </h2>
             <p className="prose-block mt-5 max-w-[52ch]">
-              That is what the inspection is for. Describe one process that
-              frustrates you and we will tell you where it sits.
+              That is what the Discovery Audit is for. We find the opportunity,
+              quantify it and give you a clear order of action.
             </p>
             <Link href="/contact" className="btn btn-primary mt-8">
-              Book a free inspection
+              Discuss a Discovery Audit
             </Link>
           </div>
         </div>

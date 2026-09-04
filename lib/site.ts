@@ -16,9 +16,9 @@ const siteUrl =
 export const site = {
   name: "Marters & Co.",
   legalName,
-  tagline: "Boutique AI and automation implementation partner",
+  tagline: "AI and automation consultancy for SMEs",
   description:
-    "Marters & Co. is a DIFC-licensed boutique consultancy in Dubai. We map SME processes, build the automation, and train the team that runs it.",
+    "Marters & Co. helps SMEs discover where AI and automation can save staff time and reduce errors, then builds the custom software to make it happen.",
   url: siteUrl,
   email:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||

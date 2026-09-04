@@ -6,7 +6,7 @@ const columns = [
   {
     heading: "Services",
     links: [
-      { href: "/services#identify", label: "Process identification" },
+      { href: "/services#identify", label: "Discovery Audit" },
       { href: "/services#implement", label: "Automation implementation" },
       { href: "/services#programme", label: "AI workflow programmes" },
       { href: "/services#enterprise", label: "Custom builds" },

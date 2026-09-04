@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import {
-  serviceGroups,
-  journey,
-  commitments,
-  inspectionSpec,
-  work,
-  reading,
-  readingTotals,
-} from "@/lib/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `${site.name} — ${site.tagline}`,
-  description: site.description,
+  title: "AI & automation consultancy for SMEs",
+  description:
+    "Find where AI and automation can save staff time, reduce manual errors and improve how work gets done. Start with a practical Discovery Audit from Marters & Co.",
   alternates: { canonical: "/" },
 };
 
@@ -23,337 +15,424 @@ const websiteSchema = {
   "@type": "WebSite",
   name: site.name,
   url: site.url,
-  publisher: { "@id": `${site.url}/#organisation` },
+  publisher: { "@id": site.url + "/#organisation" },
 };
+
+const auditDeliverables = [
+  {
+    number: "01",
+    title: "A map of the work",
+    body: "The real steps, handoffs, systems, delays and failure points in the processes we review.",
+  },
+  {
+    number: "02",
+    title: "A ranked opportunity list",
+    body: "Where automation, AI or a simpler process change could make a measurable difference.",
+  },
+  {
+    number: "03",
+    title: "The business case",
+    body: "Estimated hours returned, errors avoided, implementation effort and risk for each opportunity.",
+  },
+  {
+    number: "04",
+    title: "A practical roadmap",
+    body: "What to do first, what can wait and what should not be automated at all.",
+  },
+];
+
+const signals = [
+  "The same information is copied between systems",
+  "Reports take hours to assemble every week or month",
+  "Important work lives in inboxes, spreadsheets or WhatsApp",
+  "Errors are found late and corrected by hand",
+  "Your team is busy, but too much time goes to admin",
+];
+
+const buildTypes = [
+  {
+    title: "Workflow automation",
+    body: "Connect the tools you already use and remove repetitive data entry, checking, routing and reporting.",
+    examples: "Finance · Operations · Sales · HR",
+  },
+  {
+    title: "AI-assisted operations",
+    body: "Use AI where information needs to be read, classified, summarised or turned into a useful first draft.",
+    examples: "Documents · Email · Support · Knowledge",
+  },
+  {
+    title: "Custom internal software",
+    body: "Build focused tools around the way your company works when off-the-shelf products do not fit.",
+    examples: "Portals · Dashboards · Planning · Integrations",
+  },
+];
+
+const caseStudies = [
+  {
+    ref: "01",
+    area: "Finance",
+    title: "Sales reconciliation",
+    before:
+      "The accounts team manually matched every sale to its invoice and investigated differences one by one.",
+    build:
+      "An automated reconciliation workflow that matches clean transactions and sends only exceptions for review.",
+    figure: "100h",
+    unit: "returned each month",
+  },
+  {
+    ref: "02",
+    area: "Planning",
+    title: "Purchase forecasting",
+    before:
+      "Purchase decisions relied on manually assembled sales files and repeated spreadsheet work.",
+    build:
+      "A planning tool that turns daily sales data into forecasts and recommended purchase quantities.",
+    figure: "100–150h",
+    unit: "returned each month",
+  },
+  {
+    ref: "03",
+    area: "Operations",
+    title: "Marketplace orders into ERP",
+    before:
+      "Orders from several marketplaces were re-keyed into the ERP, creating delays and avoidable input errors.",
+    build:
+      "A direct workflow that validates, prices, codes and posts each order into the ERP automatically.",
+    figure: "40–50h",
+    unit: "returned each month",
+  },
+];
 
 export default function HomePage() {
   return (
     <>
       <JsonLd data={websiteSchema} />
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Hero — the firm sells a measurement, so the hero is one. The bar  */}
-      {/* is a real inspection result, not an illustration of the idea.     */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="page section section-flush pb-16 pt-14 md:pb-20 md:pt-[4.5rem]">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-14">
-          <div>
-            <p className="text-[0.875rem] text-ink-45">
-              Licensed in the Dubai International Financial Centre
-            </p>
-
-            <h1 className="display-xl mt-5">
-              We look inside your business before we automate any of it.
-            </h1>
-
-            <p className="lede mt-6">
-              Every engagement starts with an inspection: we follow real work
-              through your company and time it. Only then do we say where AI
-              and automation belong — and where they do not.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-              <Link href="/contact" className="btn btn-primary">
-                Book a free inspection
-              </Link>
-              <Link href="/approach" className="link-rule">
-                How we work
-              </Link>
-            </div>
-
-            <div className="offer mt-11">
-              <span className="offer-tag">No fee</span>
-              <p className="offer-text m-0">
-                The inspection and the AI potential audit cost nothing. We are
-                a new firm, and we would rather show you the work than describe
-                it.
-              </p>
-            </div>
-          </div>
-
-          {/* The reading. Cell widths come from the measured minutes, so the
-              picture cannot drift out of step with the totals below it. */}
-          <figure className="reading m-0 lg:self-center">
-            <figcaption className="reading-head">
-              <span className="reading-title">{reading.process}</span>
-              <span className="reading-note">
-                Illustrative — {readingTotals.steps} steps,{" "}
-                {readingTotals.handoffs} handoffs
+      <section className="home-hero section-flush">
+        <div className="page py-14 md:py-20 lg:py-24">
+          <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(22rem,0.82fr)] lg:gap-20">
+            <div>
+              <span className="eyebrow eyebrow-pine">
+                AI &amp; automation consultancy for SMEs
               </span>
-            </figcaption>
 
-            <div className="reading-body">
-              <div
-                className="bar"
-                role="img"
-                aria-label={`One supplier invoice measured end to end: ${readingTotals.touchLabel} of touch time inside ${readingTotals.elapsedLabel} of elapsed time.`}
-              >
-                {reading.steps.map((step, index) => (
-                  <span
-                    key={step.label}
-                    className="bar-cell"
-                    data-kind={step.kind}
-                    title={`${step.label} — ${step.minutes} min`}
-                    style={{
-                      flex: `${step.minutes} 0 0%`,
-                      animationDelay: `${180 + index * 55}ms`,
-                    }}
-                  />
-                ))}
-              </div>
+              <h1 className="display-xl mt-6 max-w-[13ch]">
+                Find the work AI should do{" "}
+                <span className="text-pine">before you pay to build it.</span>
+              </h1>
 
-              <div className="bar-scale" aria-hidden="true">
-                <span>Invoice arrives</span>
-                <span>Approved, {readingTotals.elapsedLabel} later</span>
-              </div>
-
-              <p className="bar-key m-0" aria-hidden="true">
-                <span>
-                  <i data-kind="touch" />
-                  Someone is working on it
-                </span>
-                <span>
-                  <i data-kind="wait" />
-                  It is sitting in a queue
-                </span>
+              <p className="lede mt-7 max-w-[58ch]">
+                We help small and mid-sized businesses find where AI and
+                automation can save staff time, reduce manual errors and make
+                the working day run better. When the case is strong, we build
+                the software too.
               </p>
 
-              <dl className="reading-totals">
+              <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+                <Link href="/contact" className="btn btn-primary">
+                  Book a free discovery call
+                </Link>
+                <a href="#discovery-audit" className="link-rule">
+                  See what the audit includes
+                </a>
+              </div>
+
+              <p className="mt-7 text-[0.8125rem] leading-relaxed text-ink-45">
+                Dubai-based · DIFC licensed · Working with SMEs across the UAE
+                and GCC
+              </p>
+            </div>
+
+            <aside className="audit-card" aria-label="Discovery Audit overview">
+              <div className="audit-card-head">
+                <span className="audit-kicker">Start here</span>
+                <span className="audit-duration">2–3 weeks</span>
+                <h2 className="mt-8 font-display text-[clamp(1.85rem,3vw,2.45rem)] leading-[1.08] tracking-[-0.018em] text-white">
+                  The Discovery Audit
+                </h2>
+                <p className="mt-4 max-w-[38ch] text-[0.9375rem] leading-relaxed text-white/70">
+                  A clear, commercially grounded plan for where AI and
+                  automation belong in your business.
+                </p>
+              </div>
+
+              <dl className="audit-card-list">
                 <div>
-                  <dd className="reading-figure m-0">
-                    {readingTotals.touchLabel}
-                  </dd>
-                  <dt className="reading-key">
-                    Touch time — what your staff are paid for
-                  </dt>
+                  <dt>We study</dt>
+                  <dd>Real workflows, tools, handoffs and pain points</dd>
                 </div>
                 <div>
-                  <dd className="reading-figure m-0" data-quiet="true">
-                    {readingTotals.elapsedLabel}
-                  </dd>
-                  <dt className="reading-key">
-                    Elapsed time — what your supplier waits through
-                  </dt>
+                  <dt>We measure</dt>
+                  <dd>Staff time, volume, error rate, delay and risk</dd>
+                </div>
+                <div>
+                  <dt>You receive</dt>
+                  <dd>A prioritised roadmap and business case</dd>
                 </div>
               </dl>
 
-              <p className="mt-5 border-t border-rule pt-4 text-[0.875rem] leading-relaxed text-ink-70">
-                {readingTotals.waitingShare}% of that is waiting. The longest
-                single wait is{" "}
-                <span className="mono text-ink">
-                  {readingTotals.longestWaitLabel}
-                </span>{" "}
-                in the approver queue — and no automation can shorten it until
-                someone has measured it.
+              <p className="audit-card-note">
+                Fixed scope. Fixed fee. Yours to keep—with no obligation to
+                build with us.
               </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="outcome-band" aria-label="The outcomes we target">
+        <div className="page">
+          <dl className="grid md:grid-cols-3">
+            <div>
+              <dt>Hours back</dt>
+              <dd>Less repetitive admin. More capacity for useful work.</dd>
             </div>
-          </figure>
+            <div>
+              <dt>Fewer errors</dt>
+              <dd>Less re-keying, missed information and manual checking.</dd>
+            </div>
+            <div>
+              <dt>Clear priorities</dt>
+              <dd>A business case for what to build—and what to leave alone.</dd>
+            </div>
+          </dl>
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* The inspection — stated as a record card.                         */}
-      {/* ---------------------------------------------------------------- */}
       <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">The inspection</span>
-          </div>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-20">
           <div>
-            <h2 className="display-l max-w-[20ch]">
-              Two weeks. One process. Every step timed.
+            <span className="eyebrow">A better starting point</span>
+            <h2 className="display-l mt-6 max-w-[18ch]">
+              AI is not the strategy. Better work is.
             </h2>
-            <p className="lede mt-5">You leave with three things.</p>
-
-            <dl className="spec mt-9">
-              {inspectionSpec.map((row) => (
-                <div
-                  key={row.key}
-                  className="spec-row"
-                  data-accent={row.accent ? "true" : undefined}
-                >
-                  <dt className="spec-key">{row.key}</dt>
-                  <dd className="spec-value">{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* Selected work — the proof, as a ledger.                           */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">Selected work</span>
-          </div>
-
-          <div>
-            <h2 className="display-l max-w-[24ch]">
-              Seven builds, and what each one gave back.
-            </h2>
-            <p className="prose-block mt-6 max-w-[56ch]">
-              The same method every time: measure the process, automate what
-              repeats, leave the judgement calls with your people.
-            </p>
-
-            <ul className="mt-10 list-none border-t border-ink p-0">
-              {work.map((item) => (
-                <li key={item.ref} className="work-row">
-                  <div>
-                    <h3 className="display-s">{item.title}</h3>
-                    <p className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-relaxed text-ink-70">
-                      {item.body}
-                    </p>
-                  </div>
-                  <div className="work-return">
-                    <span className="work-figure">{item.figure}</span>
-                    <span className="work-unit">{item.unit}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-6 max-w-[58ch] text-[0.8125rem] leading-relaxed text-ink-45">
-              Roughly 300 staff hours returned each month across these seven.
-              Client names withheld by agreement.
+            <p className="prose-block mt-6 max-w-[50ch]">
+              Most SMEs do not need an “AI transformation.” They need to know
+              which recurring work is costing the team time, where mistakes
+              enter the process and which improvements are worth paying for.
             </p>
           </div>
+
+          <ol className="decision-path m-0 list-none p-0">
+            <li>
+              <span>01</span>
+              <div>
+                <h3>Find the friction</h3>
+                <p>
+                  We speak with the people doing the work and follow the real
+                  process—not the version in a policy document.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <h3>Size the opportunity</h3>
+                <p>
+                  We quantify frequency, time, error rate, complexity and risk
+                  so each idea has a credible business case.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <h3>Choose the right response</h3>
+                <p>
+                  Sometimes the answer is automation. Sometimes it is AI, a
+                  process fix—or leaving a judgement call with a person.
+                </p>
+              </div>
+            </li>
+          </ol>
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* The journey — genuinely sequential, and the markers carry cost.   */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">The journey</span>
-          </div>
+      <section id="discovery-audit" className="discovery-section scroll-mt-24">
+        <div className="page py-16 md:py-24">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.62fr)] lg:gap-20">
+            <div>
+              <span className="eyebrow">Our primary engagement</span>
+              <h2 className="display-l mt-6 max-w-[21ch]">
+                Your practical AI roadmap, based on how work actually gets
+                done.
+              </h2>
+              <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-ink-70">
+                The Discovery Audit is a focused piece of consulting, not a
+                generic workshop. We examine a small number of high-friction
+                workflows and turn what we find into decisions your leadership
+                team can act on.
+              </p>
 
-          <div>
-            <h2 className="display-l max-w-[24ch]">
-              Five stages. You can stop after any of them.
-            </h2>
-
-            <ol className="mt-10 list-none border-b border-rule p-0">
-              {journey.map((stage) => {
-                const free = stage.marker === "No fee";
-                return (
-                  <li key={stage.title} className="stage">
-                    <span className="stage-marker" data-free={free}>
-                      {stage.marker}
-                    </span>
-                    <div>
-                      <h3 className="display-s">{stage.title}</h3>
-                      <p className="mt-1.5 max-w-[56ch] text-[0.9375rem] leading-relaxed text-ink-70">
-                        {stage.body}
-                      </p>
-                    </div>
-                    <span className="stage-output">{stage.output}</span>
+              <ol className="audit-deliverables mt-11 grid list-none gap-px p-0 sm:grid-cols-2">
+                {auditDeliverables.map((item) => (
+                  <li key={item.number}>
+                    <span>{item.number}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
                   </li>
-                );
-              })}
-            </ol>
+                ))}
+              </ol>
+            </div>
 
-            <Link href="/approach" className="link-rule mt-9 inline-block">
-              The full method
+            <aside className="fit-card">
+              <span className="eyebrow eyebrow-pine">It may be time if…</span>
+              <ul className="m-0 mt-6 list-none p-0">
+                {signals.map((signal) => (
+                  <li key={signal}>
+                    <span aria-hidden="true">✓</span>
+                    {signal}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/contact" className="btn btn-primary mt-8 w-full">
+                Discuss a Discovery Audit
+              </Link>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="page section">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-20">
+          <div>
+            <span className="eyebrow">When the case is clear</span>
+            <h2 className="display-l mt-6 max-w-[17ch]">
+              From roadmap to working software.
+            </h2>
+            <p className="prose-block mt-6 max-w-[48ch]">
+              The audit stands on its own. If you ask us to implement it, the
+              same people who studied the process design and build the solution
+              with your team.
+            </p>
+            <Link href="/services" className="link-rule mt-7">
+              Explore our build capabilities
             </Link>
           </div>
-        </div>
-      </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* What we hold ourselves to                                         */}
-      {/* ---------------------------------------------------------------- */}
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">Our guarantee</span>
-          </div>
-
-          <div>
-            <h2 className="display-l max-w-[22ch]">
-              Two numbers we are willing to be held to.
-            </h2>
-            <p className="prose-block mt-6 max-w-[58ch]">
-              A guarantee is only worth something if it is measurable, and the
-              inspection is what makes these measurable. We recorded your
-              starting numbers, so there is no argument later about what they
-              were.
-            </p>
-
-            <dl className="mt-10 grid gap-x-12 gap-y-9 sm:grid-cols-2">
-              {commitments.map((c) => (
-                <div key={c.title} className="border-t border-ink pt-4">
-                  <dt className="display-m">{c.title}</dt>
-                  <dd className="m-0 mt-3 max-w-[42ch] text-[0.9375rem] leading-relaxed text-ink-70">
-                    {c.body}
-                  </dd>
+          <div className="build-list">
+            {buildTypes.map((item) => (
+              <article key={item.title}>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
                 </div>
-              ))}
-            </dl>
+                <span>{item.examples}</span>
+              </article>
+            ))}
+            <p className="ownership-note">
+              You own the source, accounts and documentation. We can support
+              what we build, but nothing switches off if you leave.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* What we build — terse, because the detail lives on /services.     */}
-      {/* ---------------------------------------------------------------- */}
+      <section className="case-section">
+        <div className="page py-16 md:py-24">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12">
+            <div>
+              <span className="eyebrow">Selected outcomes</span>
+              <h2 className="display-l mt-6 max-w-[20ch]">
+                Less manual work. Results you can count.
+              </h2>
+            </div>
+            <p className="max-w-[35rem] text-[0.9375rem] leading-relaxed text-ink-70 md:pb-1">
+              A few examples of systems delivered by our team. Client names
+              are withheld by agreement; the problem, build and measured
+              result are not.
+            </p>
+          </div>
+
+          <div className="case-grid mt-12">
+            {caseStudies.map((study) => (
+              <article key={study.ref} className="case-card">
+                <div className="case-card-head">
+                  <span>{study.ref}</span>
+                  <span>{study.area}</span>
+                </div>
+                <h3>{study.title}</h3>
+
+                <dl>
+                  <div>
+                    <dt>Before</dt>
+                    <dd>{study.before}</dd>
+                  </div>
+                  <div>
+                    <dt>What we built</dt>
+                    <dd>{study.build}</dd>
+                  </div>
+                </dl>
+
+                <div className="case-result">
+                  <strong>{study.figure}</strong>
+                  <span>{study.unit}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="portfolio-result">
+            <span>Across seven delivered workflows</span>
+            <strong>≈300 staff hours returned every month</strong>
+          </div>
+        </div>
+      </section>
+
       <section className="page section">
         <div className="rail">
           <div className="rail-label">
-            <span className="eyebrow">What we build</span>
+            <span className="eyebrow">How we work</span>
           </div>
-
           <div>
-            <h2 className="display-l max-w-[26ch]">
-              Custom tools for your process, looked after by us.
+            <h2 className="display-l max-w-[21ch]">
+              Small team. Straight answers. Measured results.
             </h2>
-            <p className="prose-block mt-6 max-w-[58ch]">
-              Not a product you have to bend the business around. We build for
-              the process we measured, keep it running, and hand you the source
-              and the accounts so nothing switches off if you leave.
-            </p>
-
-            <ul className="mt-10 list-none border-t border-ink p-0">
-              {serviceGroups.map((group) => (
-                <li key={group.slug} className="border-b border-rule">
-                  <Link
-                    href={`/services#${group.slug}`}
-                    className="group flex items-baseline justify-between gap-6 py-4 transition-colors"
-                  >
-                    <span className="display-s transition-colors group-hover:text-pine">
-                      {group.title}
-                    </span>
-                    <span className="shrink-0 text-[0.8125rem] text-ink-45 transition-colors group-hover:text-pine">
-                      {group.services.length} services
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-10 grid gap-px bg-rule md:grid-cols-3">
+              <article className="bg-bone p-6 md:p-7">
+                <span className="mono text-[0.75rem] text-pine">01 / AUDIT</span>
+                <h3 className="display-s mt-5">Find the right work</h3>
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-70">
+                  Map the process, quantify the opportunity and agree what
+                  success will mean before a build begins.
+                </p>
+              </article>
+              <article className="bg-bone p-6 md:p-7">
+                <span className="mono text-[0.75rem] text-pine">02 / BUILD</span>
+                <h3 className="display-s mt-5">Prove it in real work</h3>
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-70">
+                  Run the new workflow beside the old one until the outputs
+                  agree and the team trusts it.
+                </p>
+              </article>
+              <article className="bg-bone p-6 md:p-7">
+                <span className="mono text-[0.75rem] text-pine">03 / MEASURE</span>
+                <h3 className="display-s mt-5">Count what changed</h3>
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-70">
+                  Re-measure the same process after launch: hours returned,
+                  errors reduced and work completed faster.
+                </p>
+              </article>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* Close — the one dark plate on the page.                           */}
-      {/* ---------------------------------------------------------------- */}
       <section className="plate border-t border-rule">
         <div className="page py-16 md:py-24">
-          <div className="max-w-[44rem]">
-            <h2 className="display-l">
-              Send us one process that annoys you.
-            </h2>
-            <p className="mt-5 max-w-[52ch] leading-relaxed text-[rgba(226,232,226,0.74)]">
-              Describe it in a paragraph. We will reply with what we would
-              measure, what the inspection would cover, and whether we think
-              there is anything worth automating in it at all.
-            </p>
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+          <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-16">
+            <div>
+              <span className="eyebrow">A useful first conversation</span>
+              <h2 className="display-l mt-6 max-w-[20ch]">
+                Tell us which part of the business feels harder than it should.
+              </h2>
+              <p className="mt-5 max-w-[54ch] leading-relaxed text-[rgba(226,232,226,0.74)]">
+                You do not need to arrive with an AI idea. Bring us a process
+                that is slow, repetitive or error-prone and we will help you
+                decide whether it is worth investigating.
+              </p>
+            </div>
+            <div className="md:text-right">
               <Link
                 href="/contact"
                 className="btn"
@@ -363,9 +442,12 @@ export default function HomePage() {
                   borderColor: "var(--color-bone)",
                 }}
               >
-                Book a free inspection
+                Book a free discovery call
               </Link>
-              <a href={`mailto:${site.email}`} className="link-rule">
+              <a
+                href={"mailto:" + site.email}
+                className="mt-4 block text-[0.8125rem] text-white/60 hover:text-white"
+              >
                 {site.email}
               </a>
             </div>
