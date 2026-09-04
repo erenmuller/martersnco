@@ -2,44 +2,56 @@
 
 /* ==========================================================================
    Marters & Co. — design tokens
-   Paper-and-ink institutional. One accent (pine). Figures always in mono,
-   because this firm's work product is measurements.
+
+   The firm's product is a measurement, so the page is built like a
+   surveyor's record card rather than a newspaper. Three rules hold it
+   together:
+
+     1. Fraunces sets every headline. It is the firm's own face — it used to
+        appear on the ampersand alone, which is precisely why the identity
+        read as a logo dropped onto a template.
+     2. Figures are the loudest thing on the page. Brass, mono, large.
+        Nothing else is allowed brass.
+     3. A rule separates records. It is never decoration.
    ========================================================================== */
 
 @theme {
-  --color-bone: #f5f3ed;
-  --color-paper: #fbfaf6;
-  --color-shade: #edeae1;
-  --color-rule: #d8d4c8;
-  --color-rule-strong: #b9b4a5;
-  /* Fill for a manual step in the trace. Reads as weight, because it is cost. */
-  --color-step: #cbc5b3;
+  /* Ground is a pale drafting sage — cool and green-cast. Deliberately not
+     the warm cream this kind of page defaults to. */
+  --color-bone: #e7eae3;
+  --color-paper: #f3f5f0;
+  --color-shade: #dde1d8;
+  --color-rule: #c7cdc1;
+  --color-rule-strong: #a4ad9c;
+  --color-step: #bcc4b6;
 
-  --color-ink: #16181a;
-  --color-ink-70: #494d50;
-  --color-ink-45: #7b7f82;
-  --color-ink-25: #a9aca8;
+  /* Ink carries a green cast all the way down, so type and ground belong to
+     the same world. Never a neutral near-black. */
+  --color-ink: #15201b;
+  --color-ink-70: #47544c;
+  --color-ink-45: #76837a;
+  --color-ink-25: #9ea89a;
 
-  --color-pine: #1f4d3f;
-  --color-pine-deep: #143329;
-  --color-pine-wash: #e4eae6;
+  --color-pine: #1e4a3c;
+  --color-pine-deep: #122f25;
+  --color-pine-wash: #dbe3dc;
 
-  /* Status — portal only, never on the marketing pages. */
-  --color-brass: #8a6a1f;
-  --color-brass-wash: #f0ead8;
-  --color-burgundy: #8c2f39;
-  --color-burgundy-wash: #f4e4e5;
+  /* Brass is reserved for measured figures. If it is not a number the firm
+     recorded, it does not get this colour. */
+  --color-brass: #8e6b26;
+  --color-brass-wash: #ede6d5;
+  --color-burgundy: #8a2f35;
+  --color-burgundy-wash: #f0dfe0;
 
-  --font-display: var(--font-schibsted), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia,
+    "Times New Roman", serif;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
-  /* Wordmark only. The serif is now an identity mark, not a text face. */
   --font-mark: var(--font-fraunces), Georgia, "Times New Roman", serif;
 
-  --spacing-rail: 8.5rem;
-  --container-page: 78rem;
+  --spacing-rail: 10.5rem;
+  --container-page: 71rem;
   --container-prose: 40rem;
 }
 
@@ -74,10 +86,8 @@
     background-color: var(--color-bone);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    /* 17px base. The old 16/1.6 was the main readability complaint on long
-       paragraphs; this is set for reading, not for fitting more in. */
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern" 1;
@@ -94,7 +104,6 @@
     border-radius: 1px;
   }
 
-  /* Skip link — visible only on keyboard focus. */
   .skip-link {
     position: absolute;
     left: -9999px;
@@ -107,95 +116,120 @@
     padding: 0.625rem 1rem;
     background: var(--color-ink);
     color: var(--color-paper);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 0.8125rem;
+    font-weight: 500;
   }
 }
 
 @layer components {
   /* --------------------------------------------------------------------------
      Type roles
+
+     Fraunces is a variable serif with a real optical-size axis. Headlines use
+     a high opsz so the contrast opens up and the serifs sharpen; that is what
+     makes it read as engraved rather than bookish.
      -------------------------------------------------------------------------- */
 
-  /* A sans display needs more air between lines than the serif did — 1.03
-     was set for Fraunces' short extenders and clips ascenders here. */
   .font-display,
   .display-xl,
   .display-l,
   .display-m,
   .display-s {
     font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.028em;
-    line-height: 1.08;
+    font-weight: 450;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 96;
+    letter-spacing: -0.012em;
+    line-height: 1.1;
     text-wrap: balance;
+    color: var(--color-ink);
   }
 
-  /* The wordmark keeps the serif. Nothing else does. */
   .font-mark {
     font-family: var(--font-mark);
     font-weight: 400;
-    letter-spacing: -0.01em;
-  }
-
-  .display-xl {
-    font-size: clamp(2.5rem, 6vw, 4.35rem);
-    line-height: 1.05;
-    letter-spacing: -0.034em;
-  }
-  .display-l {
-    font-size: clamp(1.95rem, 4vw, 2.9rem);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-  }
-  .display-m {
-    font-size: clamp(1.55rem, 2.8vw, 2.05rem);
-    line-height: 1.15;
-    letter-spacing: -0.024em;
-  }
-  .display-s {
-    font-size: clamp(1.15rem, 1.7vw, 1.35rem);
-    line-height: 1.28;
-    letter-spacing: -0.018em;
-    font-weight: 500;
-  }
-
-  .lede {
-    font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
-    line-height: 1.6;
-    color: var(--color-ink-70);
-    text-wrap: pretty;
-    max-width: 50ch;
     letter-spacing: -0.005em;
   }
 
-  /* Mono eyebrow — the structural label used across every section. */
+  .display-xl {
+    font-size: clamp(2.6rem, 5.6vw, 4.15rem);
+    line-height: 1.03;
+    letter-spacing: -0.021em;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 144;
+  }
+  .display-l {
+    font-size: clamp(1.95rem, 3.6vw, 2.75rem);
+    line-height: 1.09;
+    letter-spacing: -0.017em;
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 120;
+  }
+  .display-m {
+    font-size: clamp(1.5rem, 2.5vw, 1.95rem);
+    line-height: 1.16;
+    letter-spacing: -0.012em;
+  }
+  /* Below ~1.4rem Fraunces' contrast starts to thin out, so the smallest
+     display role switches to the sans at a heavier weight. It reads as the
+     same voice without the serif turning spindly. */
+  .display-s {
+    font-family: var(--font-sans);
+    font-variation-settings: normal;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.32;
+    letter-spacing: -0.011em;
+  }
+
+  .lede {
+    font-size: clamp(1.09rem, 1.25vw, 1.24rem);
+    line-height: 1.58;
+    color: var(--color-ink-70);
+    text-wrap: pretty;
+    max-width: 52ch;
+    letter-spacing: -0.003em;
+  }
+
+  /* Section label. Not an eyebrow: it sits in the right margin beside the
+     heading it names, and carries a short engraved tick so it reads as a
+     scale mark on a record rather than a caption floating above the text. */
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.145em;
-    text-transform: uppercase;
+    letter-spacing: 0.002em;
     color: var(--color-ink-45);
-    display: block;
+  }
+  .eyebrow::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1px;
+    background-color: var(--color-rule-strong);
   }
   .eyebrow-pine {
     color: var(--color-pine);
   }
+  .eyebrow-pine::before {
+    background-color: var(--color-pine);
+  }
 
+  /* Mono is for figures the firm measured. Nothing else. */
+  /* Plex Mono's word space is very wide, so "1h 20m" fell apart into two
+     separate readings. Pulled back so a figure holds together as one token. */
   .mono {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
+    word-spacing: -0.14em;
   }
 
   .prose-block p,
   p.prose-block {
-    max-width: 66ch;
+    max-width: 64ch;
     color: var(--color-ink-70);
-    margin-bottom: 1.15rem;
-    line-height: 1.7;
+    margin-bottom: 1.1rem;
+    line-height: 1.66;
     text-wrap: pretty;
   }
   .prose-block p:last-child,
@@ -224,38 +258,54 @@
   }
   @media (min-width: 80rem) {
     .page {
-      padding-inline: 3.5rem;
+      padding-inline: 3rem;
     }
   }
 
   .section {
-    padding-block: 4.5rem;
+    padding-block: 4rem;
     border-top: 1px solid var(--color-rule);
   }
   @media (min-width: 48rem) {
     .section {
-      padding-block: 6.5rem;
+      padding-block: 5.5rem;
     }
   }
   .section-flush {
     border-top: 0;
   }
 
-  /* The rail: mono metadata in a fixed left column, content beside it.
-     Collapses to stacked on small screens. */
+  /* The spread: content holds the measure, and the section label sits out in
+     the right margin, aligned to the top of the heading. Marginalia on a
+     survey — and it is what stops the right third of every section from
+     being dead space. */
   .rail {
     display: grid;
-    gap: 1.75rem 2.5rem;
+    gap: 1.5rem;
     grid-template-columns: 1fr;
   }
   @media (min-width: 60rem) {
     .rail {
-      grid-template-columns: var(--spacing-rail) minmax(0, 1fr);
-      gap: 0 3.5rem;
+      grid-template-columns: minmax(0, 1fr) var(--spacing-rail);
+      gap: 0 3.25rem;
+      align-items: start;
+    }
+    .rail > .rail-label {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+    }
+    .rail > .rail-label .eyebrow {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+    .rail > :not(.rail-label) {
+      grid-column: 1;
+      grid-row: 1;
     }
   }
   .rail-label {
-    padding-top: 0.34rem;
+    padding-top: 0.55rem;
   }
 
   /* --------------------------------------------------------------------------
@@ -270,18 +320,18 @@
     font-family: var(--font-sans);
     font-size: 0.9375rem;
     font-weight: 500;
-    letter-spacing: -0.005em;
-    padding: 0.72rem 1.4rem;
+    letter-spacing: -0.004em;
+    padding: 0.78rem 1.5rem;
     border: 1px solid transparent;
     cursor: pointer;
-    transition: background-color 140ms ease, color 140ms ease,
-      border-color 140ms ease;
+    transition: background-color 160ms ease, color 160ms ease,
+      border-color 160ms ease;
     text-align: center;
   }
 
   .btn-primary {
     background-color: var(--color-pine);
-    color: #f4f7f5;
+    color: #f2f5f1;
     border-color: var(--color-pine);
   }
   .btn-primary:hover {
@@ -327,24 +377,24 @@
 
   .btn-sm {
     font-size: 0.8125rem;
-    padding: 0.44rem 0.85rem;
+    padding: 0.48rem 0.9rem;
   }
 
-  /* Underlined text link with a rule that grows on hover. */
+  /* Text link. The rule is drawn under the word and thickens on hover — no
+     arrow glued to the label. */
   .link-rule {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    display: inline-block;
+    align-self: start;
     color: var(--color-ink);
     text-decoration: none;
     font-weight: 500;
-    border-bottom: 1px solid var(--color-rule-strong);
-    padding-bottom: 2px;
-    transition: border-color 140ms ease, color 140ms ease;
+    box-shadow: inset 0 -1px 0 0 var(--color-rule-strong);
+    padding-bottom: 1px;
+    transition: box-shadow 160ms ease, color 160ms ease;
   }
   .link-rule:hover {
-    border-color: var(--color-pine);
     color: var(--color-pine);
+    box-shadow: inset 0 -2px 0 0 var(--color-pine);
   }
 
   /* --------------------------------------------------------------------------
@@ -356,13 +406,12 @@
     margin-bottom: 1.15rem;
   }
   .field-label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
     color: var(--color-ink-70);
     display: block;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.4rem;
   }
   .input,
   .textarea,
@@ -373,8 +422,8 @@
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: 0.9375rem;
-    padding: 0.68rem 0.8rem;
-    transition: border-color 140ms ease;
+    padding: 0.7rem 0.85rem;
+    transition: border-color 160ms ease, background-color 160ms ease;
   }
   .input:hover,
   .textarea:hover,
@@ -395,8 +444,8 @@
   }
   .select {
     appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #494d50 50%),
-      linear-gradient(135deg, #494d50 50%, transparent 50%);
+    background-image: linear-gradient(45deg, transparent 50%, #47544c 50%),
+      linear-gradient(135deg, #47544c 50%, transparent 50%);
     background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%;
     background-size: 5px 5px, 5px 5px;
     background-repeat: no-repeat;
@@ -410,7 +459,8 @@
 
   .notice {
     border: 1px solid;
-    padding: 0.7rem 0.9rem;
+    border-left-width: 3px;
+    padding: 0.75rem 0.95rem;
     font-size: 0.875rem;
     margin-bottom: 1.15rem;
     display: flex;
@@ -440,7 +490,7 @@
   .card {
     background-color: var(--color-paper);
     border: 1px solid var(--color-rule);
-    padding: 1.35rem;
+    padding: 1.4rem;
   }
 
   .table-wrap {
@@ -456,14 +506,13 @@
   }
   table.data th {
     text-align: left;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.11em;
-    text-transform: uppercase;
-    color: var(--color-ink-45);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--color-ink-70);
     padding: 0.7rem 1rem;
-    border-bottom: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--color-rule-strong);
     white-space: nowrap;
     background-color: var(--color-shade);
   }
@@ -493,11 +542,11 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.22rem 0.5rem;
     border: 1px solid;
     white-space: nowrap;
   }
@@ -532,17 +581,16 @@
   }
 
   /* --------------------------------------------------------------------------
-     Home — the offer strip. The free inspection is the entry point to
-     everything, so it gets structure rather than a badge.
+     Home — the terms strip. The free inspection is the entry point to
+     everything, so it is stated as a term of business, not badged.
      -------------------------------------------------------------------------- */
 
   .offer {
     display: grid;
-    gap: 0.75rem 1.5rem;
+    gap: 0.6rem 1.75rem;
     align-items: baseline;
     border-top: 1px solid var(--color-ink);
-    border-bottom: 1px solid var(--color-rule);
-    padding-block: 1rem;
+    padding-top: 1.05rem;
   }
   @media (min-width: 40rem) {
     .offer {
@@ -550,26 +598,151 @@
     }
   }
   .offer-tag {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.145em;
-    text-transform: uppercase;
-    color: var(--color-paper);
-    background-color: var(--color-pine);
-    padding: 0.3rem 0.55rem;
-    justify-self: start;
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 0, "WONK" 1, "opsz" 40;
+    font-size: 1.2rem;
+    line-height: 1;
+    color: var(--color-pine);
+    white-space: nowrap;
   }
   .offer-text {
     font-size: 0.9375rem;
     line-height: 1.6;
     color: var(--color-ink-70);
-    max-width: 54ch;
+    max-width: 52ch;
   }
 
   /* --------------------------------------------------------------------------
-     Home — the picture frame. A hairline border and a mono caption strip, so
-     the photograph reads as a plate in a report rather than a stock banner.
+     Home — the reading. A real inspection result: one process, timed, with
+     the touch time the staff are paid for set against the elapsed time the
+     customer waits through. This is the firm's product, so it is the hero.
+     -------------------------------------------------------------------------- */
+
+  .reading {
+    background-color: var(--color-paper);
+    border: 1px solid var(--color-rule);
+  }
+  .reading-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    align-items: baseline;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--color-rule);
+    background-color: var(--color-shade);
+  }
+  .reading-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .reading-note {
+    font-size: 0.75rem;
+    color: var(--color-ink-45);
+  }
+  .reading-body {
+    padding: 1.4rem 1.1rem 1.2rem;
+  }
+
+  /* The bar itself. Solid cells are touch time — work someone is paid for.
+     Hatched cells are wait. The gap between the two totals is the argument
+     the whole firm is built on, so the bar states it without a caption. */
+  .bar {
+    display: flex;
+    gap: 2px;
+    height: 2.6rem;
+  }
+  .bar-cell {
+    border: 1px solid var(--color-rule-strong);
+  }
+  .bar-cell[data-kind="touch"] {
+    background-color: var(--color-pine);
+    border-color: var(--color-pine);
+  }
+  .bar-cell[data-kind="wait"] {
+    background-color: transparent;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-rule-strong) 0 1px,
+      transparent 1px 5px
+    );
+  }
+
+  /* Key for the bar. A reader cannot be expected to infer that hatching
+     means nobody is working on it. */
+  .bar-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: var(--color-ink-70);
+  }
+  .bar-key > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .bar-key i {
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 1px solid var(--color-rule-strong);
+    flex: 0 0 auto;
+  }
+  .bar-key i[data-kind="touch"] {
+    background-color: var(--color-pine);
+    border-color: var(--color-pine);
+  }
+  .bar-key i[data-kind="wait"] {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--color-rule-strong) 0 1px,
+      transparent 1px 5px
+    );
+  }
+
+  .bar-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-ink-45);
+  }
+
+  .reading-totals {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.5rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--color-rule);
+  }
+  .reading-figure {
+    word-spacing: -0.22em;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.55rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--color-brass);
+    display: block;
+  }
+  .reading-figure[data-quiet="true"] {
+    color: var(--color-ink);
+  }
+  .reading-key {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--color-ink-70);
+    max-width: 22ch;
+  }
+
+  /* --------------------------------------------------------------------------
+     Home — the picture plate. A hairline border and a caption strip, so the
+     photograph reads as a plate in a report rather than a stock banner.
      -------------------------------------------------------------------------- */
 
   .frame {
@@ -577,8 +750,6 @@
     border: 1px solid var(--color-rule);
     background-color: var(--color-paper);
   }
-  /* 4:5, matching the artwork. Held on the container rather than the image
-     so the frame keeps its shape if the picture is ever swapped. */
   .frame-body {
     position: relative;
     aspect-ratio: 4 / 5;
@@ -594,9 +765,7 @@
     gap: 1rem;
     border-top: 1px solid var(--color-rule);
     padding: 0.7rem 0.85rem;
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
+    font-size: 0.75rem;
     color: var(--color-ink-45);
   }
 
@@ -609,70 +778,63 @@
     display: grid;
     gap: 0.5rem 3rem;
     border-top: 1px solid var(--color-rule);
-    padding-block: 1.75rem;
+    padding-block: 1.65rem;
   }
   @media (min-width: 52rem) {
     .stage {
-      grid-template-columns: 7rem minmax(0, 1fr) 14rem;
-      gap: 0 3rem;
+      grid-template-columns: 6.5rem minmax(0, 1fr) 13rem;
+      gap: 0 2.75rem;
       align-items: start;
     }
   }
   .stage-marker {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
     color: var(--color-ink-45);
-    padding-top: 0.4rem;
+    padding-top: 0.2rem;
     white-space: nowrap;
   }
   .stage-marker[data-free="true"] {
     color: var(--color-pine);
+    font-weight: 600;
   }
   .stage-output {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--color-ink-45);
-    padding-top: 0.45rem;
+    padding-top: 0.25rem;
   }
   @media (min-width: 52rem) {
     .stage-output {
       border-left: 1px solid var(--color-rule);
-      padding-left: 1.25rem;
+      padding-left: 1.15rem;
     }
   }
 
   /* --------------------------------------------------------------------------
-     Home — the inspection, stated as a record card. Mono key on the left,
-     one line of substance on the right. No illustration; the rows are it.
+     Home — the inspection, stated as a record card.
      -------------------------------------------------------------------------- */
 
   .spec {
-    border-top: 1px solid var(--color-rule);
+    border-top: 1px solid var(--color-ink);
   }
   .spec-row {
     display: grid;
     gap: 0.3rem 3rem;
     border-bottom: 1px solid var(--color-rule);
-    padding-block: 1.15rem;
+    padding-block: 1.1rem;
   }
   @media (min-width: 52rem) {
     .spec-row {
-      grid-template-columns: 9rem minmax(0, 1fr);
-      gap: 0 3rem;
+      grid-template-columns: 8.5rem minmax(0, 1fr);
+      gap: 0 2.75rem;
       align-items: baseline;
     }
   }
   .spec-key {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-ink-45);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-ink);
     white-space: nowrap;
   }
   .spec-row[data-accent="true"] .spec-key {
@@ -680,7 +842,7 @@
   }
   .spec-value {
     margin: 0;
-    max-width: 58ch;
+    max-width: 60ch;
     font-size: 0.9375rem;
     line-height: 1.6;
     color: var(--color-ink-70);
@@ -691,91 +853,143 @@
   }
 
   /* --------------------------------------------------------------------------
-     Home — selected work. A ledger: reference, the build, what it returned.
-     Figures sit in their own ruled column so they read down the page.
+     Home — selected work. A ledger: the build, and what it returned. Figures
+     sit in their own ruled column so they read straight down the page.
      -------------------------------------------------------------------------- */
 
   .work-row {
     display: grid;
-    gap: 0.55rem 3rem;
+    gap: 0.5rem 3rem;
     border-bottom: 1px solid var(--color-rule);
-    padding-block: 1.6rem;
+    padding-block: 1.5rem;
   }
   @media (min-width: 52rem) {
     .work-row {
-      grid-template-columns: 3rem minmax(0, 1fr) 11rem;
-      gap: 0 3rem;
-      align-items: start;
+      grid-template-columns: minmax(0, 1fr) 10.5rem;
+      gap: 0 2.75rem;
+      align-items: baseline;
     }
-  }
-  .work-ref {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    color: var(--color-ink-25);
-    padding-top: 0.45rem;
   }
   .work-return {
     display: grid;
-    gap: 0.2rem;
+    gap: 0.15rem;
   }
   @media (min-width: 52rem) {
     .work-return {
-      border-left: 1px solid var(--color-rule);
-      padding-left: 1.25rem;
       justify-items: end;
       text-align: right;
     }
   }
   .work-figure {
+    word-spacing: -0.2em;
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     letter-spacing: -0.03em;
     line-height: 1.1;
-    color: var(--color-pine);
+    color: var(--color-brass);
   }
   .work-unit {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
-    letter-spacing: 0.04em;
+    font-size: 0.75rem;
+    line-height: 1.4;
     color: var(--color-ink-45);
   }
 
-  /* Ticker used for the reclaimed-time figure. */
   .figure-xl {
+    word-spacing: -0.2em;
     font-family: var(--font-mono);
     font-size: clamp(1.6rem, 3vw, 2.3rem);
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.03em;
-    color: var(--color-ink);
+    color: var(--color-brass);
     line-height: 1;
   }
 
+  /* --------------------------------------------------------------------------
+     Services — a group of related offers, ruled apart rather than boxed.
+     -------------------------------------------------------------------------- */
+
+  .offer-row {
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--color-rule);
+  }
+  .offer-row:first-child {
+    border-top-color: var(--color-ink);
+  }
+  @media (min-width: 52rem) {
+    .offer-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 11rem;
+      gap: 0 2.75rem;
+      align-items: start;
+    }
+  }
+  .offer-meta {
+    display: grid;
+    gap: 0.2rem;
+    margin-top: 0.9rem;
+    font-size: 0.8125rem;
+    color: var(--color-ink-45);
+  }
+  @media (min-width: 52rem) {
+    .offer-meta {
+      margin-top: 0.25rem;
+      justify-items: end;
+      text-align: right;
+    }
+  }
+
+  /* --------------------------------------------------------------------------
+     The dark plate. Used once per page at most, to close.
+     -------------------------------------------------------------------------- */
+
+  .plate {
+    background-color: var(--color-pine-deep);
+    color: #e2e8e2;
+  }
+  .plate .display-l,
+  .plate .display-m,
+  .plate .display-xl {
+    color: #f0f3ee;
+  }
+  .plate .eyebrow {
+    color: rgba(226, 232, 226, 0.6);
+  }
+  .plate .eyebrow::before {
+    background-color: rgba(226, 232, 226, 0.4);
+  }
+  .plate .link-rule {
+    color: #e2e8e2;
+    box-shadow: inset 0 -1px 0 0 rgba(226, 232, 226, 0.4);
+  }
+  .plate .link-rule:hover {
+    color: #ffffff;
+    box-shadow: inset 0 -2px 0 0 #ffffff;
+  }
 }
 
 /* --------------------------------------------------------------------------
-   Entrance — one orchestrated load sequence, nothing scattered.
+   Motion — one moment, on the hero reading only. The bar draws itself once,
+   because that is the thing the firm actually does. Nothing else animates.
    -------------------------------------------------------------------------- */
 
-@keyframes rise {
+@keyframes draw-cell {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    transform: scaleX(0);
   }
   to {
-    opacity: 1;
-    transform: none;
+    transform: scaleX(1);
   }
 }
 
 @layer components {
-  .rise {
-    animation: rise 620ms cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+  .bar-cell {
+    transform-origin: left center;
+    animation: draw-cell 460ms cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .rise {
+    .bar-cell {
       animation: none;
     }
   }

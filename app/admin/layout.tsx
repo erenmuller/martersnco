@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 {profile.full_name || profile.email}
               </p>
               {profile.full_name ? (
-                <p className="mono text-[0.625rem] text-ink-45">{profile.email}</p>
+                <p className="text-[0.75rem] text-ink-45">{profile.email}</p>
               ) : null}
             </div>
             <Link href="/" className="btn btn-quiet btn-sm">

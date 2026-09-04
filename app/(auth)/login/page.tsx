@@ -12,7 +12,8 @@ const errorMessages: Record<string, string> = {
   unconfigured:
     "Client access is not configured yet. Please contact Marters & Co.",
   auth: "We could not complete that sign-in. Please try again.",
-  expired: "That password-reset link is invalid or has expired. Request a new one.",
+  expired:
+    "That link is invalid or has already been used. Ask for a new one below, or contact Marters & Co. if it was an invitation.",
 };
 
 function first(value: string | string[] | undefined): string | undefined {
@@ -31,9 +32,8 @@ export default async function LoginPage({
 
   return (
     <section className="card p-6 sm:p-8" aria-labelledby="login-heading">
-      <span className="eyebrow eyebrow-pine mb-3">Client portal</span>
-      <h1 id="login-heading" className="display-m text-ink">
-        Welcome back.
+      <h1 id="login-heading" className="display-l">
+        Client portal
       </h1>
       <p className="mb-7 mt-3 text-[0.9375rem] leading-relaxed text-ink-70">
         Sign in to view your engagements, documents, subscriptions and support

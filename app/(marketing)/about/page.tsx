@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+// Relative, not "@/…": the alias covers source modules, not /public assets.
+import brandPlate from "../../../public/martersnco.png";
 import { principles } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -27,17 +30,37 @@ export default function AboutPage() {
   return (
     <>
       <section className="page section section-flush pt-14 md:pt-20">
-        <div className="max-w-[52rem]">
-          <span className="eyebrow eyebrow-pine">About</span>
-          <h1 className="display-xl mt-6">
-            A small firm, on purpose.
-          </h1>
-          <p className="lede mt-7">
-            {site.legalName} is an AI and automation implementation partner
-            licensed in the Dubai International Financial Centre. We work with a
-            few businesses at a time, and the people who scope your work are the
-            people who build it.
-          </p>
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
+          <div>
+            <h1 className="display-xl max-w-[14ch]">
+              A small firm, on purpose.
+            </h1>
+            <p className="lede mt-7">
+              {site.legalName} is an AI and automation implementation partner
+              licensed in the Dubai International Financial Centre. We work with
+              a few businesses at a time, and the people who scope your work are
+              the people who build it.
+            </p>
+          </div>
+
+          {/* The firm's own plate. It belongs here rather than on the home
+              page, where the thing worth showing first is a measurement. */}
+          <figure className="frame lg:mt-1">
+            <div className="frame-body">
+              <Image
+                src={brandPlate}
+                alt="Marters & Co. — the Dubai skyline at sunset, with the Burj Khalifa and the Burj Al Arab."
+                placeholder="blur"
+                priority
+                fill
+                sizes="(max-width: 64rem) 100vw, 26rem"
+              />
+            </div>
+            <figcaption className="frame-caption">
+              <span>Dubai International Financial Centre</span>
+              <span>Established {site.founded}</span>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
@@ -93,7 +116,7 @@ export default function AboutPage() {
               than a logo wall.
             </p>
 
-            <dl className="mono mt-10 grid gap-px border border-rule bg-rule text-[0.8125rem] sm:grid-cols-2">
+            <dl className="mt-10 grid gap-px border border-rule bg-rule text-[0.875rem] sm:grid-cols-2">
               {[
                 ["Registered name", site.legalName],
                 ["Commercial licence", site.difc.licenceDisplay],

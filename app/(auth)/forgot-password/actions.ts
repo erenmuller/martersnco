@@ -19,23 +19,37 @@ export type ForgotPasswordState = {
   fieldError?: string;
 };
 
-async function callbackUrl(): Promise<string> {
+async function originForCallback(): Promise<string> {
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (configured) return `${configured}/auth/callback`;
+  if (configured) return configured;
 
   const requestOrigin = (await headers()).get("origin");
   if (requestOrigin) {
     try {
       const parsed = new URL(requestOrigin);
       if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-        return `${parsed.origin}/auth/callback`;
+        return parsed.origin;
       }
     } catch {
       // Use the canonical site URL below.
     }
   }
 
-  return `${site.url}/auth/callback`;
+  return site.url;
+}
+
+/**
+ * The callback URL, with the destination already attached.
+ *
+ * Supabase's stock recovery template bounces through /auth/v1/verify and
+ * arrives back carrying only `code` — no `type` — so the callback cannot tell
+ * a recovery from anything else. Pinning `next` here means the destination
+ * survives whichever shape comes back.
+ */
+async function callbackUrl(): Promise<string> {
+  const url = new URL("/auth/callback", await originForCallback());
+  url.searchParams.set("next", "/reset-password");
+  return url.toString();
 }
 
 export async function requestPasswordReset(

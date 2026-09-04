@@ -31,36 +31,52 @@ const schema = {
   ),
 };
 
+const totalServices = serviceGroups.reduce(
+  (count, group) => count + group.services.length,
+  0,
+);
+
 export default function ServicesPage() {
   return (
     <>
       <JsonLd data={schema} />
 
-      <section className="page section section-flush pt-14 md:pt-20">
-        <div className="max-w-[50rem]">
-          <span className="eyebrow eyebrow-pine">Services</span>
-          <h1 className="display-xl mt-6">What we actually do.</h1>
-          <p className="lede mt-7">
-            Five groups of work. Most clients start with the first and decide
-            about the rest once they have seen the numbers.
-          </p>
-        </div>
+      <section className="page section section-flush pb-4 pt-14 md:pb-6 md:pt-[4.5rem]">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <div>
+            <h1 className="display-xl max-w-[15ch]">What we actually do.</h1>
+            <p className="lede mt-7">
+              Five groups of work. Most clients start with the first and decide
+              about the rest once they have seen the numbers.
+            </p>
+          </div>
 
-        {/* Contents — useful on a long page, and it doubles as a summary. */}
-        <nav aria-label="On this page" className="mt-12 border-t border-rule">
-          <ol className="m-0 flex list-none flex-wrap gap-x-8 gap-y-2 p-0 pt-4">
-            {serviceGroups.map((g) => (
-              <li key={g.slug}>
-                <a
-                  href={`#${g.slug}`}
-                  className="mono text-[0.6875rem] uppercase tracking-[0.11em] text-ink-45 transition-colors hover:text-pine"
-                >
-                  {g.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
+          {/* Contents. The old version set five full sentences in tracked-out
+              mono capitals, which wrapped into an unreadable block. A list of
+              links with their counts is what a reader actually wants. */}
+          <nav aria-label="On this page" className="lg:pt-2">
+            <ol className="m-0 list-none border-t border-ink p-0">
+              {serviceGroups.map((group) => (
+                <li key={group.slug} className="border-b border-rule">
+                  <a
+                    href={`#${group.slug}`}
+                    className="group flex items-baseline justify-between gap-5 py-3 text-[0.9375rem] text-ink-70 transition-colors hover:text-pine"
+                  >
+                    <span className="text-ink transition-colors group-hover:text-pine">
+                      {group.title}
+                    </span>
+                    <span className="mono shrink-0 text-[0.8125rem] text-ink-45">
+                      {group.services.length}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+            <p className="mt-3 text-[0.8125rem] text-ink-45">
+              {totalServices} services in total.
+            </p>
+          </nav>
+        </div>
       </section>
 
       {serviceGroups.map((group) => (
@@ -69,43 +85,30 @@ export default function ServicesPage() {
           id={group.slug}
           className="page section scroll-mt-24"
         >
-          <div className="rail">
-            <div className="rail-label">
-              <span className="eyebrow">{group.slug}</span>
-            </div>
-
-            <div>
+          <div>
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] lg:items-end lg:gap-16">
               <h2 className="display-l max-w-[22ch]">{group.title}</h2>
-              <p className="prose-block mt-5 max-w-[58ch] text-[1.0625rem]">
+              <p className="max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-70 lg:pb-1">
                 {group.intro}
               </p>
+            </div>
 
-              <div className="mt-12 grid gap-px bg-rule md:grid-cols-2">
-                {group.services.map((s) => (
-                  <article
-                    key={s.code}
-                    className="flex flex-col bg-bone p-6 md:p-7"
-                  >
-                    <div className="flex items-baseline justify-between gap-4 border-b border-rule pb-3">
-                      <span className="mono text-[0.6875rem] tracking-[0.11em] text-pine">
-                        {s.code}
-                      </span>
-                      <span className="mono text-[0.6875rem] text-ink-45">
-                        {s.duration}
-                      </span>
-                    </div>
+              {/* Ruled rows, not boxes. These are entries on a schedule of
+                  services; a card grid gave five identical containers no
+                  matter how different the entries were. */}
+            <div className="mt-11">
+              {group.services.map((s) => (
+                <article key={s.code} className="offer-row">
+                    <div>
+                      <h3 className="display-m">{s.name}</h3>
+                      <p className="mt-2 max-w-[54ch] text-[1rem] leading-relaxed text-ink">
+                        {s.lede}
+                      </p>
+                      <p className="mt-3 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-70">
+                        {s.detail}
+                      </p>
 
-                    <h3 className="display-s mt-5 text-ink">{s.name}</h3>
-                    <p className="mt-2 text-[0.9375rem] font-medium leading-snug text-ink">
-                      {s.lede}
-                    </p>
-                    <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-ink-70">
-                      {s.detail}
-                    </p>
-
-                    <div className="mt-6 border-t border-rule pt-4">
-                      <span className="eyebrow mb-2.5">You receive</span>
-                      <ul className="m-0 list-none space-y-1.5 p-0">
+                      <ul className="m-0 mt-5 grid list-none gap-x-8 gap-y-1.5 p-0 sm:grid-cols-2">
                         {s.deliverables.map((d) => (
                           <li
                             key={d}
@@ -113,16 +116,22 @@ export default function ServicesPage() {
                           >
                             <span
                               aria-hidden="true"
-                              className="mt-[0.42rem] block h-px w-3 shrink-0 bg-rule-strong"
+                              className="mt-[0.45rem] block h-px w-2.5 shrink-0 bg-rule-strong"
                             />
                             {d}
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </article>
-                ))}
-              </div>
+
+                  <div className="offer-meta">
+                    <span className="mono text-[0.8125rem] text-pine">
+                      {s.code}
+                    </span>
+                    <span>{s.duration}</span>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -134,14 +143,14 @@ export default function ServicesPage() {
             <span className="eyebrow">Next</span>
           </div>
           <div>
-            <h2 className="display-m max-w-[24ch]">
+            <h2 className="display-l max-w-[24ch]">
               Not sure which of these you need?
             </h2>
-            <p className="prose-block mt-4 max-w-[52ch]">
-              That is what the assessment is for. Describe one process that
+            <p className="prose-block mt-5 max-w-[52ch]">
+              That is what the inspection is for. Describe one process that
               frustrates you and we will tell you where it sits.
             </p>
-            <Link href="/contact" className="btn btn-primary mt-7">
+            <Link href="/contact" className="btn btn-primary mt-8">
               Book a free inspection
             </Link>
           </div>

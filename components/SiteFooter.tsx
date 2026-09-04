@@ -36,7 +36,7 @@ export default function SiteFooter() {
               mid-sized businesses.
             </p>
 
-            <address className="mono mt-6 text-[0.75rem] not-italic leading-relaxed text-ink-45">
+            <address className="mt-6 text-[0.8125rem] not-italic leading-relaxed text-ink-45">
               {site.address.line1}
               <br />
               {site.address.locality}, {site.address.countryName}
@@ -98,7 +98,7 @@ export default function SiteFooter() {
                 <span className="eyebrow eyebrow-pine mb-1">
                   Licensed in the DIFC
                 </span>
-                <p className="mono max-w-[42ch] text-[0.75rem] leading-relaxed text-ink-70">
+                <p className="max-w-[44ch] text-[0.8125rem] leading-relaxed text-ink-70">
                   {site.legalName} is registered with the{" "}
                   {site.difc.registry}. Commercial licence{" "}
                   <span className="text-ink">{site.difc.licenceDisplay}</span>,
@@ -107,7 +107,7 @@ export default function SiteFooter() {
               </div>
             </div>
 
-            <p className="mono text-[0.6875rem] leading-relaxed text-ink-45 sm:text-right">
+            <p className="text-[0.75rem] leading-relaxed text-ink-45 sm:text-right">
               Established {site.founded}
               <br />© {new Date().getFullYear()} {site.legalName}
             </p>

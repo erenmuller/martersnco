@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-// Relative, not "@/…": the alias covers source modules, not /public assets.
-import heroImage from "../../public/martersnco.png";
 import JsonLd from "@/components/JsonLd";
 import {
   serviceGroups,
@@ -10,6 +7,8 @@ import {
   commitments,
   inspectionSpec,
   work,
+  reading,
+  readingTotals,
 } from "@/lib/content";
 import { site } from "@/lib/site";
 
@@ -33,80 +32,127 @@ export default function HomePage() {
       <JsonLd data={websiteSchema} />
 
       {/* ---------------------------------------------------------------- */}
-      {/* Hero — the thesis is the inspection, so it leads.                 */}
+      {/* Hero — the firm sells a measurement, so the hero is one. The bar  */}
+      {/* is a real inspection result, not an illustration of the idea.     */}
       {/* ---------------------------------------------------------------- */}
-      <section className="page section section-flush pb-16 pt-14 md:pb-20 md:pt-20">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
+      <section className="page section section-flush pb-16 pt-14 md:pb-20 md:pt-[4.5rem]">
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] lg:gap-14">
           <div>
-            <span
-              className="eyebrow eyebrow-pine rise"
-              style={{ animationDelay: "0ms" }}
-            >
-              DIFC licensed · Dubai · Established {site.founded}
-            </span>
+            <p className="text-[0.875rem] text-ink-45">
+              Licensed in the Dubai International Financial Centre
+            </p>
 
-            <h1 className="display-xl rise mt-6" style={{ animationDelay: "70ms" }}>
+            <h1 className="display-xl mt-5">
               We look inside your business before we automate any of it.
             </h1>
 
-            <p className="lede rise mt-6" style={{ animationDelay: "150ms" }}>
+            <p className="lede mt-6">
               Every engagement starts with an inspection: we follow real work
               through your company and time it. Only then do we say where AI
               and automation belong — and where they do not.
             </p>
 
-            <div
-              className="rise mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5"
-              style={{ animationDelay: "230ms" }}
-            >
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <Link href="/contact" className="btn btn-primary">
                 Book a free inspection
               </Link>
               <Link href="/approach" className="link-rule">
                 How we work
-                <span aria-hidden="true">→</span>
               </Link>
             </div>
 
-            <div className="offer rise mt-10" style={{ animationDelay: "310ms" }}>
+            <div className="offer mt-11">
               <span className="offer-tag">No fee</span>
               <p className="offer-text m-0">
-                The inspection and AI potential audit cost nothing. We are a new
-                firm, and we would rather show you the work than describe it.
+                The inspection and the AI potential audit cost nothing. We are
+                a new firm, and we would rather show you the work than describe
+                it.
               </p>
             </div>
           </div>
 
-          <figure
-            className="frame rise lg:mt-1"
-            style={{ animationDelay: "390ms" }}
-          >
-            <div className="frame-body">
-              {/* Static import, so Next generates the blur placeholder and
-                  serves sized WebP/AVIF rather than the 1.8MB source PNG.
-                  priority — this is the LCP image. */}
-              <Image
-                src={heroImage}
-                alt="Marters & Co. — the Dubai skyline at sunset, with the Burj Khalifa and the Burj Al Arab."
-                placeholder="blur"
-                priority
-                fill
-                sizes="(max-width: 64rem) 100vw, 29rem"
-              />
-            </div>
-            {/* The artwork carries the wordmark, so the caption gives the
-                things it does not: where the firm is, and since when. */}
-            <figcaption className="frame-caption">
-              <span>Dubai International Financial Centre</span>
-              <span>Est. {site.founded}</span>
+          {/* The reading. Cell widths come from the measured minutes, so the
+              picture cannot drift out of step with the totals below it. */}
+          <figure className="reading m-0 lg:self-center">
+            <figcaption className="reading-head">
+              <span className="reading-title">{reading.process}</span>
+              <span className="reading-note">
+                Illustrative — {readingTotals.steps} steps,{" "}
+                {readingTotals.handoffs} handoffs
+              </span>
             </figcaption>
+
+            <div className="reading-body">
+              <div
+                className="bar"
+                role="img"
+                aria-label={`One supplier invoice measured end to end: ${readingTotals.touchLabel} of touch time inside ${readingTotals.elapsedLabel} of elapsed time.`}
+              >
+                {reading.steps.map((step, index) => (
+                  <span
+                    key={step.label}
+                    className="bar-cell"
+                    data-kind={step.kind}
+                    title={`${step.label} — ${step.minutes} min`}
+                    style={{
+                      flex: `${step.minutes} 0 0%`,
+                      animationDelay: `${180 + index * 55}ms`,
+                    }}
+                  />
+                ))}
+              </div>
+
+              <div className="bar-scale" aria-hidden="true">
+                <span>Invoice arrives</span>
+                <span>Approved, {readingTotals.elapsedLabel} later</span>
+              </div>
+
+              <p className="bar-key m-0" aria-hidden="true">
+                <span>
+                  <i data-kind="touch" />
+                  Someone is working on it
+                </span>
+                <span>
+                  <i data-kind="wait" />
+                  It is sitting in a queue
+                </span>
+              </p>
+
+              <dl className="reading-totals">
+                <div>
+                  <dd className="reading-figure m-0">
+                    {readingTotals.touchLabel}
+                  </dd>
+                  <dt className="reading-key">
+                    Touch time — what your staff are paid for
+                  </dt>
+                </div>
+                <div>
+                  <dd className="reading-figure m-0" data-quiet="true">
+                    {readingTotals.elapsedLabel}
+                  </dd>
+                  <dt className="reading-key">
+                    Elapsed time — what your supplier waits through
+                  </dt>
+                </div>
+              </dl>
+
+              <p className="mt-5 border-t border-rule pt-4 text-[0.875rem] leading-relaxed text-ink-70">
+                {readingTotals.waitingShare}% of that is waiting. The longest
+                single wait is{" "}
+                <span className="mono text-ink">
+                  {readingTotals.longestWaitLabel}
+                </span>{" "}
+                in the approver queue — and no automation can shorten it until
+                someone has measured it.
+              </p>
+            </div>
           </figure>
         </div>
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* The inspection — stated as a record card. The rows carry it, so    */}
-      {/* the prose above them stays to one line.                            */}
+      {/* The inspection — stated as a record card.                         */}
       {/* ---------------------------------------------------------------- */}
       <section className="page section">
         <div className="rail">
@@ -136,8 +182,7 @@ export default function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Selected work — the proof, as a ledger. One line each, and the     */}
-      {/* figure it gave back.                                               */}
+      {/* Selected work — the proof, as a ledger.                           */}
       {/* ---------------------------------------------------------------- */}
       <section className="page section">
         <div className="rail">
@@ -154,15 +199,12 @@ export default function HomePage() {
               repeats, leave the judgement calls with your people.
             </p>
 
-            <ol className="mt-10 list-none border-t border-rule p-0">
+            <ul className="mt-10 list-none border-t border-ink p-0">
               {work.map((item) => (
                 <li key={item.ref} className="work-row">
-                  <span className="work-ref" aria-hidden="true">
-                    {item.ref}
-                  </span>
                   <div>
-                    <h3 className="display-s text-ink">{item.title}</h3>
-                    <p className="mt-2 max-w-[54ch] text-[0.9375rem] leading-relaxed text-ink-70">
+                    <h3 className="display-s">{item.title}</h3>
+                    <p className="mt-1.5 max-w-[58ch] text-[0.9375rem] leading-relaxed text-ink-70">
                       {item.body}
                     </p>
                   </div>
@@ -172,9 +214,9 @@ export default function HomePage() {
                   </div>
                 </li>
               ))}
-            </ol>
+            </ul>
 
-            <p className="mono mt-6 text-[0.75rem] leading-relaxed text-ink-45">
+            <p className="mt-6 max-w-[58ch] text-[0.8125rem] leading-relaxed text-ink-45">
               Roughly 300 staff hours returned each month across these seven.
               Client names withheld by agreement.
             </p>
@@ -205,8 +247,8 @@ export default function HomePage() {
                       {stage.marker}
                     </span>
                     <div>
-                      <h3 className="display-s text-ink">{stage.title}</h3>
-                      <p className="mt-2 max-w-[56ch] text-[0.9375rem] leading-relaxed text-ink-70">
+                      <h3 className="display-s">{stage.title}</h3>
+                      <p className="mt-1.5 max-w-[56ch] text-[0.9375rem] leading-relaxed text-ink-70">
                         {stage.body}
                       </p>
                     </div>
@@ -216,9 +258,8 @@ export default function HomePage() {
               })}
             </ol>
 
-            <Link href="/approach" className="link-rule mt-9 inline-flex">
+            <Link href="/approach" className="link-rule mt-9 inline-block">
               The full method
-              <span aria-hidden="true">→</span>
             </Link>
           </div>
         </div>
@@ -244,12 +285,11 @@ export default function HomePage() {
               were.
             </p>
 
-            <dl className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+            <dl className="mt-10 grid gap-x-12 gap-y-9 sm:grid-cols-2">
               {commitments.map((c) => (
-                <div key={c.title}>
-                  <span className="eyebrow eyebrow-pine">{c.figure}</span>
-                  <dt className="display-s mt-3 text-ink">{c.title}</dt>
-                  <dd className="m-0 mt-3 border-t border-rule pt-3 text-[0.9375rem] leading-relaxed text-ink-70">
+                <div key={c.title} className="border-t border-ink pt-4">
+                  <dt className="display-m">{c.title}</dt>
+                  <dd className="m-0 mt-3 max-w-[42ch] text-[0.9375rem] leading-relaxed text-ink-70">
                     {c.body}
                   </dd>
                 </div>
@@ -278,21 +318,18 @@ export default function HomePage() {
               and the accounts so nothing switches off if you leave.
             </p>
 
-            <ul className="mt-10 list-none border-t border-rule p-0">
+            <ul className="mt-10 list-none border-t border-ink p-0">
               {serviceGroups.map((group) => (
                 <li key={group.slug} className="border-b border-rule">
                   <Link
                     href={`/services#${group.slug}`}
-                    className="group flex items-baseline justify-between gap-6 py-5 transition-colors"
+                    className="group flex items-baseline justify-between gap-6 py-4 transition-colors"
                   >
-                    <span className="display-s text-ink transition-colors group-hover:text-pine">
+                    <span className="display-s transition-colors group-hover:text-pine">
                       {group.title}
                     </span>
-                    <span
-                      className="mono shrink-0 text-[0.6875rem] uppercase tracking-[0.1em] text-ink-45 transition-colors group-hover:text-pine"
-                      aria-hidden="true"
-                    >
-                      {group.services.length} →
+                    <span className="shrink-0 text-[0.8125rem] text-ink-45 transition-colors group-hover:text-pine">
+                      {group.services.length} services
                     </span>
                   </Link>
                 </li>
@@ -303,26 +340,20 @@ export default function HomePage() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* Close                                                             */}
+      {/* Close — the one dark plate on the page.                           */}
       {/* ---------------------------------------------------------------- */}
-      <section className="border-t border-rule bg-ink text-bone">
+      <section className="plate border-t border-rule">
         <div className="page py-16 md:py-24">
-          <div className="max-w-[46rem]">
-            <span className="eyebrow" style={{ color: "rgba(245,243,237,0.55)" }}>
-              Start here
-            </span>
-            <h2 className="display-l mt-5" style={{ color: "var(--color-bone)" }}>
+          <div className="max-w-[44rem]">
+            <h2 className="display-l">
               Send us one process that annoys you.
             </h2>
-            <p
-              className="mt-5 max-w-[52ch] leading-relaxed"
-              style={{ color: "rgba(245,243,237,0.72)" }}
-            >
+            <p className="mt-5 max-w-[52ch] leading-relaxed text-[rgba(226,232,226,0.74)]">
               Describe it in a paragraph. We will reply with what we would
               measure, what the inspection would cover, and whether we think
               there is anything worth automating in it at all.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <Link
                 href="/contact"
                 className="btn"
@@ -334,11 +365,7 @@ export default function HomePage() {
               >
                 Book a free inspection
               </Link>
-              <a
-                href={`mailto:${site.email}`}
-                className="mono text-[0.8125rem] underline decoration-1 underline-offset-4"
-                style={{ color: "rgba(245,243,237,0.72)" }}
-              >
+              <a href={`mailto:${site.email}`} className="link-rule">
                 {site.email}
               </a>
             </div>

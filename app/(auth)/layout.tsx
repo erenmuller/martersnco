@@ -20,7 +20,7 @@ export default function AuthLayout({
       </a>
 
       <header className="border-b border-rule">
-        <div className="page flex h-[4.25rem] items-center justify-between gap-5">
+        <div className="page flex h-[4.75rem] items-center justify-between gap-5">
           <Wordmark />
           <Link
             href="/"
@@ -35,12 +35,12 @@ export default function AuthLayout({
         id="auth-main"
         className="page flex flex-1 items-start justify-center py-12 sm:items-center sm:py-16"
       >
-        <div className="w-full max-w-[29rem]">{children}</div>
+        <div className="w-full max-w-[27rem]">{children}</div>
       </main>
 
       <footer className="border-t border-rule py-5">
         <div className="page flex flex-wrap justify-between gap-3 text-[0.75rem] text-ink-45">
-          <span className="mono">Private client access</span>
+          <span>Private client access</span>
           <a href={`mailto:${site.email}`} className="hover:text-pine">
             {site.email}
           </a>

@@ -60,6 +60,10 @@ Start from `.env.example`. Never commit `.env.local` or a real secret key.
 | `NEXT_PUBLIC_PHONE_DISPLAY` | Public | Human-readable business phone; empty hides phone UI |
 | `NEXT_PUBLIC_PHONE_E164` | Public | Matching E.164 phone value such as `+971...`; empty hides phone UI |
 | `CONTACT_RATE_LIMIT_SECRET` | Server secret | Key used to digest requester identifiers before rate limiting |
+| `EMAIL_PROVIDER` | Server | `console` (default, logs instead of sending) or `resend` |
+| `RESEND_API_KEY` | Server secret | Resend API key with sending access; required when `EMAIL_PROVIDER=resend` |
+| `EMAIL_FROM` | Server | From header, on a domain verified with the provider |
+| `EMAIL_REPLY_TO` | Server | Optional reply-to address |
 | `WHATSAPP_PROVIDER` | Server | `console` while OTP is disabled; `meta` only when the feature is launched |
 | `META_WHATSAPP_PHONE_NUMBER_ID` | Server secret | Meta Cloud API sender ID |
 | `META_WHATSAPP_TOKEN` | Server secret | Meta Cloud API token |
@@ -171,22 +175,84 @@ In Supabase Authentication settings:
 Supabase silently falls back to the Site URL when an invite `redirectTo` is not
 allow-listed, so test a real invite after changing domains.
 
-#### SSR invite and recovery email links
+#### Onboarding email (invitations)
 
-The default Supabase email links return a session in a URL fragment, which a
-server callback cannot read, and `inviteUserByEmail` does not support the PKCE
-code-exchange flow. Configure token-hash links instead, following the
-[Supabase SSR email-template guidance](https://supabase.com/docs/guides/auth/auth-email-templates#redirecting-the-user-to-a-server-side-endpoint).
+**The invitation email is sent by this application, not by Supabase.** When an
+admin invites a user, `inviteUserAction` calls `auth.admin.generateLink` — which
+creates the auth user and returns a one-time token but sends nothing — and then
+sends the branded message in `lib/email/onboarding.ts` through the provider in
+`lib/email/send.ts`. So the Supabase *Invite user* template is not used and does
+not need configuring.
 
-In Authentication → Email Templates, make the **Invite user** action link:
+To turn sending on:
 
-```html
-<a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=invite">
-  Accept invitation
-</a>
-```
+1. Create an account at [resend.com](https://resend.com) and add your sending
+   domain (Domains → Add Domain). Resend gives you DKIM, SPF and return-path
+   DNS records; add them at your registrar and wait for the domain to show as
+   **Verified**. Mail sent from an unverified domain is rejected or filed as
+   spam.
+2. Create an API key under **API keys** with *Sending access* only.
+3. Set these in your deployment environment (Vercel → Settings → Environment
+   Variables) and in `.env.local` if you want to send from your machine:
 
-Make the **Reset password** action link:
+   ```
+   EMAIL_PROVIDER=resend
+   RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
+   EMAIL_FROM="Marters & Co. <hello@martersandco.com>"
+   EMAIL_REPLY_TO=hello@martersandco.com   # optional
+   ```
+
+   `EMAIL_FROM` must use the domain you verified in step 1.
+4. `NEXT_PUBLIC_SITE_URL` must be set to the canonical origin. The invite link
+   is built from it, and the invite action refuses to run without it.
+5. Add `${NEXT_PUBLIC_SITE_URL}/auth/callback` to the Supabase redirect
+   allow-list (Authentication → URL Configuration), plus
+   `http://localhost:3000/auth/callback` for local work.
+6. Invite yourself at `/admin/users` and complete the flow end to end before
+   inviting a client.
+
+Leaving `EMAIL_PROVIDER` unset (or `console`) prints the message and its link
+to the server log instead of sending. That is the default, so local development
+and preview deploys never mail a real person — and you can still finish an
+invite locally by pasting the logged link into the browser. The admin console
+says which happened: the confirmation reads "onboarding email sent" or "email
+is in console mode".
+
+To use a provider other than Resend, add a class implementing `EmailProvider`
+in `lib/email/send.ts` and a case in `selectProvider`. The interface is one
+method.
+
+#### What the invited user sees
+
+1. The onboarding email: who it is from, why it arrived, one **Choose your
+   password** button, and the same URL in plain text underneath for clients
+   that strip buttons.
+2. `/auth/callback` verifies the one-time token, establishes the cookie
+   session, and forwards to `/welcome`.
+3. `/welcome` greets them by name, names their organisation, and takes a
+   password (minimum 10 characters, typed twice).
+4. They land straight in `/portal` — or `/admin` for an admin — already signed
+   in. They are not asked to sign in again with a password they just chose.
+
+Links are one-time and expire. If one is used or lapses, an admin can issue a
+fresh one from **Re-send invitation** on the user's row in `/admin/users`. That
+control refuses once the account has been signed into, because an invite link
+signs its holder straight in and must never be issued for an account already in
+use; at that point the correct route is the user resetting their own password
+from the sign-in page.
+
+#### Password recovery email links
+
+Recovery mail is still sent by Supabase, because `resetPasswordForEmail` sends
+it itself. Two link shapes can come back, and `/auth/callback` handles both:
+
+| Template | Arrives as | Notes |
+| --- | --- | --- |
+| Stock `{{ .ConfirmationURL }}` | `?code=…` | Carries no `type`. Exchanging it needs the PKCE cookie set in **the same browser** that asked for the reset, so a link requested on a laptop and opened on a phone fails. |
+| SSR `token_hash` form (below) | `?token_hash=…&type=recovery` | Self-describing, and works in any browser. **Use this one.** |
+| Implicit-flow project | `#access_token=…` | A fragment, invisible to the server. `/auth/callback` forwards to `/auth/complete`, which reads it in the browser and continues. |
+
+In Authentication → Email Templates, make the **Reset password** action link:
 
 ```html
 <a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&type=recovery">
@@ -194,18 +260,23 @@ Make the **Reset password** action link:
 </a>
 ```
 
-Both the admin invite call and `resetPasswordForEmail` must pass the absolute
-`/auth/callback` URL as `redirectTo`, for example
-`https://example.com/auth/callback`. The callback accepts only `invite` and
-`recovery`, verifies `token_hash` with `supabase.auth.verifyOtp`, establishes the
-cookie-backed session, and routes both flows to `/reset-password` so the user
-can choose a password. Keep every callback origin in Supabase's redirect
-allow-list.
+`resetPasswordForEmail` passes `/auth/callback?next=/reset-password` as
+`redirectTo`, so the destination survives even when the template drops `type`.
+The callback verifies whichever parameters it gets, establishes the cookie
+session, and lands the user on the password form. Recovery signs them out at
+the end so they prove the new password; an invitation does not, because they
+have just set it.
 
-For local Supabase, configure equivalent templates in `supabase/config.toml`
-and local HTML template files; the hosted Dashboard template editor does not
-configure the local stack. Test a real invite and a real password-reset email
-end to end in every deployed environment—both links are one-time and expire.
+Also add every callback origin to Authentication → URL Configuration →
+Redirect URLs, including `http://localhost:3000/**` for local work. Supabase
+silently falls back to the Site URL when `redirectTo` is not allow-listed, so
+re-test after changing domains.
+
+For local Supabase, configure the equivalent template in `supabase/config.toml`.
+Test a real password reset in every deployed environment — the link is one-time
+and expires. Note that some corporate mail scanners follow links before the
+recipient does, which burns a one-time token; that is what the "already been
+used" message on `/auth/complete` is about.
 
 ### Create the first administrator
 
@@ -254,8 +325,10 @@ The normal application flow is:
 
 1. An authenticated admin creates a row in `public.clients`.
 2. A server action calls `requireAdmin()` before creating a service-role client.
-3. That trusted client calls `auth.admin.inviteUserByEmail`. Optional metadata
-   may contain presentation data such as `full_name`, never a role or client ID.
+3. That trusted client calls `auth.admin.generateLink` to create the auth user
+   and mint a one-time token, then sends the app's own onboarding email.
+   Optional metadata may contain presentation data such as `full_name`, never a
+   role or client ID.
 4. After the Auth API returns the new user ID, the same trusted flow updates
    `public.profiles.role` and `public.profiles.client_id` explicitly.
 5. If profile assignment fails, report the partial invite and make the action
@@ -485,12 +558,13 @@ Prove that each client cannot read, infer or download the other client's data.
 
 ```text
 app/(marketing)        static public pages and contact form
-app/(auth)             login and recovery routes
+app/(auth)             login, invitation onboarding and recovery routes
 app/portal             tenant-scoped client workspace
 app/admin              administrator workspace
-components             shared UI and the process-trace signature
+components             shared UI
 lib/auth.ts            server-side role guards
 lib/supabase           browser/server/service-role clients and middleware
+lib/email              transactional email provider and the onboarding message
 lib/types.ts           application row shapes and display maps
 lib/whatsapp.ts        dormant WhatsApp OTP provider infrastructure
 supabase/migrations    schema, RLS, storage, seed catalogue and hardening
@@ -510,14 +584,19 @@ changing the offering.
 - [ ] Verify the contact mailbox and configure its SPF, DKIM and DMARC records.
 - [ ] Set real phone values together, or leave both phone variables empty.
 - [ ] Set the canonical production URL and Supabase redirect allow-list.
-- [ ] Disable public Supabase sign-up and configure production SMTP.
+- [ ] Disable public Supabase sign-up, and configure its SMTP for password
+      recovery (invitations are sent by the app, not by Supabase).
+- [ ] Verify a sending domain with the email provider, set `EMAIL_PROVIDER=resend`,
+      `RESEND_API_KEY` and `EMAIL_FROM`, then send yourself a real invitation and
+      complete it end to end.
 - [ ] Before applying migration `00005` to existing data, run the legacy
       document-path audit in **Documents and Storage** and resolve every row it
       returns before constraint validation.
 - [ ] Apply every migration and create the first admin with the SQL above.
 - [ ] Generate a unique contact rate-limit secret per environment.
 - [ ] Confirm contact enquiries appear in the admin queue and rate limiting works.
-- [ ] Test invitation, password recovery and inactive/unlinked account states.
+- [ ] Test invitation, re-sent invitation, password recovery and
+      inactive/unlinked account states.
 - [ ] Test RLS and document isolation with two distinct client accounts.
 - [ ] Run lint, typecheck and production build from a clean install.
 - [ ] Apply the announced Next.js security patch after its 26 August 2026
@@ -544,10 +623,42 @@ Contact submissions always fail
   applied, and the contact rate-limit RPC is callable by `service_role`. Inspect
   server logs without printing the secret or requester digest.
 
+Invitation says "email is in console mode"
+
+: `EMAIL_PROVIDER` is unset or `console`, so nothing was sent. The link was
+  printed to the server log and still works — paste it into a browser to finish
+  the invite. Set `EMAIL_PROVIDER=resend` to send for real.
+
+Invitation says the email could not be sent
+
+: The user exists and the invite can be re-sent; only the message failed. The
+  server log carries the provider's reason, usually an unverified sending
+  domain in `EMAIL_FROM` or a missing `RESEND_API_KEY`. Fix it, then use
+  **Re-send invitation** on the user's row.
+
+Invitation email arrives in spam
+
+: The sending domain's DKIM and SPF records are missing or not yet propagated.
+  Check the domain shows **Verified** with the provider, and that `EMAIL_FROM`
+  uses that exact domain.
+
+"NEXT_PUBLIC_SITE_URL is not set" when inviting
+
+: The invitation link is built from that origin, so the action refuses rather
+  than mailing a link that points nowhere. Set it and redeploy.
+
+Reset link goes to the site and errors
+
+: Almost always the stock Supabase recovery template. It returns `?code=` with
+  no `type`, and the code can only be exchanged in the browser that requested
+  the reset. Switch the **Reset password** template to the `token_hash` form
+  above. Check the server log for a `[auth:callback]` line, which carries
+  Supabase's own reason.
+
 Invite links open the wrong domain
 
-: Add the exact callback origin to Supabase's redirect allow-list. Supabase uses
-  the configured Site URL when `redirectTo` is not allowed.
+: `NEXT_PUBLIC_SITE_URL` is the origin the link is built from — check it first.
+  Also add the exact callback origin to Supabase's redirect allow-list.
 
 Local schema is inconsistent
 

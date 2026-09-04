@@ -27,8 +27,7 @@ export default function ApproachPage() {
 
       <section className="page section section-flush pt-14 md:pt-20">
         <div className="max-w-[52rem]">
-          <span className="eyebrow eyebrow-pine">Approach</span>
-          <h1 className="display-xl mt-6">
+          <h1 className="display-xl max-w-[18ch]">
             Nobody automates a process they have not measured.
           </h1>
           <p className="lede mt-7">
@@ -50,9 +49,9 @@ export default function ApproachPage() {
               {phases.map((phase) => (
                 <li
                   key={phase.title}
-                  className="grid gap-4 border-b border-rule py-8 md:grid-cols-[7rem_1fr_11rem] md:gap-8"
+                  className="grid gap-3 border-b border-rule py-7 md:grid-cols-[5.5rem_minmax(0,1fr)_11rem] md:gap-8"
                 >
-                  <span className="mono pt-1 text-[0.6875rem] uppercase tracking-[0.12em] text-pine">
+                  <span className="mono pt-1.5 text-[0.8125rem] text-pine">
                     {phase.marker}
                   </span>
 
@@ -63,9 +62,8 @@ export default function ApproachPage() {
                     </p>
                   </div>
 
-                  <div className="md:text-right">
-                    <span className="eyebrow mb-1.5">Output</span>
-                    <span className="mono text-[0.8125rem] text-ink">
+                  <div className="pt-1.5 md:text-right">
+                    <span className="text-[0.8125rem] leading-snug text-ink-70">
                       {phase.output}
                     </span>
                   </div>

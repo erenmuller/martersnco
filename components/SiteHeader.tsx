@@ -30,8 +30,8 @@ export default function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-rule bg-bone/92 backdrop-blur-[6px]">
-        <div className="page flex h-[4.25rem] items-center justify-between gap-6">
+      <header className="sticky top-0 z-50 border-b border-rule bg-bone/90 backdrop-blur-[8px]">
+        <div className="page flex h-[4.75rem] items-center justify-between gap-8">
           <Wordmark />
 
           <nav
@@ -45,11 +45,16 @@ export default function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`border-b py-0.5 text-[0.9375rem] transition-colors ${
+                  className={`py-0.5 text-[0.9375rem] transition-colors ${
                     active
-                      ? "border-pine text-pine"
-                      : "border-transparent text-ink-70 hover:border-rule-strong hover:text-ink"
+                      ? "text-pine"
+                      : "text-ink-70 hover:text-ink"
                   }`}
+                  style={
+                    active
+                      ? { boxShadow: "inset 0 -2px 0 0 var(--color-pine)" }
+                      : undefined
+                  }
                 >
                   {item.label}
                 </Link>
@@ -97,21 +102,21 @@ export default function SiteHeader() {
       {open && (
         <div
           id="mobile-nav"
-          className="fixed inset-x-0 bottom-0 top-[4.25rem] z-40 overflow-y-auto border-t border-rule bg-bone md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[4.75rem] z-40 overflow-y-auto border-t border-rule bg-bone md:hidden"
         >
           <nav aria-label="Primary" className="page flex flex-col py-4">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="display-s border-b border-rule py-4 text-ink"
+                className="display-m border-b border-rule py-4"
               >
                 {item.label}
               </Link>
             ))}
             <Link
               href="/login"
-              className="display-s border-b border-rule py-4 text-ink"
+              className="display-m border-b border-rule py-4"
             >
               Client login
             </Link>

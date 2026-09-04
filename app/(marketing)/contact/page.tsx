@@ -31,8 +31,7 @@ export default function ContactPage() {
   return (
     <section className="page section section-flush pb-20 pt-14 md:pt-20">
       <div className="max-w-[52rem]">
-        <span className="eyebrow eyebrow-pine">Contact</span>
-        <h1 className="display-xl mt-6">Book a free inspection.</h1>
+        <h1 className="display-xl">Book a free inspection.</h1>
         <p className="lede mt-7">
           Describe one process that annoys you. We will reply with what we would
           measure, roughly what an audit of it costs, and whether we think it is
@@ -40,7 +39,7 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div className="mt-16 grid gap-14 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-20">
+      <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-16">
         <div>
           <ContactForm />
         </div>
@@ -51,7 +50,7 @@ export default function ContactPage() {
           <ol className="m-0 list-none border-t border-rule p-0">
             {expectations.map((e) => (
               <li key={e.title} className="border-b border-rule py-4">
-                <span className="mono text-[0.6875rem] uppercase tracking-[0.12em] text-pine">
+                <span className="mono text-[0.8125rem] text-pine">
                   {e.marker}
                 </span>
                 <h2 className="mt-2 text-[0.9375rem] font-semibold leading-snug text-ink">
@@ -66,7 +65,7 @@ export default function ContactPage() {
 
           <div className="mt-8">
             <span className="eyebrow mb-3">Direct</span>
-            <address className="mono text-[0.8125rem] not-italic leading-relaxed text-ink-70">
+            <address className="text-[0.875rem] not-italic leading-relaxed text-ink-70">
               <a
                 href={`mailto:${site.email}`}
                 className="text-ink underline decoration-rule-strong underline-offset-4 transition-colors hover:text-pine"
@@ -92,7 +91,7 @@ export default function ContactPage() {
             </address>
           </div>
 
-          <p className="mono mt-8 border-t border-rule pt-4 text-[0.6875rem] leading-relaxed text-ink-45">
+          <p className="mt-8 border-t border-rule pt-4 text-[0.8125rem] leading-relaxed text-ink-45">
             Existing client? Use the{" "}
             <a
               href="/login"

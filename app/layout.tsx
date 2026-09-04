@@ -1,16 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Fraunces,
-  Schibsted_Grotesk,
-  Inter,
-  IBM_Plex_Mono,
-} from "next/font/google";
+import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// Fraunces now earns its download on one word: the wordmark. Its italic
-// ampersand is the identity mark, so the serif survives there and nowhere
-// else. Page type moved to sans for legibility at long reading lengths.
+// Fraunces is the firm's face and now sets every headline as well as the
+// wordmark. It has a real optical-size axis, so display sizes sharpen instead
+// of just scaling up — that is what makes it read engraved rather than bookish.
 const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
@@ -18,22 +13,16 @@ const fraunces = Fraunces({
   axes: ["SOFT", "WONK", "opsz"],
 });
 
-// Display: a grotesque with tight apertures and real presence at 4rem, so
-// headlines keep institutional weight without a serif's fussy detail.
-const schibsted = Schibsted_Grotesk({
+// Body and interface. Slightly narrow, with a tall x-height and unfussy
+// terminals — it holds a long paragraph and a dense admin table equally well,
+// and it does not compete with the serif above it.
+const instrument = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-schibsted",
+  variable: "--font-instrument",
 });
 
-// Body: chosen for x-height and open counters. This is the face people read
-// three paragraphs of, so it is picked for stamina rather than character.
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
+// Reserved for measured figures. Never for labels.
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   display: "swap",
@@ -42,7 +31,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#f5f3ed",
+  themeColor: "#e7eae3",
   width: "device-width",
   initialScale: 1,
 };
@@ -98,7 +87,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AE"
-      className={`${schibsted.variable} ${inter.variable} ${plexMono.variable} ${fraunces.variable}`}
+      className={`${instrument.variable} ${plexMono.variable} ${fraunces.variable}`}
     >
       <body>{children}</body>
     </html>

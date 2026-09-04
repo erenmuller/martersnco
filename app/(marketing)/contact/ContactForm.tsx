@@ -19,7 +19,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button type="submit" className="btn btn-primary" disabled={pending}>
-      {pending ? "Sending…" : "Send"}
+      {pending ? "Sending…" : "Request an inspection"}
     </button>
   );
 }
@@ -37,7 +37,7 @@ export default function ContactForm() {
           question or two before anything else. If it is urgent, email{" "}
           <a
             href={`mailto:${site.email}`}
-            className="mono text-ink underline decoration-rule-strong underline-offset-4"
+            className="text-ink underline decoration-rule-strong underline-offset-4"
           >
             {site.email}
           </a>

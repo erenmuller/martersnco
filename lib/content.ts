@@ -8,6 +8,67 @@
  */
 
 /* -------------------------------------------------------------------------
+   The reading — one inspection result, drawn as the bar the firm hands over.
+
+   Solid cells are touch time: minutes a member of staff is paid for. Hatched
+   cells are wait: minutes the invoice sits in a queue. The whole argument of
+   the firm is the distance between the two totals, so the hero states it as a
+   measurement rather than as a claim.
+
+   Illustrative, and labelled as such on the page. Widths are derived from
+   `minutes`, so editing a step re-draws the bar correctly.
+   ------------------------------------------------------------------------- */
+
+export interface ReadingStep {
+  kind: "touch" | "wait";
+  minutes: number;
+  label: string;
+}
+
+export const reading = {
+  process: "Supplier invoice, arrival to approved",
+  steps: [
+    { kind: "touch", minutes: 6, label: "Logged from the inbox" },
+    { kind: "wait", minutes: 35, label: "Sits until the folder is opened" },
+    { kind: "touch", minutes: 18, label: "Coded against the purchase order" },
+    { kind: "wait", minutes: 52, label: "Waits on the buyer to confirm price" },
+    { kind: "touch", minutes: 22, label: "Corrected and re-sent" },
+    { kind: "wait", minutes: 68, label: "Waits in the approver queue" },
+    { kind: "touch", minutes: 14, label: "Approved" },
+    { kind: "wait", minutes: 30, label: "Waits for the payment file" },
+    { kind: "touch", minutes: 20, label: "Scheduled for payment" },
+  ] as ReadingStep[],
+};
+
+export const readingTotals = (() => {
+  const sum = (kind: ReadingStep["kind"]) =>
+    reading.steps
+      .filter((step) => step.kind === kind)
+      .reduce((total, step) => total + step.minutes, 0);
+  const touch = sum("touch");
+  const elapsed = touch + sum("wait");
+  const clock = (minutes: number) =>
+    `${Math.floor(minutes / 60)}h ${String(minutes % 60).padStart(2, "0")}m`;
+  // The single longest wait is what an owner recognises first, so the reading
+  // names it rather than leaving the reader to eyeball the widest hatch.
+  const longestWait = reading.steps
+    .filter((step) => step.kind === "wait")
+    .reduce((worst, step) => (step.minutes > worst.minutes ? step : worst));
+
+  return {
+    touch,
+    elapsed,
+    touchLabel: clock(touch),
+    elapsedLabel: clock(elapsed),
+    waitingShare: Math.round(((elapsed - touch) / elapsed) * 100),
+    longestWait,
+    longestWaitLabel: clock(longestWait.minutes),
+    handoffs: 4,
+    steps: reading.steps.length,
+  };
+})();
+
+/* -------------------------------------------------------------------------
    The inspection — what the two free weeks actually hand over. Kept short
    on purpose: the home page states it, /approach explains it.
    ------------------------------------------------------------------------- */

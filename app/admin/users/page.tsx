@@ -2,7 +2,12 @@ import AdminNotice from "@/components/AdminNotice";
 import AdminPageHeader from "@/components/AdminPageHeader";
 import AdminSubmitButton from "@/components/AdminSubmitButton";
 import Badge from "@/components/Badge";
-import { deleteUserAction, inviteUserAction, updateUserAction } from "@/app/admin/actions";
+import {
+  deleteUserAction,
+  inviteUserAction,
+  resendInviteAction,
+  updateUserAction,
+} from "@/app/admin/actions";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate, formatDateTime } from "@/lib/format";
@@ -86,7 +91,8 @@ export default async function UsersPage({ searchParams }: { searchParams: Search
               </label>
             </div>
             <p className="notice notice-info">
-              Client users require a client assignment. Admin invitations ignore the client field. Role and client
+              The invitation email is sent by this application, not by Supabase — see EMAIL_PROVIDER in the README.
+              Client users require a client assignment; admin invitations ignore the client field. Role and client
               access are assigned server-side after the auth user is created.
             </p>
             <AdminSubmitButton pendingLabel="Sending invitation…">Send invitation</AdminSubmitButton>
@@ -200,6 +206,19 @@ export default async function UsersPage({ searchParams }: { searchParams: Search
                     <AdminSubmitButton>Save user</AdminSubmitButton>
                     <span className="mono text-[0.6875rem] text-ink-45">
                       Added {formatDate(profile.created_at)} · WhatsApp {profile.whatsapp_verified_at ? `verified ${formatDateTime(profile.whatsapp_verified_at)}` : "not verified"}
+                    </span>
+                  </div>
+                </form>
+
+                <form action={resendInviteAction} className="mt-5 border-t border-rule pt-5">
+                  <input type="hidden" name="id" value={profile.id} />
+                  <input type="hidden" name="returnTo" value="/admin/users" />
+                  <div className="flex flex-wrap items-center gap-4">
+                    <AdminSubmitButton tone="secondary" pendingLabel="Sending…">
+                      Re-send invitation
+                    </AdminSubmitButton>
+                    <span className="text-[0.8125rem] text-ink-45">
+                      Issues a fresh onboarding email. Refused once the account has been signed into.
                     </span>
                   </div>
                 </form>

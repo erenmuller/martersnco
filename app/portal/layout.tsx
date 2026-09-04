@@ -71,7 +71,7 @@ export default async function PortalLayout({
 
       <footer className="border-t border-rule py-5 text-[0.75rem] text-ink-45">
         <div className="page flex flex-wrap items-center justify-between gap-3">
-          <span className="mono">Marters &amp; Co. / Client portal</span>
+          <span>Marters &amp; Co. client portal</span>
           <span>Private and confidential</span>
         </div>
       </footer>
