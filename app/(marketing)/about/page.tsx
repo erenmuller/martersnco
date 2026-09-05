@@ -1,227 +1,251 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-// Relative, not "@/…": the alias covers source modules, not /public assets.
-import brandPlate from "../../../public/martersnco.png";
-import { principles } from "@/lib/content";
+import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
+import { NextConversation, PageIntro } from "../_components/Editorial";
+import s from "../_components/editorial.module.css";
 
 export const metadata: Metadata = {
   title: "About",
   description: `${site.legalName} is a boutique AI and automation consultancy licensed in the Dubai International Financial Centre, working with small and mid-sized businesses across the UAE and the Gulf.`,
   alternates: { canonical: "/about" },
 };
-
-const fitFor = [
-  "20–500 staff, with processes that grew rather than were designed",
-  "A finance, operations or onboarding workflow that everyone complains about",
-  "Someone internal who can give us a few hours a week",
-  "A willingness to be told a process is not worth automating",
+const principles = [
+  [
+    "Direct access to the people doing the work.",
+    "The team you meet is the team that scopes, builds and hands over your system. Your context stays with the people making the decisions.",
+  ],
+  [
+    "A recommendation has to earn its place.",
+    "We measure before we recommend. When a simpler process change is the better answer, that’s what we’ll advise.",
+  ],
+  [
+    "Your systems belong to you.",
+    "Source code, accounts, infrastructure and documentation are yours. You keep what we build, whether or not we continue working together.",
+  ],
+  [
+    "A few businesses, given our full attention.",
+    "We keep our client list small so we can stay close to the work and the people who depend on it.",
+  ],
 ];
-
-const notFor = [
-  "Buying a demo to show a board",
-  "Replacing a team this quarter to hit a number",
-  "A fixed implementation quote before anything has been measured",
-  "Work we would have to subcontract to deliver",
+const fit = [
+  [
+    "A real operational problem",
+    "A finance, operations or onboarding workflow that takes more time and effort than it should.",
+  ],
+  [
+    "Someone to work alongside",
+    "An internal owner who can give us a few hours a week and bring the right people into the conversation.",
+  ],
+  [
+    "Room for an honest answer",
+    "A willingness to explore what is worth changing, including where automation may not be the right fit.",
+  ],
 ];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="page section section-flush pt-14 md:pt-20">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
-          <div>
-            <h1 className="display-xl max-w-[14ch]">
-              A small firm, on purpose.
-            </h1>
-            <p className="lede mt-7">
-              {site.legalName} is an AI and automation implementation partner
-              licensed in the Dubai International Financial Centre. We work with
-              a few businesses at a time, and the people who scope your work are
-              the people who build it.
-            </p>
-          </div>
-
-          {/* The firm's own plate. It belongs here rather than on the home
-              page, where the thing worth showing first is a measurement. */}
-          <figure className="frame lg:mt-1">
-            <div className="frame-body">
-              <Image
-                src={brandPlate}
-                alt="Marters & Co. — the Dubai skyline at sunset, with the Burj Khalifa and the Burj Al Arab."
-                placeholder="blur"
-                priority
-                fill
-                sizes="(max-width: 64rem) 100vw, 26rem"
-              />
+      <PageIntro
+        label="The firm / Dubai, United Arab Emirates"
+        title={
+          <>
+            A small firm.
+            <br />
+            <span>On purpose.</span>
+          </>
+        }
+        visual={
+          <div className={s.firmPlate}>
+            <span>Independent by design · Est. {site.founded}</span>
+            <span className={s.ampersand} aria-hidden="true">
+              &amp;
+            </span>
+            <div>
+              <div className={s.firmName}>Marters &amp; Co.</div>
+              <p>
+                A boutique AI consultancy.
+                <br />
+                Rooted in Dubai. Built around you.
+              </p>
             </div>
-            <figcaption className="frame-caption">
-              <span>Dubai International Financial Centre</span>
-              <span>Established {site.founded}</span>
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">Why we exist</span>
           </div>
-          <div className="prose-block max-w-[58ch] text-[1.0625rem]">
-            <p>
-              There is no shortage of firms selling AI to Gulf businesses right
-              now. Very few of them will be in the room when the thing they sold
-              has to survive a Tuesday — a supplier who changes their invoice
-              format, a staff member who leaves, a process that turns out to
-              have four undocumented exceptions.
-            </p>
-            <p>
-              We started Marters &amp; Co. because the gap in the market is not
-              strategy. It is implementation, and then staying. The advice is
-              mostly free and mostly correct; the difficulty is doing the work
-              properly, in a real business, with the people who already have a
-              job.
-            </p>
-            <p>
-              So we do the unglamorous half. We measure processes, build the
-              systems, sit with the staff who will use them, and write down how
-              it works in language they use. Then we hand it over.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Licence — the concrete credential a new firm can point at. */}
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">Licence</span>
-          </div>
-
+        }
+        links={
+          <>
+            <Link href="/contact" className="btn btn-primary">
+              Let’s get to know your business <Arrow />
+            </Link>
+            <a href="#our-commitments" className="text-link">
+              What you can expect <span aria-hidden="true">↓</span>
+            </a>
+          </>
+        }
+      >
+        We’re an independent AI and automation consultancy, working with growing
+        businesses across the UAE and the Gulf. A small team, close to the work
+        and the people behind it.
+      </PageIntro>
+      <div className="page">
+        <div className={s.jumpNav}>
+          <span>
+            Marters &amp; Co. / A personal approach to useful technology
+          </span>
           <div>
-            <h2 className="display-l max-w-[22ch]">
-              Registered in the DIFC.
+            <a href="#firm-details">
+              DIFC licensed <Arrow diagonal />
+            </a>
+            <a href="#working-together">
+              UAE &amp; GCC <Arrow diagonal />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <section className={`page ${s.story}`}>
+        <h2>
+          Good ideas deserve
+          <br />
+          someone who sees
+          <br />
+          them through.
+        </h2>
+        <div>
+          <p>
+            Finding a use for AI is only the beginning. The real work is making
+            it fit: the systems you already have, the exceptions your team knows
+            by heart, and the busy day that doesn’t pause for a new tool.
+          </p>
+          <p>
+            That’s why we bring advice and implementation together. We listen,
+            build, test with your people and stay for the handover. The same
+            team, carrying your context from the first conversation into the
+            everyday details.
+          </p>
+        </div>
+      </section>
+
+      <section
+        className="boutique-section"
+        id="our-commitments"
+        style={{ scrollMarginTop: "6rem" }}
+      >
+        <div className="page boutique-spread">
+          <div className="boutique-intro">
+            <span className="studio-label">01 / What you can expect</span>
+            <h2>
+              Small enough
+              <br />
+              to stay close.
+              <br />
+              <span>By design.</span>
             </h2>
-            <p className="prose-block mt-5 max-w-[56ch] text-[1.0625rem]">
-              The Dubai International Financial Centre operates its own
-              common-law jurisdiction, courts and registrar. Holding a licence
-              there means the firm you are contracting with is a real, named,
-              inspectable entity, and that any dispute is heard in the DIFC
-              Courts under English-language common law.
-            </p>
-            <p className="prose-block mt-4 max-w-[56ch]">
-              For a firm as new as ours, that is a more useful thing to show you
-              than a logo wall.
-            </p>
-
-            <dl className="mt-10 grid gap-px border border-rule bg-rule text-[0.875rem] sm:grid-cols-2">
-              {[
-                ["Registered name", site.legalName],
-                ["Commercial licence", site.difc.licenceDisplay],
-                ["Registrar", site.difc.registry],
-                ["Jurisdiction", "DIFC, Dubai, United Arab Emirates"],
-                ["Established", site.founded],
-                ["Governing law", "DIFC common law"],
-              ].map(([label, value]) => (
-                <div key={label} className="bg-bone p-4">
-                  <dt className="eyebrow mb-1.5">{label}</dt>
-                  <dd className="m-0 text-ink">{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">How we operate</span>
-          </div>
-          <div>
-            <h2 className="display-l max-w-[20ch]">Four commitments.</h2>
-            <dl className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2">
-              {principles.map((p) => (
-                <div key={p.title}>
-                  <dt className="border-t border-ink pt-3 text-[0.9375rem] font-semibold leading-snug text-ink">
-                    {p.title}
-                  </dt>
-                  <dd className="m-0 mt-2 text-[0.9375rem] leading-relaxed text-ink-70">
-                    {p.body}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      <section className="page section">
-        <div className="rail">
-          <div className="rail-label">
-            <span className="eyebrow">Fit</span>
-          </div>
-
-          <div>
-            <h2 className="display-l max-w-[24ch]">
-              We are a good fit for some businesses and a poor one for others.
-            </h2>
-
-            <div className="mt-10 grid gap-px bg-rule sm:grid-cols-2">
-              <div className="bg-bone p-6">
-                <span className="eyebrow eyebrow-pine mb-4">
-                  Works well when
-                </span>
-                <ul className="m-0 list-none space-y-3 p-0">
-                  {fitFor.map((t) => (
-                    <li
-                      key={t}
-                      className="flex gap-3 text-[0.9375rem] leading-snug text-ink-70"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-[0.45rem] block h-px w-3 shrink-0"
-                        style={{ background: "var(--color-pine)" }}
-                      />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-bone p-6">
-                <span
-                  className="eyebrow mb-4"
-                  style={{ color: "var(--color-burgundy)" }}
-                >
-                  Not what we do
-                </span>
-                <ul className="m-0 list-none space-y-3 p-0">
-                  {notFor.map((t) => (
-                    <li
-                      key={t}
-                      className="flex gap-3 text-[0.9375rem] leading-snug text-ink-70"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="mt-[0.45rem] block h-px w-3 shrink-0"
-                        style={{ background: "var(--color-burgundy)" }}
-                      />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <Link href="/contact" className="btn btn-primary mt-10">
-              Start a conversation
+            <Link href="/approach" className="text-link">
+              See how we work <Arrow diagonal />
             </Link>
           </div>
+          <div className="boutique-principles">
+            <p className="boutique-lede">
+              Our size shapes the way we work. These are the commitments that
+              come with it.
+            </p>
+            {principles.map(([title, body], i) => (
+              <article key={title}>
+                <span>0{i + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
+
+      <section className="page studio-section" id="firm-details">
+        <div className={s.split}>
+          <div className={s.sectionCopy}>
+            <span className="studio-label">02 / Rooted in Dubai</span>
+            <h2>
+              A local presence.
+              <br />
+              <span>A named partner.</span>
+            </h2>
+            <p>
+              Established in {site.founded}, {site.legalName} is registered with
+              the {site.difc.registry}. We work with small and mid-sized
+              businesses across the UAE and the wider Gulf.
+            </p>
+            <p>
+              Our firm details are here so you know who you’re working with,
+              from the outset.
+            </p>
+          </div>
+          <dl className={s.firmFacts}>
+            {[
+              ["Registered name", site.legalName],
+              ["Commercial licence", site.difc.licenceDisplay],
+              ["Registrar", site.difc.registry],
+              ["Based in", "Dubai International Financial Centre"],
+              ["Established", site.founded],
+              ["Working across", "United Arab Emirates & the GCC"],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section
+        className={s.softSection}
+        id="working-together"
+        style={{ scrollMarginTop: "6rem" }}
+      >
+        <div className={`page studio-section ${s.split}`}>
+          <div className={s.sectionCopy}>
+            <span className="studio-label">03 / Working together</span>
+            <h2>
+              The right fit
+              <br />
+              <span>starts with shared intent.</span>
+            </h2>
+            <p>
+              We work best with businesses that want to improve the working day
+              and are ready to involve the people who know it best.
+            </p>
+            <p>
+              You don’t need an AI strategy or a technical brief. A process
+              you’d like to make better is a good place to begin.
+            </p>
+          </div>
+          <ul className={s.fitList}>
+            {fit.map(([title, body], i) => (
+              <li key={title}>
+                <span>0{i + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+      <NextConversation
+        title={
+          <>
+            Your business is personal.
+            <br />
+            Let’s start there.
+          </>
+        }
+      >
+        Tell us a little about your team and what you’re working through. You’ll
+        speak with the people who would do the work.
+      </NextConversation>
     </>
   );
 }

@@ -1562,7 +1562,7 @@
   }
   .intelligence-halo {
     position: absolute;
-    inset: 4%;
+    inset: 12%;
     border-radius: 50%;
     background: radial-gradient(
       circle,
@@ -1570,7 +1570,7 @@
       #e3e7d6 32%,
       transparent 68%
     );
-    filter: blur(18px);
+    filter: blur(22px);
   }
   .intelligence-sculpture {
     position: absolute;
@@ -1581,6 +1581,16 @@
   .intelligence-threads {
     transform-origin: 280px 280px;
     animation: intelligence-turn 90s linear infinite;
+  }
+  .intelligence-pulse {
+    stroke-dasharray: 12 388;
+    animation: intelligence-flow 12s linear infinite;
+  }
+  .intelligence-tag {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.2em;
+    fill: var(--color-ink-45);
   }
   .visual-note {
     position: absolute;
@@ -1597,12 +1607,12 @@
     color: var(--color-ink-70);
   }
   .visual-note-top {
-    top: 12%;
+    top: 7%;
     left: 0;
     animation: note-float 7s ease-in-out infinite;
   }
   .visual-note-bottom {
-    bottom: 14%;
+    top: 64%;
     right: -1%;
     animation: note-float 7s -3s ease-in-out infinite;
   }
@@ -2419,6 +2429,14 @@
     transform: rotate(360deg);
   }
 }
+@keyframes intelligence-flow {
+  from {
+    stroke-dashoffset: 400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
 @keyframes note-float {
   0%,
   100% {
@@ -2447,6 +2465,9 @@
   }
 }
 @media (max-width: 1199px) {
+  .visual-note-top {
+    top: 4%;
+  }
   .hero-actions {
     gap: 1rem;
   }
@@ -2567,6 +2588,9 @@
     padding: 0.55rem 0.75rem;
     font-size: 0.625rem;
   }
+  .visual-note-top {
+    top: 2%;
+  }
   .visual-caption span:last-child {
     display: none;
   }
@@ -2662,7 +2686,7 @@
     margin-top: 0.5rem;
   }
   .visual-note-top {
-    top: 15%;
+    top: 0;
     left: -3%;
   }
   .visual-note-bottom {
@@ -2909,5 +2933,8 @@
   .work-story,
   .work-illustration {
     animation: none;
+  }
+  .intelligence-pulse {
+    display: none;
   }
 }
