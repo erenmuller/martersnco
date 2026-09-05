@@ -1668,7 +1668,7 @@
   .section-heading h2,
   .enquiry-intro > h2,
   .boutique-intro h2,
-  .split-copy h2 {
+  .second-opinion-copy h2 {
     margin-top: 1.3rem;
     font-size: clamp(2rem, 3.7vw, 3.15rem);
     font-weight: 450;
@@ -2038,52 +2038,68 @@
     width: 2rem;
     height: 2rem;
   }
-  .split-panel {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: start;
+  .studio-section.second-opinion-section {
+    padding-top: 0;
   }
-  .split-copy > p {
-    max-width: 42ch;
+  .second-opinion-spread {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    border-top: 1px solid var(--color-rule);
+    padding-top: 4rem;
+  }
+  .second-opinion-copy h2 > span {
+    color: var(--color-pine);
+  }
+  .second-opinion-copy > p {
+    max-width: 46ch;
     margin-top: 1.4rem;
     font-size: 0.9375rem;
     line-height: 1.8;
     color: var(--color-ink-70);
   }
-  .split-copy .text-link {
+  .second-opinion-copy .text-link {
     margin-top: 1.6rem;
   }
-  .split-signs {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .review-card {
+    padding: 2.25rem;
+    border: 1px solid var(--color-rule);
+    border-radius: 6px;
+    background: #eef0e7;
   }
-  .split-signs li {
-    display: flex;
-    gap: 1.25rem;
-    border-top: 1px solid var(--color-rule-strong);
-    padding-block: 1.3rem;
+  .review-card > h3 {
+    max-width: 24ch;
+    margin-top: 0.9rem;
+    font-size: 1.6rem;
+    font-weight: 450;
+    line-height: 1.25;
+    letter-spacing: -0.035em;
   }
-  .split-signs li:first-child {
-    padding-top: 0;
+  .review-areas {
+    margin-top: 1.75rem;
   }
-  .split-signs li > span {
-    flex-shrink: 0;
-    padding-top: 0.25rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--color-pine);
+  .review-areas > div {
+    border-top: 1px solid var(--color-rule);
+    padding-block: 1rem;
   }
-  .split-signs h3 {
-    font-size: 1rem;
+  .review-areas dt {
+    font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.4;
+    color: var(--color-pine);
   }
-  .split-signs p {
+  .review-areas dd {
     margin-top: 0.4rem;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     line-height: 1.7;
+    color: var(--color-ink-70);
+  }
+  .review-note {
+    border-top: 1px solid var(--color-rule-strong);
+    padding-top: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
     color: var(--color-ink-70);
   }
   .enquiry-section {
@@ -2532,7 +2548,7 @@
   }
   .work-panel,
   .boutique-spread,
-  .split-panel,
+  .second-opinion-spread,
   .enquiry-spread,
   .contact-page .enquiry-spread {
     gap: 3rem;
@@ -2661,6 +2677,9 @@
   .enquiry-spread {
     padding-block: 5rem;
   }
+  .studio-section.second-opinion-section {
+    padding-top: 0;
+  }
   .section-heading {
     gap: 2rem;
   }
@@ -2670,7 +2689,7 @@
   }
   .work-panel,
   .boutique-spread,
-  .split-panel {
+  .second-opinion-spread {
     gap: 2.5rem;
   }
   .enquiry-spread,
@@ -2775,7 +2794,7 @@
     margin-bottom: 2rem;
   }
   .section-heading h2,
-  .split-copy h2 {
+  .second-opinion-copy h2 {
     font-size: clamp(1.9rem, 7.5vw, 2.6rem);
     margin-top: 1rem;
   }
@@ -2832,9 +2851,15 @@
     font-size: 0.625rem;
   }
   .boutique-spread,
-  .split-panel {
+  .second-opinion-spread {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+  }
+  .second-opinion-spread {
+    padding-top: 2.5rem;
+  }
+  .review-card {
+    padding: 1.5rem;
   }
   .boutique-intro h2 {
     margin-top: 1.3rem;

@@ -40,18 +40,18 @@ const capabilities = [
   },
 ];
 
-const signs = [
+const reviewAreas = [
   [
-    "The system doesn’t match how your team works",
-    "Old workarounds crept back in, and the tool sits unused more often than not.",
+    "What’s worth keeping",
+    "The useful work already done, and where it can still take you.",
   ],
   [
-    "No one can explain what was built, or why",
-    "Little documentation, and the person who built it has since moved on.",
+    "What’s getting in the way",
+    "The gaps in the technology, the handover, or how it fits your team’s day.",
   ],
   [
-    "You don’t hold the keys",
-    "The code, accounts or infrastructure were never handed over, so nothing can change without going back to them.",
+    "What makes sense next",
+    "A practical recommendation: refine what’s there, rethink a part, or leave it be.",
   ],
 ];
 
@@ -291,43 +291,48 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="page studio-section" id="second-opinion">
-        <div className="split-panel">
-          <div className="split-copy">
+      <section
+        className="page studio-section second-opinion-section"
+        id="second-opinion"
+        aria-labelledby="second-opinion-heading"
+      >
+        <div className="second-opinion-spread">
+          <div className="second-opinion-copy">
             <span className="studio-label">05 / A second opinion</span>
-            <h2>
-              Already tried an AI agency?
+            <h2 id="second-opinion-heading">
+              Already tried AI?
               <br />
-              <span>We’ll help you finish the job.</span>
+              <span>Let’s find a way forward.</span>
             </h2>
             <p>
-              Not every AI project turns out the way it was promised. A
-              stalled build, an automation nobody quite trusts, or a bill for
-              work you can’t explain — it happens more often than people
-              admit.
+              If you’ve worked with an AI agency and still aren’t seeing the
+              value, we can help you make sense of what’s been built and where
+              to go from here.
             </p>
             <p>
-              We start by understanding what’s actually there: the code, the
-              decisions behind it, and the gap between what was promised and
-              what was delivered. Then we’re straightforward about what’s
-              worth keeping, what needs rebuilding, and what it will take to
-              finish properly.
+              We look at the work, listen to your team, and give you an honest
+              assessment. Sometimes a few thoughtful changes are all it takes.
+              If more is needed, we’ll explain why.
             </p>
             <a href="#start-a-conversation" className="text-link">
               Get a second opinion <Arrow diagonal />
             </a>
           </div>
-          <ul className="split-signs">
-            {signs.map(([title, body], i) => (
-              <li key={title}>
-                <span>0{i + 1}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
+          <div className="review-card">
+            <span className="studio-label">A fresh pair of eyes</span>
+            <h3>A little clarity before your next commitment.</h3>
+            <dl className="review-areas">
+              {reviewAreas.map(([title, body]) => (
+                <div key={title}>
+                  <dt>{title}</dt>
+                  <dd>{body}</dd>
                 </div>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </dl>
+            <p className="review-note">
+              Your investment matters. We start with what you have.
+            </p>
+          </div>
         </div>
       </section>
 
