@@ -1667,7 +1667,8 @@
   }
   .section-heading h2,
   .enquiry-intro > h2,
-  .boutique-intro h2 {
+  .boutique-intro h2,
+  .split-copy h2 {
     margin-top: 1.3rem;
     font-size: clamp(2rem, 3.7vw, 3.15rem);
     font-weight: 450;
@@ -2036,6 +2037,54 @@
     place-items: center;
     width: 2rem;
     height: 2rem;
+  }
+  .split-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .split-copy > p {
+    max-width: 42ch;
+    margin-top: 1.4rem;
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-ink-70);
+  }
+  .split-copy .text-link {
+    margin-top: 1.6rem;
+  }
+  .split-signs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .split-signs li {
+    display: flex;
+    gap: 1.25rem;
+    border-top: 1px solid var(--color-rule-strong);
+    padding-block: 1.3rem;
+  }
+  .split-signs li:first-child {
+    padding-top: 0;
+  }
+  .split-signs li > span {
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-pine);
+  }
+  .split-signs h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .split-signs p {
+    margin-top: 0.4rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-ink-70);
   }
   .enquiry-section {
     border-top: 1px solid var(--color-rule);
@@ -2483,6 +2532,7 @@
   }
   .work-panel,
   .boutique-spread,
+  .split-panel,
   .enquiry-spread,
   .contact-page .enquiry-spread {
     gap: 3rem;
@@ -2619,7 +2669,8 @@
     font-size: 0.875rem;
   }
   .work-panel,
-  .boutique-spread {
+  .boutique-spread,
+  .split-panel {
     gap: 2.5rem;
   }
   .enquiry-spread,
@@ -2723,7 +2774,8 @@
     gap: 1.25rem;
     margin-bottom: 2rem;
   }
-  .section-heading h2 {
+  .section-heading h2,
+  .split-copy h2 {
     font-size: clamp(1.9rem, 7.5vw, 2.6rem);
     margin-top: 1rem;
   }
@@ -2779,7 +2831,8 @@
   .work-footnote {
     font-size: 0.625rem;
   }
-  .boutique-spread {
+  .boutique-spread,
+  .split-panel {
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }

@@ -40,6 +40,21 @@ const capabilities = [
   },
 ];
 
+const signs = [
+  [
+    "The system doesn’t match how your team works",
+    "Old workarounds crept back in, and the tool sits unused more often than not.",
+  ],
+  [
+    "No one can explain what was built, or why",
+    "Little documentation, and the person who built it has since moved on.",
+  ],
+  [
+    "You don’t hold the keys",
+    "The code, accounts or infrastructure were never handed over, so nothing can change without going back to them.",
+  ],
+];
+
 const steps = [
   {
     n: "01",
@@ -276,10 +291,50 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="page studio-section" id="second-opinion">
+        <div className="split-panel">
+          <div className="split-copy">
+            <span className="studio-label">05 / A second opinion</span>
+            <h2>
+              Already tried an AI agency?
+              <br />
+              <span>We’ll help you finish the job.</span>
+            </h2>
+            <p>
+              Not every AI project turns out the way it was promised. A
+              stalled build, an automation nobody quite trusts, or a bill for
+              work you can’t explain — it happens more often than people
+              admit.
+            </p>
+            <p>
+              We start by understanding what’s actually there: the code, the
+              decisions behind it, and the gap between what was promised and
+              what was delivered. Then we’re straightforward about what’s
+              worth keeping, what needs rebuilding, and what it will take to
+              finish properly.
+            </p>
+            <a href="#start-a-conversation" className="text-link">
+              Get a second opinion <Arrow diagonal />
+            </a>
+          </div>
+          <ul className="split-signs">
+            {signs.map(([title, body], i) => (
+              <li key={title}>
+                <span>0{i + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="enquiry-section" id="start-a-conversation">
         <div className="page enquiry-spread">
           <div className="enquiry-intro">
-            <span className="studio-label">05 / Let’s start with you</span>
+            <span className="studio-label">06 / Let’s start with you</span>
             <h2>
               Something
               <br />
