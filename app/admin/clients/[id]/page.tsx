@@ -4,13 +4,12 @@ import AdminNotice from "@/components/AdminNotice";
 import AdminPageHeader from "@/components/AdminPageHeader";
 import AdminSubmitButton from "@/components/AdminSubmitButton";
 import Badge from "@/components/Badge";
+import { deleteClientAction, updateClientAction } from "@/app/admin/_actions/clients";
 import {
   createEngagementAction,
-  deleteClientAction,
   deleteEngagementAction,
-  updateClientAction,
   updateEngagementAction,
-} from "@/app/admin/actions";
+} from "@/app/admin/_actions/engagements";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatDate } from "@/lib/format";
@@ -93,7 +92,7 @@ export default async function ClientDetailPage({ params, searchParams }: Props) 
   return (
     <>
       <AdminPageHeader
-        eyebrow="Client"
+        eyebrow="Client management"
         title={client.name}
         description={client.legal_name || "Client account and its operational work."}
         action={

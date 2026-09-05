@@ -7,7 +7,7 @@ import {
   inviteUserAction,
   resendInviteAction,
   updateUserAction,
-} from "@/app/admin/actions";
+} from "@/app/admin/_actions/users";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate, formatDateTime } from "@/lib/format";
@@ -41,7 +41,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Search
   return (
     <>
       <AdminPageHeader
-        eyebrow="Access"
+        eyebrow="Operations"
         title="Users"
         description="Invite admin or client users, assign client access, and deactivate accounts without deleting their history."
         action={

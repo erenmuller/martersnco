@@ -6,13 +6,16 @@ import { requireClient } from "@/lib/auth";
 import { formatDate, formatMoney, renewalNote } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import {
+  BILLING_PERIOD_LABEL,
   CLIENT_STATUS_LABEL,
   DOCUMENT_KIND_LABEL,
   ENGAGEMENT_STATUS_LABEL,
+  PAYMENT_STATE_LABEL,
   REQUEST_STATUS_LABEL,
   SUBSCRIPTION_STATUS_LABEL,
   clientTone,
   engagementTone,
+  paymentTone,
   requestTone,
   subscriptionTone,
   type Client,
@@ -45,14 +48,14 @@ export default async function PortalDashboardPage() {
       supabase
         .from("subscriptions")
         .select(
-          "id, client_id, plan_name, status, billing_period, amount_minor, currency, started_on, renews_on, cancelled_at, created_at",
+          "id, client_id, plan_name, status, billing_period, amount_minor, currency, started_on, renews_on, cancelled_at, payment_status, paid_on, created_at",
         )
         .eq("client_id", profile.client_id)
         .order("renews_on", { ascending: true, nullsFirst: false }),
       supabase
         .from("requests")
         .select(
-          "id, client_id, created_by, subject, body, status, priority, created_at, resolved_at",
+          "id, client_id, created_by, subject, body, status, priority, quote_status, quote_amount_minor, quote_currency, created_at, resolved_at",
         )
         .eq("client_id", profile.client_id)
         .order("created_at", { ascending: false })
@@ -214,13 +217,18 @@ export default async function PortalDashboardPage() {
                       currentSubscription.currency,
                     )}
                   </p>
-                  <p className="mt-1 text-[0.8125rem] capitalize text-ink-45">
-                    {currentSubscription.billing_period}
+                  <p className="mt-1 text-[0.8125rem] text-ink-45">
+                    Billed {BILLING_PERIOD_LABEL[currentSubscription.billing_period].toLowerCase()}
                   </p>
                 </div>
-                <Badge tone={subscriptionTone(currentSubscription.status)}>
-                  {SUBSCRIPTION_STATUS_LABEL[currentSubscription.status]}
-                </Badge>
+                <div className="flex shrink-0 flex-wrap justify-end gap-2">
+                  <Badge tone={paymentTone(currentSubscription.payment_status)}>
+                    {PAYMENT_STATE_LABEL[currentSubscription.payment_status]}
+                  </Badge>
+                  <Badge tone={subscriptionTone(currentSubscription.status)}>
+                    {SUBSCRIPTION_STATUS_LABEL[currentSubscription.status]}
+                  </Badge>
+                </div>
               </div>
               <div className="mt-6 border-t border-rule pt-4">
                 <p className="text-[0.875rem] text-ink-70">
@@ -262,6 +270,11 @@ export default async function PortalDashboardPage() {
                     </p>
                     <p className="mono mt-1 text-[0.6875rem] text-ink-45">
                       {formatDate(request.created_at)}
+                      {request.quote_status === "free"
+                        ? " · no charge"
+                        : request.quote_amount_minor !== null
+                          ? ` · ${formatMoney(request.quote_amount_minor, request.quote_currency)}`
+                          : ""}
                     </p>
                   </div>
                   <Badge tone={requestTone(request.status)}>

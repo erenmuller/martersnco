@@ -45,7 +45,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Search
   return (
     <>
       <AdminPageHeader
-        eyebrow="Control"
+        eyebrow="Operations"
         title="Audit log"
         description="The latest 200 recorded admin events. Audit rows are append-only from the service role and cannot be written by a browser session."
       />

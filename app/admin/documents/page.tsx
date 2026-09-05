@@ -5,7 +5,7 @@ import AdminDocumentUpload from "@/components/AdminDocumentUpload";
 import {
   deleteDocumentAction,
   updateDocumentAction,
-} from "@/app/admin/actions";
+} from "@/app/admin/_actions/documents";
 import { createClient } from "@/lib/supabase/server";
 import { formatDateTime } from "@/lib/format";
 import { DOCUMENT_KIND_LABEL } from "@/lib/types";
@@ -46,7 +46,7 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Se
   return (
     <>
       <AdminPageHeader
-        eyebrow="Deliverables"
+        eyebrow="Client management"
         title="Documents"
         description="Files live in the private client-documents bucket. Downloads are short-lived signed URLs and clients can only read their own folder."
         action={

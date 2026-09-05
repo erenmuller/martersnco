@@ -6,7 +6,7 @@ import {
   createServiceAction,
   deleteServiceAction,
   updateServiceAction,
-} from "@/app/admin/actions";
+} from "@/app/admin/_actions/services";
 import { createClient } from "@/lib/supabase/server";
 import { SERVICE_CATEGORY_LABEL } from "@/lib/types";
 import type { Service, ServiceCategory } from "@/lib/types";
@@ -27,7 +27,7 @@ export default async function ServicesAdminPage({ searchParams }: { searchParams
   return (
     <>
       <AdminPageHeader
-        eyebrow="Catalogue"
+        eyebrow="Operations"
         title="Services"
         description="The operational catalogue assigned to client engagements. Service codes should stay aligned with the marketing copy."
         action={

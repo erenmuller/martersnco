@@ -3,10 +3,12 @@ import Badge from "@/components/Badge";
 import PortalPageHeader from "@/components/PortalPageHeader";
 import PortalRequestForm from "@/components/PortalRequestForm";
 import { requireClient } from "@/lib/auth";
-import { formatDateTime } from "@/lib/format";
+import { formatDate, formatDateTime, formatMoney } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import {
+  QUOTE_STATUS_LABEL,
   REQUEST_STATUS_LABEL,
+  quoteTone,
   requestTone,
   type ClientRequest,
   type RequestPriority,
@@ -26,7 +28,7 @@ export default async function RequestsPage() {
   const { data, error } = await supabase
     .from("requests")
     .select(
-      "id, client_id, created_by, subject, body, status, priority, created_at, resolved_at",
+      "id, client_id, created_by, subject, body, status, priority, quote_status, quote_amount_minor, quote_currency, quote_note, quoted_at, created_at, resolved_at",
     )
     .eq("client_id", profile.client_id)
     .order("created_at", { ascending: false });
@@ -37,7 +39,7 @@ export default async function RequestsPage() {
       <PortalPageHeader
         eyebrow="Support"
         title="Requests"
-        description="File a question, change or issue and follow its current status. Submitted requests remain fixed so there is a clear record."
+        description="File a question, change or issue and follow its status. Where a request carries a cost, the quote appears on it once we have priced the work."
       />
 
       <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(20rem,0.7fr)]">
@@ -69,6 +71,32 @@ export default async function RequestsPage() {
                   <p className="mt-4 whitespace-pre-wrap text-[0.875rem] leading-relaxed text-ink-70">
                     {request.body}
                   </p>
+
+                  {request.quote_status !== "none" && (
+                    <div className="mt-4 border-t border-rule pt-4">
+                      <div className="flex flex-wrap items-baseline justify-between gap-3">
+                        <span className="eyebrow">Cost</span>
+                        <Badge tone={quoteTone(request.quote_status)}>
+                          {request.quote_status === "free"
+                            ? "No charge"
+                            : request.quote_amount_minor !== null
+                              ? formatMoney(request.quote_amount_minor, request.quote_currency)
+                              : QUOTE_STATUS_LABEL[request.quote_status]}
+                        </Badge>
+                      </div>
+                      {request.quote_note && (
+                        <p className="mt-2 text-[0.875rem] leading-relaxed text-ink-70">
+                          {request.quote_note}
+                        </p>
+                      )}
+                      {request.quoted_at && (
+                        <p className="mono mt-2 text-[0.6875rem] text-ink-45">
+                          Quoted {formatDate(request.quoted_at)}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
                   {request.resolved_at && (
                     <p className="mono mt-4 border-t border-rule pt-3 text-[0.6875rem] text-ink-45">
                       Resolved {formatDateTime(request.resolved_at)}

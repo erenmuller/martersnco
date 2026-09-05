@@ -2,7 +2,7 @@ import AdminNotice from "@/components/AdminNotice";
 import AdminPageHeader from "@/components/AdminPageHeader";
 import AdminSubmitButton from "@/components/AdminSubmitButton";
 import Badge from "@/components/Badge";
-import { deleteLeadAction, setLeadHandledAction } from "@/app/admin/actions";
+import { deleteLeadAction, setLeadHandledAction } from "@/app/admin/_actions/leads";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatDateTime } from "@/lib/format";
@@ -40,7 +40,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Search
   return (
     <>
       <AdminPageHeader
-        eyebrow="Enquiries"
+        eyebrow="Client acquisition"
         title="Leads inbox"
         description="Contact-form submissions are service-role only. Handle personal information here and remove it when it is no longer needed."
       />

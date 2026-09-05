@@ -5,18 +5,15 @@ import { requireClient } from "@/lib/auth";
 import { formatDate, formatMoney, renewalNote } from "@/lib/format";
 import { createClient } from "@/lib/supabase/server";
 import {
+  BILLING_PERIOD_LABEL,
+  PAYMENT_STATE_LABEL,
   SUBSCRIPTION_STATUS_LABEL,
+  paymentTone,
   subscriptionTone,
   type Subscription,
 } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Subscriptions" };
-
-const billingLabel: Record<Subscription["billing_period"], string> = {
-  monthly: "Monthly",
-  quarterly: "Quarterly",
-  annual: "Annual",
-};
 
 export default async function SubscriptionsPage() {
   const profile = await requireClient();
@@ -24,7 +21,7 @@ export default async function SubscriptionsPage() {
   const { data, error } = await supabase
     .from("subscriptions")
     .select(
-      "id, client_id, plan_name, status, billing_period, amount_minor, currency, started_on, renews_on, cancelled_at, created_at",
+      "id, client_id, plan_name, status, billing_period, amount_minor, currency, started_on, renews_on, cancelled_at, payment_status, paid_on, created_at",
     )
     .eq("client_id", profile.client_id)
     .order("created_at", { ascending: false });
@@ -35,7 +32,7 @@ export default async function SubscriptionsPage() {
       <PortalPageHeader
         eyebrow="Account"
         title="Subscriptions"
-        description="Plan status, billing cadence and the next recorded renewal date."
+        description="Plan status, billing cadence, the next renewal date and whether the current period has been settled."
       />
 
       {error ? (
@@ -51,16 +48,21 @@ export default async function SubscriptionsPage() {
                   <span className="eyebrow mb-2">Plan</span>
                   <h2 className="display-s text-ink">{subscription.plan_name}</h2>
                 </div>
-                <Badge tone={subscriptionTone(subscription.status)}>
-                  {SUBSCRIPTION_STATUS_LABEL[subscription.status]}
-                </Badge>
+                <div className="flex shrink-0 flex-wrap justify-end gap-2">
+                  <Badge tone={paymentTone(subscription.payment_status)}>
+                    {PAYMENT_STATE_LABEL[subscription.payment_status]}
+                  </Badge>
+                  <Badge tone={subscriptionTone(subscription.status)}>
+                    {SUBSCRIPTION_STATUS_LABEL[subscription.status]}
+                  </Badge>
+                </div>
               </div>
 
               <p className="mono mt-7 text-[1.55rem] tracking-[-0.03em] text-ink">
                 {formatMoney(subscription.amount_minor, subscription.currency)}
               </p>
               <p className="mt-1 text-[0.8125rem] text-ink-45">
-                Billed {billingLabel[subscription.billing_period].toLowerCase()}
+                Billed {BILLING_PERIOD_LABEL[subscription.billing_period].toLowerCase()}
               </p>
 
               <dl className="mt-6 grid grid-cols-2 gap-5 border-t border-rule pt-4 text-[0.8125rem]">

@@ -24,8 +24,11 @@ export type SubscriptionStatus =
   | "cancelled"
   | "expired";
 export type BillingPeriod = "monthly" | "quarterly" | "annual";
+export type PaymentState = "unpaid" | "paid";
 export type RequestStatus = "open" | "in_progress" | "blocked" | "resolved";
 export type RequestPriority = "low" | "normal" | "high";
+export type QuoteStatus = "none" | "free" | "quoted" | "accepted" | "declined";
+export type NewsletterStatus = "draft" | "scheduled" | "sent";
 export type DocumentKind =
   | "process_map"
   | "proposal"
@@ -93,6 +96,8 @@ export interface Subscription {
   started_on: string;
   renews_on: string | null;
   cancelled_at: string | null;
+  payment_status: PaymentState;
+  paid_on: string | null;
   notes: string | null;
   created_at: string;
   client?: Client;
@@ -118,6 +123,11 @@ export interface ClientRequest {
   status: RequestStatus;
   priority: RequestPriority;
   admin_notes: string | null;
+  quote_status: QuoteStatus;
+  quote_amount_minor: number | null;
+  quote_currency: string;
+  quote_note: string | null;
+  quoted_at: string | null;
   created_at: string;
   resolved_at: string | null;
   client?: Client;
@@ -133,6 +143,19 @@ export interface Lead {
   source: string | null;
   handled: boolean;
   created_at: string;
+}
+
+export interface NewsletterEdition {
+  id: string;
+  title: string;
+  /** Google Doc the edition is drafted in. */
+  doc_url: string;
+  status: NewsletterStatus;
+  sent_on: string | null;
+  notes: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 /* -------------------------------------------------------------------------
@@ -167,6 +190,37 @@ export const SUBSCRIPTION_STATUS_LABEL: Record<SubscriptionStatus, string> = {
   past_due: "Past due",
   cancelled: "Cancelled",
   expired: "Expired",
+};
+
+export const BILLING_PERIOD_LABEL: Record<BillingPeriod, string> = {
+  monthly: "Monthly",
+  quarterly: "Quarterly",
+  annual: "Annual",
+};
+
+export const PAYMENT_STATE_LABEL: Record<PaymentState, string> = {
+  unpaid: "Not paid",
+  paid: "Paid",
+};
+
+export const REQUEST_PRIORITY_LABEL: Record<RequestPriority, string> = {
+  low: "Low",
+  normal: "Normal",
+  high: "High",
+};
+
+export const QUOTE_STATUS_LABEL: Record<QuoteStatus, string> = {
+  none: "Not quoted",
+  free: "No charge",
+  quoted: "Quoted",
+  accepted: "Accepted",
+  declined: "Declined",
+};
+
+export const NEWSLETTER_STATUS_LABEL: Record<NewsletterStatus, string> = {
+  draft: "Draft",
+  scheduled: "Scheduled",
+  sent: "Sent",
 };
 
 export const REQUEST_STATUS_LABEL: Record<RequestStatus, string> = {
@@ -204,6 +258,29 @@ export function requestTone(s: RequestStatus): BadgeTone {
   if (s === "resolved") return "ok";
   if (s === "in_progress") return "pending";
   if (s === "blocked") return "alert";
+  return "neutral";
+}
+
+export function paymentTone(s: PaymentState): BadgeTone {
+  return s === "paid" ? "ok" : "pending";
+}
+
+export function quoteTone(s: QuoteStatus): BadgeTone {
+  if (s === "accepted" || s === "free") return "ok";
+  if (s === "quoted") return "pending";
+  if (s === "declined") return "alert";
+  return "neutral";
+}
+
+export function newsletterTone(s: NewsletterStatus): BadgeTone {
+  if (s === "sent") return "ok";
+  if (s === "scheduled") return "pending";
+  return "neutral";
+}
+
+export function priorityTone(s: RequestPriority): BadgeTone {
+  if (s === "high") return "alert";
+  if (s === "normal") return "pending";
   return "neutral";
 }
 

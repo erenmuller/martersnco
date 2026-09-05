@@ -86,7 +86,8 @@ lexical order and create:
 
 - profiles and role/tenant helpers;
 - clients, the operational service catalogue and client engagements;
-- subscriptions, client requests and contact leads;
+- subscriptions with payment state, quotable client requests and contact leads;
+- newsletter editions for the client-acquisition side;
 - a private `client-documents` Storage bucket;
 - audit and WhatsApp OTP infrastructure;
 - row-level security policies; and
@@ -102,6 +103,7 @@ lexical order and create:
 | `20260101000003_security_hardening.sql` | Safe new-user defaults, protected profile fields and service-only contact rate limiting |
 | `20260101000004_private_column_access.sql` | Safe read/insert column grants, client request invariants, and assigned inactive-service visibility |
 | `20260101000005_document_path_integrity.sql` | Final-path ownership constraint and metadata-backed client Storage reads |
+| `20260101000006_backend_sections.sql` | Subscription payment state, request quoting and the admin-only newsletter edition table |
 
 The final column-access migration is intentionally separate and idempotent so
 it also closes the exposure on projects that applied earlier migrations before
@@ -502,6 +504,52 @@ Use a separate Supabase project for previews that need authenticated testing.
 Preview code with a production service key can bypass every production RLS
 policy and is not an acceptable shortcut.
 
+## Admin console
+
+`/admin` is grouped into four sections. `lib/admin-nav.ts` is the single source
+of that structure: the header's two-tier nav, each section's sub-nav and the
+dashboard's section cards all read from it, so adding a page means adding one
+entry.
+
+| Section | Pages |
+| --- | --- |
+| Overview | The dashboard: what needs a decision, then the way into everything else |
+| Client management | Clients, Subscriptions, Requests, Documents |
+| Client acquisition | Leads, Newsletter |
+| Operations | Services, Users, Audit |
+
+Server actions live in `app/admin/_actions`, one module per domain, with the
+shared form primitives and the audit/redirect exit in `_actions/shared.ts`. The
+`_` prefix keeps the folder out of the router.
+
+### Subscription cycles and payment
+
+A subscription needs a start date and a cycle; `renews_on` is derived from the
+two by `lib/billing.ts` and stored, so a monthly plan needs nothing else. The
+admin form previews the derived date live and offers an override for plans that
+renew off-cycle, and the server derives the same date again when the override is
+blank — a submission with JavaScript disabled behaves identically. Month-end
+dates clamp rather than roll over: 31 January billed monthly renews 28 February.
+
+`payment_status` records whether the *current* period has been settled, with
+`paid_on` as the date it was marked. A column constraint keeps the pair honest,
+and the register's one-click toggle is a separate audited action from the edit
+form. Rolling the flag back to unpaid for a new period is a manual step.
+
+### Request quoting
+
+An admin can price a client request or waive the charge. `quote_status` is
+`none`, `free`, `quoted`, `accepted` or `declined`; the priced states require an
+amount and the other two forbid one, enforced by a check constraint as well as
+in the action. `quote_note` is shown to the client in the portal — internal
+commentary belongs in `admin_notes`, which no browser role can read.
+
+### Newsletter
+
+Each edition is a name plus the Google Doc it is written in, with a draft →
+scheduled → sent status. The document itself stays in Google; deleting an
+edition here does not touch it.
+
 ## Security model
 
 - Middleware is a fast private-route gate; every private page/action must still
@@ -516,8 +564,15 @@ policy and is not an acceptable shortcut.
 - Browser-authenticated request inserts can supply only `client_id`,
   `created_by`, `subject`, `body` and `priority`. RLS also requires a client
   request to belong to the caller, be authored by the caller, start `open`, and
-  have no admin notes or resolution timestamp. Identifiers, workflow state and
-  timestamps remain database/admin-owned.
+  have no admin notes, quote or resolution timestamp. Identifiers, workflow
+  state, pricing and timestamps remain database/admin-owned.
+- Pricing on a request is client-visible by design: `quote_status`,
+  `quote_amount_minor`, `quote_currency`, `quote_note` and `quoted_at` are
+  granted to `authenticated` and shown in the portal. `admin_notes` remains the
+  operator-only field beside them, so keep internal commentary out of
+  `quote_note`.
+- `newsletter_editions` is admin-only. It has admin RLS policies rather than
+  service-role-only access, and no portal route reads it.
 - Anonymous catalogue reads remain active-only. An authenticated client can
   also resolve an inactive service only when it is already assigned to that
   client's engagement, so historical records retain their service details;
@@ -544,8 +599,8 @@ explicit projections drawn from these client-safe grants:
 | --- | --- |
 | `clients` | `id, name, legal_name, status, industry, primary_contact_name, primary_contact_email, created_at, updated_at` |
 | `client_services` | `id, client_id, service_id, status, started_on, ended_on, owner_name, created_at, updated_at` |
-| `subscriptions` | `id, client_id, plan_name, status, billing_period, amount_minor, currency, started_on, renews_on, cancelled_at, created_at, updated_at` |
-| `requests` | `id, client_id, created_by, subject, body, status, priority, created_at, updated_at, resolved_at` |
+| `subscriptions` | `id, client_id, plan_name, status, billing_period, amount_minor, currency, started_on, renews_on, cancelled_at, payment_status, paid_on, created_at, updated_at` |
+| `requests` | `id, client_id, created_by, subject, body, status, priority, quote_status, quote_amount_minor, quote_currency, quote_note, quoted_at, created_at, updated_at, resolved_at` |
 
 Nested service-catalogue data remains readable under the existing `services`
 policy. Never add an internal note column to a portal projection. Adding a new
@@ -561,8 +616,11 @@ Prove that each client cannot read, infer or download the other client's data.
 app/(marketing)        static public pages and contact form
 app/(auth)             login, invitation onboarding and recovery routes
 app/portal             tenant-scoped client workspace
-app/admin              administrator workspace
+app/admin              administrator workspace, grouped into sections
+app/admin/_actions     server actions, one module per domain
 components             shared UI
+lib/admin-nav.ts       admin section/page map shared by the nav and dashboard
+lib/billing.ts         billing-cycle date arithmetic (renewal derivation)
 lib/auth.ts            server-side role guards
 lib/supabase           browser/server/service-role clients and middleware
 lib/email              transactional email provider and the onboarding message

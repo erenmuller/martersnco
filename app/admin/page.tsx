@@ -2,17 +2,18 @@ import Link from "next/link";
 import AdminNotice from "@/components/AdminNotice";
 import AdminPageHeader from "@/components/AdminPageHeader";
 import Badge from "@/components/Badge";
+import { WORKING_SECTIONS } from "@/lib/admin-nav";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { formatDateTime, formatMoney, renewalNote } from "@/lib/format";
+import { formatDate, formatDateTime, formatMoney, renewalNote } from "@/lib/format";
 import {
-  requestTone,
-  subscriptionTone,
+  PAYMENT_STATE_LABEL,
   REQUEST_STATUS_LABEL,
-  SUBSCRIPTION_STATUS_LABEL,
+  paymentTone,
+  requestTone,
 } from "@/lib/types";
-import type { RequestStatus, SubscriptionStatus } from "@/lib/types";
+import type { PaymentState, QuoteStatus, RequestStatus } from "@/lib/types";
 
 type SearchParams = Promise<{
   notice?: string | string[];
@@ -23,7 +24,7 @@ type RecentRequest = {
   id: string;
   subject: string;
   status: RequestStatus;
-  priority: string;
+  quote_status: QuoteStatus;
   created_at: string;
   client: { name: string } | null;
 };
@@ -31,10 +32,10 @@ type RecentRequest = {
 type Renewal = {
   id: string;
   plan_name: string;
-  status: SubscriptionStatus;
   amount_minor: number;
   currency: string;
   renews_on: string | null;
+  payment_status: PaymentState;
   client: { name: string } | null;
 };
 
@@ -45,28 +46,44 @@ export default async function AdminDashboard({ searchParams }: { searchParams: S
   const params = await searchParams;
   const supabase = await createClient();
 
-  const [clients, engagements, subscriptions, requests, recentRequests, renewals] = await Promise.all([
+  const [
+    clients,
+    openRequests,
+    unpricedRequests,
+    liveSubscriptions,
+    unpaidSubscriptions,
+    draftEditions,
+    recentRequests,
+    renewals,
+  ] = await Promise.all([
     supabase.from("clients").select("id", { count: "exact", head: true }).eq("status", "active"),
+    supabase.from("requests").select("id", { count: "exact", head: true }).neq("status", "resolved"),
     supabase
-      .from("client_services")
+      .from("requests")
       .select("id", { count: "exact", head: true })
-      .eq("status", "active"),
+      .eq("quote_status", "none")
+      .neq("status", "resolved"),
     supabase
       .from("subscriptions")
       .select("id", { count: "exact", head: true })
       .in("status", ["trialing", "active"]),
     supabase
-      .from("requests")
+      .from("subscriptions")
       .select("id", { count: "exact", head: true })
-      .neq("status", "resolved"),
+      .in("status", ["trialing", "active"])
+      .eq("payment_status", "unpaid"),
+    supabase
+      .from("newsletter_editions")
+      .select("id", { count: "exact", head: true })
+      .neq("status", "sent"),
     supabase
       .from("requests")
-      .select("id, subject, status, priority, created_at, client:clients(name)")
+      .select("id, subject, status, quote_status, created_at, client:clients(name)")
       .order("created_at", { ascending: false })
       .limit(5),
     supabase
       .from("subscriptions")
-      .select("id, plan_name, status, amount_minor, currency, renews_on, client:clients(name)")
+      .select("id, plan_name, amount_minor, currency, renews_on, payment_status, client:clients(name)")
       .in("status", ["trialing", "active"])
       .not("renews_on", "is", null)
       .order("renews_on", { ascending: true })
@@ -87,24 +104,59 @@ export default async function AdminDashboard({ searchParams }: { searchParams: S
     leadError = error instanceof Error ? error.message : "Lead inbox is unavailable.";
   }
 
-  const queryError = [clients, engagements, subscriptions, requests, recentRequests, renewals]
+  const queryError = [
+    clients,
+    openRequests,
+    unpricedRequests,
+    liveSubscriptions,
+    unpaidSubscriptions,
+    draftEditions,
+    recentRequests,
+    renewals,
+  ]
     .map((result) => result.error?.message)
     .find(Boolean);
 
-  const stats = [
+  // Ordered by how quickly each one costs something if it is ignored.
+  const attention = [
+    {
+      label: "Unhandled leads",
+      value: unhandledLeads,
+      href: "/admin/leads",
+      note: "New enquiries from the site",
+    },
+    {
+      label: "Requests to price",
+      value: unpricedRequests.count,
+      href: "/admin/requests?quote=none",
+      note: "Open and not yet quoted",
+    },
+    {
+      label: "Unpaid periods",
+      value: unpaidSubscriptions.count,
+      href: "/admin/subscriptions?paid=unpaid",
+      note: "Live plans awaiting payment",
+    },
+    {
+      label: "Open requests",
+      value: openRequests.count,
+      href: "/admin/requests",
+      note: "Anything not yet resolved",
+    },
+  ];
+
+  const totals = [
     { label: "Active clients", value: clients.count, href: "/admin/clients" },
-    { label: "Live engagements", value: engagements.count, href: "/admin/clients" },
-    { label: "Live subscriptions", value: subscriptions.count, href: "/admin/subscriptions" },
-    { label: "Open requests", value: requests.count, href: "/admin/requests" },
-    { label: "Unhandled leads", value: unhandledLeads, href: "/admin/leads" },
+    { label: "Live subscriptions", value: liveSubscriptions.count, href: "/admin/subscriptions" },
+    { label: "Editions in progress", value: draftEditions.count, href: "/admin/newsletter" },
   ];
 
   return (
     <>
       <AdminPageHeader
-        eyebrow="Operations"
-        title="Admin overview"
-        description="Live operational data only. Counts and queues come directly from the current Supabase project."
+        eyebrow="Overview"
+        title="Admin console"
+        description="What needs a decision today, and the way into everything else. All figures come straight from the live database."
         action={
           <Link href="/admin/clients#new-client" className="btn btn-primary">
             Add a client
@@ -123,23 +175,40 @@ export default async function AdminDashboard({ searchParams }: { searchParams: S
         </p>
       ) : null}
 
-      <section aria-labelledby="admin-counts">
-        <h2 id="admin-counts" className="sr-only">
-          Current counts
+      <section aria-labelledby="needs-attention">
+        <h2 id="needs-attention" className="display-s mb-4">
+          Needs attention
         </h2>
-        <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-5">
-          {stats.map((stat) => (
-            <Link key={stat.label} href={stat.href} className="group bg-paper p-5 hover:bg-shade">
-              <span className="eyebrow">{stat.label}</span>
-              <strong className="figure-xl mt-4 block group-hover:text-pine">
-                {stat.value ?? "—"}
+        <div className="grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
+          {attention.map((item) => (
+            <Link key={item.label} href={item.href} className="group bg-paper p-5 hover:bg-shade">
+              <span className="eyebrow">{item.label}</span>
+              <strong className="figure-xl mt-3 block group-hover:text-pine">
+                {item.value ?? "—"}
+              </strong>
+              <span className="mt-2 block text-[0.75rem] text-ink-45">{item.note}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-10" aria-labelledby="totals">
+        <h2 id="totals" className="sr-only">
+          Current totals
+        </h2>
+        <div className="grid gap-px border border-rule bg-rule sm:grid-cols-3">
+          {totals.map((item) => (
+            <Link key={item.label} href={item.href} className="group bg-paper p-4 hover:bg-shade">
+              <span className="eyebrow">{item.label}</span>
+              <strong className="figure-xl mt-3 block group-hover:text-pine">
+                {item.value ?? "—"}
               </strong>
             </Link>
           ))}
         </div>
       </section>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-2">
+      <div className="mt-12 grid gap-10 lg:grid-cols-2">
         <section aria-labelledby="recent-requests">
           <div className="mb-4 flex items-baseline justify-between gap-4">
             <h2 id="recent-requests" className="display-s">
@@ -163,11 +232,15 @@ export default async function AdminDashboard({ searchParams }: { searchParams: S
                   {(recentRequests.data as unknown as RecentRequest[]).map((request) => (
                     <tr key={request.id}>
                       <td className="primary">
-                        <Link href={`/admin/requests#request-${request.id}`} className="hover:text-pine">
+                        <Link
+                          href={`/admin/requests#request-${request.id}`}
+                          className="hover:text-pine"
+                        >
                           {request.subject}
                         </Link>
                         <span className="mt-1 block text-[0.75rem] font-normal text-ink-45">
                           {request.client?.name ?? "Unknown client"}
+                          {request.quote_status === "none" ? " · not priced" : ""}
                         </span>
                       </td>
                       <td>
@@ -198,16 +271,22 @@ export default async function AdminDashboard({ searchParams }: { searchParams: S
           {renewals.data?.length ? (
             <div className="space-y-px bg-rule">
               {(renewals.data as unknown as Renewal[]).map((renewal) => (
-                <article key={renewal.id} className="flex items-start justify-between gap-5 bg-paper p-4">
+                <article
+                  key={renewal.id}
+                  className="flex items-start justify-between gap-5 bg-paper p-4"
+                >
                   <div>
                     <h3 className="text-[0.9375rem] font-semibold">{renewal.plan_name}</h3>
                     <p className="mt-1 text-[0.8125rem] text-ink-45">
                       {renewal.client?.name ?? "Unknown client"} · {renewalNote(renewal.renews_on)}
                     </p>
+                    <p className="mono mt-1 text-[0.6875rem] text-ink-45">
+                      {formatDate(renewal.renews_on)}
+                    </p>
                   </div>
                   <div className="shrink-0 text-right">
-                    <Badge tone={subscriptionTone(renewal.status)}>
-                      {SUBSCRIPTION_STATUS_LABEL[renewal.status]}
+                    <Badge tone={paymentTone(renewal.payment_status)}>
+                      {PAYMENT_STATE_LABEL[renewal.payment_status]}
                     </Badge>
                     <p className="mono mt-2 text-[0.75rem] text-ink-70">
                       {formatMoney(renewal.amount_minor, renewal.currency)}
@@ -221,6 +300,35 @@ export default async function AdminDashboard({ searchParams }: { searchParams: S
           )}
         </section>
       </div>
+
+      <section className="mt-14" aria-labelledby="sections">
+        <h2 id="sections" className="display-s mb-4">
+          Everything else
+        </h2>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {WORKING_SECTIONS.map((section) => (
+            <div key={section.id} className="card">
+              <span className="eyebrow eyebrow-pine">{section.label}</span>
+              <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-70">{section.blurb}</p>
+              <ul className="mt-4 list-none space-y-3 border-t border-rule p-0 pt-4">
+                {section.pages.map((page) => (
+                  <li key={page.href}>
+                    <Link
+                      href={page.href}
+                      className="text-[0.875rem] font-medium text-ink hover:text-pine"
+                    >
+                      {page.label}
+                    </Link>
+                    <span className="mt-0.5 block text-[0.75rem] leading-relaxed text-ink-45">
+                      {page.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
     </>
   );
 }

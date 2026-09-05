@@ -3,7 +3,7 @@ import Link from "next/link";
 import AdminNav from "@/components/AdminNav";
 import Wordmark from "@/components/Wordmark";
 import AdminSubmitButton from "@/components/AdminSubmitButton";
-import { adminSignOutAction } from "@/app/admin/actions";
+import { adminSignOutAction } from "@/app/admin/_actions/session";
 import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";

@@ -6,7 +6,7 @@ import {
   cleanupPreparedDocumentUploadAction,
   finalizeDocumentUploadAction,
   prepareDocumentUploadAction,
-} from "@/app/admin/actions";
+} from "@/app/admin/_actions/documents";
 import { createClient } from "@/lib/supabase/client";
 import { DOCUMENT_KIND_LABEL } from "@/lib/types";
 import type { DocumentKind } from "@/lib/types";

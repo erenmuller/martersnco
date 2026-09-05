@@ -3,7 +3,7 @@ import AdminNotice from "@/components/AdminNotice";
 import AdminPageHeader from "@/components/AdminPageHeader";
 import AdminSubmitButton from "@/components/AdminSubmitButton";
 import Badge from "@/components/Badge";
-import { createClientAction } from "@/app/admin/actions";
+import { createClientAction } from "@/app/admin/_actions/clients";
 import { requireAdmin } from "@/lib/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatDate } from "@/lib/format";
@@ -42,7 +42,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
   return (
     <>
       <AdminPageHeader
-        eyebrow="Accounts"
+        eyebrow="Client management"
         title="Clients"
         description="Companies, primary contacts, and the operational records attached to them."
         action={
