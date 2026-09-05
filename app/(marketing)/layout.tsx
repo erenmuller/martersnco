@@ -61,7 +61,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="marketing-site">
       <JsonLd data={organisation} />
       <a href="#main" className="skip-link">
         Skip to content
@@ -69,6 +69,6 @@ export default function MarketingLayout({
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

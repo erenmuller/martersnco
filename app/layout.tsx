@@ -3,9 +3,7 @@ import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// Fraunces is the firm's face and now sets every headline as well as the
-// wordmark. It has a real optical-size axis, so display sizes sharpen instead
-// of just scaling up — that is what makes it read engraved rather than bookish.
+// A distinctive serif is reserved for the wordmark.
 const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
@@ -13,9 +11,7 @@ const fraunces = Fraunces({
   axes: ["SOFT", "WONK", "opsz"],
 });
 
-// Body and interface. Slightly narrow, with a tall x-height and unfussy
-// terminals — it holds a long paragraph and a dense admin table equally well,
-// and it does not compete with the serif above it.
+// Instrument Sans brings the same clear, human voice to headlines and body.
 const instrument = Instrument_Sans({
   subsets: ["latin"],
   display: "swap",
@@ -31,7 +27,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#e7eae3",
+  themeColor: "#f6f5f0",
   width: "device-width",
   initialScale: 1,
 };

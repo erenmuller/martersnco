@@ -4,9 +4,7 @@ import Link from "next/link";
  * The wordmark. Fraunces' italic ampersand is the one flourish in the
  * identity — a partnership mark for a firm whose name ends in "& Co."
  *
- * The same face now sets every headline on the site, which is the point: the
- * mark should look like it belongs to the page rather than like a logo
- * dropped onto one.
+ * The serif is reserved for this signature, paired with clean sans headlines.
  */
 export default function Wordmark({
   href = "/",

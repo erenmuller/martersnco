@@ -156,8 +156,8 @@ export default function ServicesPage() {
               <p className="lede mt-7 max-w-[57ch]">
                 We help SMEs find the work worth improving, make the business
                 case and build the automation or software when the numbers
-                support it. No transformation theatre. No technology looking
-                for a problem.
+                support it. Every engagement is shaped around your systems,
+                your people and what a better working day looks like for them.
               </p>
               <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
                 <Link href="/contact" className="btn btn-primary">

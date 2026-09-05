@@ -16,9 +16,9 @@ const siteUrl =
 export const site = {
   name: "Marters & Co.",
   legalName,
-  tagline: "AI and automation consultancy for SMEs",
+  tagline: "Boutique AI consultancy & implementation",
   description:
-    "Marters & Co. helps SMEs discover where AI and automation can save staff time and reduce errors, then builds the custom software to make it happen.",
+    "A boutique AI consultancy in Dubai. We help growing businesses find the right opportunities, build tailored AI and automation, and give their teams time back.",
   url: siteUrl,
   email:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
@@ -44,6 +44,6 @@ export const site = {
 
 export const nav = [
   { href: "/services", label: "Services" },
-  { href: "/approach", label: "Approach" },
-  { href: "/about", label: "About" },
+  { href: "/approach", label: "How we work" },
+  { href: "/about", label: "The firm" },
 ] as const;

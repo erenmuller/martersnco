@@ -1,108 +1,84 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import ContactForm from "./ContactForm";
+import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Book a free discovery call",
+  title: "Let’s talk about your business",
   description:
-    "Tell us where work feels repetitive, slow or error-prone. We will help you decide whether a Discovery Audit is the right next step.",
+    "Start a conversation with Marters & Co. Tell us what you’d like to improve and we’ll help you find a practical way forward. Your first conversation is free.",
   alternates: { canonical: "/contact" },
 };
 
-const expectations = [
-  {
-    marker: "1 day",
-    title: "A reply from a person",
-    body: "Not a scheduling link. Usually a couple of questions about volume and who touches the process.",
-  },
-  {
-    marker: "45 min",
-    title: "A call, if it looks like a fit",
-    body: "We will tell you on this call if we think you should not spend money on this.",
-  },
-  {
-    marker: "2 days",
-    title: "A written scope and a fixed price",
-    body: "For the audit only. We do not quote implementation before measuring, because that number would be invented.",
-  },
-];
-
 export default function ContactPage() {
   return (
-    <section className="page section section-flush pb-20 pt-14 md:pt-20">
-      <div className="max-w-[52rem]">
-        <h1 className="display-xl">Start with a useful conversation.</h1>
-        <p className="lede mt-7">
-          Tell us which part of the business feels slow, repetitive or
-          error-prone. We will help you decide whether there is a real
-          opportunity—and whether a Discovery Audit is the right next step.
-        </p>
-      </div>
-
-      <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-16">
-        <div>
+    <>
+      <section className="contact-page page">
+        <Link href="/" className="contact-back">
+          ← Back to the firm
+        </Link>
+        <div className="enquiry-spread">
+          <div className="enquiry-intro">
+            <span className="studio-label">
+              <span className="status-dot" /> A good place to begin
+            </span>
+            <h1>
+              Let’s talk
+              <br />
+              about <span>you.</span>
+            </h1>
+            <p>
+              You know your business. We know how to put AI to work. Let’s find
+              out what we could make better, together.
+            </p>
+            <div className="contact-expectations">
+              <h2>Here’s what happens next</h2>
+              <ol>
+                <li>
+                  <span>01</span>
+                  <p>
+                    <strong>A personal reply</strong>Within one working day,
+                    from someone who will be involved in your work.
+                  </p>
+                </li>
+                <li>
+                  <span>02</span>
+                  <p>
+                    <strong>A useful first conversation</strong>A free call to
+                    understand your business and see whether we’re a good fit.
+                  </p>
+                </li>
+                <li>
+                  <span>03</span>
+                  <p>
+                    <strong>A clear next step</strong>If there’s an opportunity,
+                    we’ll outline a Discovery Audit with a fixed scope and fee.
+                  </p>
+                </li>
+              </ol>
+            </div>
+            <a href={`mailto:${site.email}`} className="text-link">
+              {site.email} <Arrow diagonal />
+            </a>
+            {site.phoneE164 && site.phoneDisplay && (
+              <a className="contact-phone" href={`tel:${site.phoneE164}`}>
+                {site.phoneDisplay}
+              </a>
+            )}
+          </div>
           <ContactForm />
         </div>
-
-        <aside className="lg:border-l lg:border-rule lg:pl-10">
-          <span className="eyebrow mb-5">What happens next</span>
-
-          <ol className="m-0 list-none border-t border-rule p-0">
-            {expectations.map((e) => (
-              <li key={e.title} className="border-b border-rule py-4">
-                <span className="mono text-[0.8125rem] text-pine">
-                  {e.marker}
-                </span>
-                <h2 className="mt-2 text-[0.9375rem] font-semibold leading-snug text-ink">
-                  {e.title}
-                </h2>
-                <p className="mt-1.5 text-[0.875rem] leading-relaxed text-ink-70">
-                  {e.body}
-                </p>
-              </li>
-            ))}
-          </ol>
-
-          <div className="mt-8">
-            <span className="eyebrow mb-3">Direct</span>
-            <address className="text-[0.875rem] not-italic leading-relaxed text-ink-70">
-              <a
-                href={`mailto:${site.email}`}
-                className="text-ink underline decoration-rule-strong underline-offset-4 transition-colors hover:text-pine"
-              >
-                {site.email}
-              </a>
-              {site.phoneE164 && site.phoneDisplay && (
-                <>
-                  <br />
-                  <a
-                    href={`tel:${site.phoneE164}`}
-                    className="transition-colors hover:text-pine"
-                  >
-                    {site.phoneDisplay}
-                  </a>
-                </>
-              )}
-              <br />
-              <br />
-              {site.address.line1}
-              <br />
-              {site.address.locality}, {site.address.countryName}
-            </address>
-          </div>
-
-          <p className="mt-8 border-t border-rule pt-4 text-[0.8125rem] leading-relaxed text-ink-45">
-            Existing client? Use the{" "}
-            <a
-              href="/login"
-              className="text-ink underline decoration-rule-strong underline-offset-4 hover:text-pine"
-            >
-              client portal
-            </a>{" "}
-            to raise a request against your engagement.
+        <div className="contact-bottom">
+          <span>Dubai International Financial Centre · UAE &amp; GCC</span>
+          <p>
+            Already working with us?{" "}
+            <Link href="/login">
+              Visit your client portal <span aria-hidden="true">↗</span>
+            </Link>
           </p>
-        </aside>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }

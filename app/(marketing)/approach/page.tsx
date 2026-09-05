@@ -28,12 +28,12 @@ export default function ApproachPage() {
       <section className="page section section-flush pt-14 md:pt-20">
         <div className="max-w-[52rem]">
           <h1 className="display-xl max-w-[18ch]">
-            Nobody automates a process they have not measured.
+            Thoughtful from the first conversation.
           </h1>
           <p className="lede mt-7">
-            Most failed automation projects were sold before anyone counted the
-            steps. Our sequence exists to make that mistake structurally
-            difficult.
+            We get close to your business, prove the value in real work, and
+            help your team make it their own. Each step gives you the clarity
+            and confidence to take the next.
           </p>
         </div>
       </section>

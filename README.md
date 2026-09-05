@@ -577,6 +577,19 @@ predictable SEO rendering. The `public.services` table is the operational
 catalogue assigned to clients. Keep their service codes and names aligned when
 changing the offering.
 
+The marketing experience uses Instrument Sans for headlines and body text,
+with Fraunces reserved for the wordmark. The homepage's thread illustration is
+an inline SVG with CSS animation; it needs no image service or animation
+dependency and respects reduced-motion preferences. `SelectedWork.tsx` contains
+the existing project outcomes and keyboard-accessible case-study tabs.
+
+The homepage and contact page share `contact/ContactForm.tsx`. The two-step
+enquiry keeps the visitor's draft when moving back or correcting validation
+errors. It submits through the existing rate-limited server actions and keeps
+the homepage/contact lead sources distinct. The first step collects a business
+need; the second asks for name, email and an optional company. An interest
+selection is prepended to the message, so no database migration is needed.
+
 ## Launch checklist
 
 - [ ] Set `NEXT_PUBLIC_LEGAL_NAME` and `NEXT_PUBLIC_DIFC_LICENCE` from the
