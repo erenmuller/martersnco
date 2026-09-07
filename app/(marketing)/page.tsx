@@ -111,9 +111,9 @@ export default function HomePage() {
               <Link href="/contact" className="btn btn-primary">
                 Let’s talk about your business <Arrow />
               </Link>
-              <a href="#our-work" className="text-link">
-                See what’s possible <span aria-hidden="true">↓</span>
-              </a>
+              <Link href="/past-work" className="text-link">
+                See our past work <Arrow diagonal />
+              </Link>
             </div>
             <div className="hero-footnote">
               <span className="fine-cross" aria-hidden="true">
@@ -187,6 +187,15 @@ export default function HomePage() {
             </p>
           </div>
           <SelectedWork />
+          <div className="past-work-invitation">
+            <div>
+              <span className="studio-label">There’s more in the notebook</span>
+              <p>From packing lists to practical AI workshops. Find an idea for your team.</p>
+            </div>
+            <Link href="/past-work" className="btn btn-primary">
+              See all 10 examples <Arrow diagonal />
+            </Link>
+          </div>
         </div>
       </section>
 

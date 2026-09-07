@@ -112,7 +112,7 @@ export default function SiteHeader() {
               </Link>
             ))}
             <Link href="/login" onClick={() => setOpen(false)}>
-              <span>04</span>Client portal
+              <span>{String(nav.length + 1).padStart(2, "0")}</span>Client portal
               <Arrow diagonal />
             </Link>
             <Link

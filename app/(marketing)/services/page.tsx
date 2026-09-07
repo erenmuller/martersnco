@@ -282,6 +282,12 @@ export default function ServicesPage() {
                     ? "Less copying between systems. Fewer manual handoffs. Information that gets where it needs to go."
                     : "Internal tools, applications and data infrastructure shaped around the way your business actually runs."}
                 </p>
+                <Link
+                  href={i === 0 ? "/past-work#sales-entries" : "/past-work#packing-lists"}
+                  className="text-link mt-5"
+                >
+                  {i === 0 ? "See a marketplace integration" : "See a custom packing list app"} <Arrow diagonal />
+                </Link>
               </div>
               <div>
                 {group.services.map((service) => (

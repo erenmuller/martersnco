@@ -3,50 +3,12 @@
 import { useRef, useState, type KeyboardEvent } from "react";
 import Link from "next/link";
 import Arrow from "@/components/Arrow";
+import { pastWork } from "@/lib/past-work";
 
 const work = [
-  {
-    area: "Finance",
-    title: "Reconciliation, without the repetition.",
-    before:
-      "Every sale matched to its invoice by hand. Every difference investigated one by one.",
-    after:
-      "A workflow that matches clean transactions automatically and brings only the exceptions to your team.",
-    figure: "100",
-    unit: "staff hours returned each month",
-    input: "Sales & invoices",
-    process: "Match & reconcile",
-    output: "Exceptions for review",
-    kind: "Workflow automation",
-  },
-  {
-    area: "Planning",
-    title: "Better purchasing starts with a clearer picture.",
-    before:
-      "Purchase decisions depended on manually assembled sales files and repeated spreadsheet work.",
-    after:
-      "A planning tool that turns daily sales data into forecasts and recommended purchase quantities.",
-    figure: "100–150",
-    unit: "staff hours returned each month",
-    input: "Daily sales data",
-    process: "Forecast demand",
-    output: "Purchase recommendations",
-    kind: "Custom planning software",
-  },
-  {
-    area: "Operations",
-    title: "From marketplace to ERP, without re-keying.",
-    before:
-      "Orders from several marketplaces were entered again in the ERP, creating delays and avoidable errors.",
-    after:
-      "A connected workflow that validates, prices, codes and posts orders into the ERP automatically.",
-    figure: "40–50",
-    unit: "staff hours returned each month",
-    input: "Marketplace orders",
-    process: "Validate & price",
-    output: "Orders in your ERP",
-    kind: "Systems integration",
-  },
+  { ...pastWork[3], area: "Finance" },
+  { ...pastWork[4], area: "Planning" },
+  { ...pastWork[1], area: "Operations" },
 ];
 
 export default function SelectedWork() {
@@ -103,7 +65,7 @@ export default function SelectedWork() {
         className="work-panel"
       >
         <div className="work-story" key={`story-${active}`}>
-          <span className="studio-label">{study.kind}</span>
+          <span className="studio-label">{study.area}</span>
           <h3>{study.title}</h3>
           <dl>
             <div>
@@ -115,8 +77,8 @@ export default function SelectedWork() {
               <dd>{study.after}</dd>
             </div>
           </dl>
-          <Link href="/contact" className="text-link">
-            Explore what’s possible for you <Arrow />
+          <Link href={`/past-work#${study.id}`} className="text-link">
+            See the full before & after <Arrow />
           </Link>
         </div>
         <div className="work-illustration" key={`visual-${active}`}>
@@ -126,13 +88,13 @@ export default function SelectedWork() {
           </div>
           <div
             className="workflow-diagram"
-            aria-label={`${study.input}, then ${study.process}, then ${study.output}`}
+            aria-label={`${study.workflow[0]}, then ${study.workflow[1]}, then ${study.workflow[2]}`}
           >
             <div className="workflow-node">
               <span className="node-symbol" aria-hidden="true">
                 ≡
               </span>
-              {study.input}
+              {study.workflow[0]}
               <span className="node-dot" />
             </div>
             <div className="workflow-connector" aria-hidden="true">
@@ -142,7 +104,7 @@ export default function SelectedWork() {
               <span className="node-symbol" aria-hidden="true">
                 ✳
               </span>
-              {study.process}
+              {study.workflow[1]}
               <span className="node-dot" />
             </div>
             <div className="workflow-connector" aria-hidden="true">
@@ -152,21 +114,21 @@ export default function SelectedWork() {
               <span className="node-symbol" aria-hidden="true">
                 ✓
               </span>
-              {study.output}
+              {study.workflow[2]}
               <span className="node-dot" />
             </div>
           </div>
           <div className="work-result">
             <strong>
               {study.figure}
-              <span> h</span>
+              <span>{study.suffix && ` ${study.suffix}`}</span>
             </strong>
             <span>{study.unit}</span>
           </div>
         </div>
       </div>
       <p className="work-footnote">
-        Measured outcomes from delivered projects. What’s possible for your
+        Outcomes from delivered projects. What’s possible for your
         business starts with understanding your processes.
       </p>
     </div>

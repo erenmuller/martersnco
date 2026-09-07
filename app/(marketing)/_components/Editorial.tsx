@@ -56,10 +56,12 @@ export function NextConversation({
   label = "Let’s start with you",
   title,
   children,
+  showPastWork = true,
 }: {
   label?: string;
   title: ReactNode;
   children: ReactNode;
+  showPastWork?: boolean;
 }) {
   return (
     <section className={s.closing}>
@@ -74,6 +76,9 @@ export function NextConversation({
             Let’s talk about your business <Arrow />
           </Link>
           <span>A free first conversation. A person who listens.</span>
+          {showPastWork && <Link href="/past-work" className={`text-link ${s.pastWorkLink}`}>
+            See our past work <Arrow diagonal />
+          </Link>}
         </div>
       </div>
     </section>

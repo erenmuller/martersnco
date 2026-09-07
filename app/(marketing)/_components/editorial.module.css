@@ -644,6 +644,12 @@
   margin-top: 1rem;
   text-align: center;
 }
+.closingAction .pastWorkLink {
+  display: flex;
+  width: fit-content;
+  margin: 1.25rem auto 0;
+  font-size: 0.8125rem;
+}
 @media (max-width: 1100px) {
   .hero,
   .split,
