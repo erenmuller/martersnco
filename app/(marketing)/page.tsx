@@ -3,9 +3,10 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
-import IntelligenceVisual from "./IntelligenceVisual";
 import SelectedWork from "./SelectedWork";
 import ContactForm from "./contact/ContactForm";
+import WorkflowDemo from "./WorkflowDemo";
+import styles from "./home.module.css";
 
 export const metadata: Metadata = {
   title: "Boutique AI consultancy & implementation in Dubai",
@@ -13,75 +14,59 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const capabilities = [
+const services = [
   {
-    number: "01",
-    title: "Find your opportunity.",
-    label: "AI strategy & discovery",
-    body: "A fresh perspective on how your business works. We find the friction, assess where AI can help, and build a clear business case.",
+    title: "“There must be a better way.”",
+    label: "Find your starting point",
+    body: "Too much admin, too many ideas? We find where AI can make a useful difference and give you a clear plan.",
     link: "/services#identify",
-    tags: "Process discovery / AI roadmaps / Business cases",
+    cta: "Explore AI discovery",
+    colour: "peach",
+    art: "discover",
   },
   {
-    number: "02",
-    title: "Make it work for you.",
-    label: "Tailored implementation",
-    body: "Thoughtful AI, automation and custom software, built around your people and the tools they already use.",
+    title: "“Can these tools just talk?”",
+    label: "Make the everyday easier",
+    body: "We connect your systems and build AI workflows and custom software around the way your business works.",
     link: "/services#implement",
-    tags: "AI workflows / Automation / Custom software",
+    cta: "Explore implementation",
+    colour: "lavender",
+    art: "connect",
   },
   {
-    number: "03",
-    title: "Make it second nature.",
-    label: "Adoption & ongoing care",
-    body: "The handover is a beginning. We help your team build confidence, measure the difference, and keep improving as you grow.",
+    title: "“Help us actually use AI.”",
+    label: "Bring your people with you",
+    body: "Practical workshops, thoughtful handovers and ongoing support. Give your team the confidence to make it their own.",
     link: "/services#people",
-    tags: "Team enablement / Support / Optimisation",
+    cta: "Explore team enablement",
+    colour: "yellow",
+    art: "people",
   },
 ];
-
-const reviewAreas = [
-  [
-    "What’s worth keeping",
-    "The useful work already done, and where it can still take you.",
-  ],
-  [
-    "What’s getting in the way",
-    "The gaps in the technology, the handover, or how it fits your team’s day.",
-  ],
-  [
-    "What makes sense next",
-    "A practical recommendation: refine what’s there, rethink a part, or leave it be.",
-  ],
-];
-
 const steps = [
   {
-    n: "01",
-    time: "Start with clarity",
-    title: "Understand.",
-    body: "We listen to your team and follow the work. A focused, fixed-fee Discovery Audit gives you a prioritised roadmap and a business case.",
-    outcome: "Your roadmap. Yours to keep.",
+    title: "First, we listen.",
+    body: "We follow the work, meet your people and find the friction. A fixed-fee Discovery Audit turns the possibilities into a practical business case.",
+    outcome: "A prioritised roadmap, yours to keep.",
+    icon: "↗",
   },
   {
-    n: "02",
-    time: "Build with intention",
-    title: "Implement.",
-    body: "We design around your systems, prove the first workflow, and test it alongside the current process before it becomes part of your day.",
-    outcome: "Working software. Tested in your business.",
+    title: "Then, we build together.",
+    body: "We start with a useful workflow, connect it to your tools and test it with your team. You see the progress and help shape the details.",
+    outcome: "Working software, tested in your business.",
+    icon: "✳",
   },
   {
-    n: "03",
-    time: "Stay close",
-    title: "Make it yours.",
-    body: "We train your people, document the details, and measure the result. You own the source, the accounts and the knowledge to move forward.",
+    title: "And we stay close.",
+    body: "We train your people, document how it works and measure the difference. You own the source, the accounts and the knowledge.",
     outcome: "A confident team. Full ownership.",
+    icon: "✓",
   },
 ];
 
 export default function HomePage() {
   return (
-    <>
+    <div className={styles.home}>
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -91,293 +76,327 @@ export default function HomePage() {
           publisher: { "@id": site.url + "/#organisation" },
         }}
       />
-      <section className="boutique-hero">
-        <div className="page hero-spread">
-          <div className="hero-copy">
-            <span className="studio-label">
-              <span className="status-dot" /> A boutique AI consultancy · Dubai
+      <section className={styles.hero} aria-labelledby="home-heading">
+        <div className={`page ${styles.heroGrid}`}>
+          <div className={styles.heroCopy}>
+            <span className={styles.eyebrow}>
+              <span className={styles.dot} /> Your AI & automation partner ·
+              Dubai
             </span>
-            <h1>
-              Intelligence,
+            <h1 id="home-heading">
+              Less busywork.
               <br />
-              <span>made personal.</span>
+              More{" "}
+              <span>
+                possibility.
+                <svg viewBox="0 0 420 20" fill="none" aria-hidden="true">
+                  <path
+                    d="M4 14C106 1 292 1 415 10M28 18C156 8 281 9 379 15"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
             </h1>
             <p>
-              AI should feel like it belongs in your business.
-              <br className="desktop-break" /> We bring the advice, the
-              implementation and the care to make that happen.
+              Give your people time for the work that matters. We help growing
+              businesses put AI and automation to work — with clear advice,
+              tailored builds and a human touch.
             </p>
-            <div className="hero-actions">
-              <Link href="/contact" className="btn btn-primary">
-                Let’s talk about your business <Arrow />
-              </Link>
-              <Link href="/past-work" className="text-link">
-                See our past work <Arrow diagonal />
-              </Link>
+            <div className={styles.actions}>
+              <a href="#start-a-conversation" className="btn btn-primary">
+                Let’s find your opportunity <Arrow diagonal />
+              </a>
+              <a href="#what-we-do" className={styles.quietLink}>
+                Find your starting point <span aria-hidden="true">↓</span>
+              </a>
             </div>
-            <div className="hero-footnote">
-              <span className="fine-cross" aria-hidden="true">
-                +
-              </span>{" "}
-              Small team. Direct access. Built around you.
+            <div className={styles.heroNote}>
+              <span aria-hidden="true">✳</span> Small team. Direct access. Built
+              around you.
             </div>
           </div>
-          <IntelligenceVisual />
+          <WorkflowDemo />
         </div>
-        <div className="page">
-          <div className="credentials-line">
-            <span>Rooted in Dubai. Built for your business.</span>
-            <div>
-              <span>DIFC licensed</span>
-              <span>UAE &amp; GCC</span>
-              <span>Independent by design</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="page studio-section" id="what-we-do">
-        <div className="section-heading">
+        <div className={`page ${styles.credentials}`}>
+          <span>Good technology starts with understanding people.</span>
           <div>
-            <span className="studio-label">01 / What we do</span>
-            <h2>
-              Big possibilities.
-              <br />
-              <span>A considered approach.</span>
-            </h2>
+            <span>✓ DIFC licensed</span>
+            <span>Dubai · UAE & GCC</span>
+            <span>Independent by design</span>
           </div>
-          <p>
-            From the first “could we?” to the everyday “how did we work without
-            this?” We turn AI’s potential into something useful for your
-            business.
-          </p>
-        </div>
-        <div className="capability-grid">
-          {capabilities.map((item) => (
-            <Link href={item.link} className="capability" key={item.number}>
-              <div className="capability-top">
-                <span>{item.number}</span>
-                <Arrow diagonal />
-              </div>
-              <span className="capability-label">{item.label}</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-              <span className="capability-tags">{item.tags}</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="work-section" id="our-work">
-        <div className="page studio-section">
-          <div className="section-heading">
-            <div>
-              <span className="studio-label">
-                02 / Applied, not hypothetical
-              </span>
-              <h2>
-                Good technology.
-                <br />
-                <span>A real difference.</span>
-              </h2>
-            </div>
-            <p>
-              A few systems delivered by our team. The details below reflect
-              real workflows; client names are kept private by agreement.
-            </p>
-          </div>
-          <SelectedWork />
-          <div className="past-work-invitation">
-            <div>
-              <span className="studio-label">There’s more in the notebook</span>
-              <p>From packing lists to practical AI workshops. Find an idea for your team.</p>
-            </div>
-            <Link href="/past-work" className="btn btn-primary">
-              See all 10 examples <Arrow diagonal />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="boutique-section">
-        <div className="page boutique-spread">
-          <div className="boutique-intro">
-            <span className="studio-label">03 / The boutique difference</span>
-            <h2>
-              Your business
-              <br />
-              is personal.
-              <br />
-              <span>So is our approach.</span>
-            </h2>
-            <Link href="/about" className="text-link">
-              Meet the way we work <Arrow diagonal />
-            </Link>
-          </div>
-          <div className="boutique-principles">
-            <p className="boutique-lede">
-              A small firm, on purpose. We work with a few businesses at a time,
-              giving each the attention it deserves.
-            </p>
-            <article>
-              <span>01</span>
-              <div>
-                <h3>The people you meet are the people who build.</h3>
-                <p>
-                  Direct access to the team doing the work, from the first
-                  conversation through implementation.
-                </p>
-              </div>
-            </article>
-            <article>
-              <span>02</span>
-              <div>
-                <h3>Your context comes first.</h3>
-                <p>
-                  Your systems, your constraints, your way of working. Every
-                  recommendation starts there.
-                </p>
-              </div>
-            </article>
-            <article>
-              <span>03</span>
-              <div>
-                <h3>Good advice includes knowing when to stop.</h3>
-                <p>
-                  We make the business case before the build, and tell you when
-                  a simpler change is the better answer.
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="page studio-section" id="discovery-audit">
-        <div className="section-heading">
-          <div>
-            <span className="studio-label">04 / A clear path forward</span>
-            <h2>
-              From a conversation
-              <br />
-              <span>to a better working day.</span>
-            </h2>
-          </div>
-          <Link href="/approach" className="text-link">
-            Our approach in detail <Arrow diagonal />
-          </Link>
-        </div>
-        <ol className="engagement-steps">
-          {steps.map((step) => (
-            <li key={step.n}>
-              <div className="step-marker">
-                <span>{step.n}</span>
-                <span>{step.time}</span>
-              </div>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-              <div className="step-outcome">
-                <span aria-hidden="true">↳</span>
-                {step.outcome}
-              </div>
-            </li>
-          ))}
-        </ol>
-        <div className="discovery-note">
-          <span className="status-dot" />
-          <p>
-            Start with a Discovery Audit.{" "}
-            <span>
-              2–3 weeks. Fixed scope, fixed fee. No obligation to build with us.
-            </span>
-          </p>
-          <Link
-            href="/services#identify"
-            aria-label="Explore the Discovery Audit"
-          >
-            <Arrow />
-          </Link>
         </div>
       </section>
 
       <section
-        className="page studio-section second-opinion-section"
-        id="second-opinion"
-        aria-labelledby="second-opinion-heading"
+        className={`page ${styles.section}`}
+        id="what-we-do"
+        aria-labelledby="services-heading"
       >
-        <div className="second-opinion-spread">
-          <div className="second-opinion-copy">
-            <span className="studio-label">05 / A second opinion</span>
-            <h2 id="second-opinion-heading">
-              Already tried AI?
+        <div className={styles.sectionHeading}>
+          <div>
+            <span className={styles.eyebrow}>01 / Sound familiar?</span>
+            <h2 id="services-heading">
+              A little less friction.
               <br />
-              <span>Let’s find a way forward.</span>
+              <span>A whole lot of potential.</span>
             </h2>
-            <p>
-              If you’ve worked with an AI agency and still aren’t seeing the
-              value, we can help you make sense of what’s been built and where
-              to go from here.
-            </p>
-            <p>
-              We look at the work, listen to your team, and give you an honest
-              assessment. Sometimes a few thoughtful changes are all it takes.
-              If more is needed, we’ll explain why.
-            </p>
-            <a href="#start-a-conversation" className="text-link">
-              Get a second opinion <Arrow diagonal />
-            </a>
           </div>
-          <div className="review-card">
-            <span className="studio-label">A fresh pair of eyes</span>
-            <h3>A little clarity before your next commitment.</h3>
-            <dl className="review-areas">
-              {reviewAreas.map(([title, body]) => (
-                <div key={title}>
-                  <dt>{title}</dt>
-                  <dd>{body}</dd>
-                </div>
-              ))}
-            </dl>
-            <p className="review-note">
-              Your investment matters. We start with what you have.
+          <p>
+            You don’t need to have AI figured out.
+            <br />
+            Start with what you’d like to make better.
+          </p>
+        </div>
+        <div className={styles.serviceGrid}>
+          {services.map((service, i) => (
+            <Link
+              className={styles.serviceCard}
+              data-colour={service.colour}
+              href={service.link}
+              key={service.link}
+            >
+              <div
+                className={styles.serviceArt}
+                data-art={service.art}
+                aria-hidden="true"
+              >
+                {i === 0 ? (
+                  <>
+                    <span className={styles.paperNote}>Spreadsheets</span>
+                    <span className={styles.paperNote}>Follow-ups</span>
+                    <span className={styles.paperNote}>
+                      One clear plan <span>↗</span>
+                    </span>
+                    <span className={styles.artSpark}>✳</span>
+                  </>
+                ) : i === 1 ? (
+                  <>
+                    <span className={styles.toolTile}>Your tools</span>
+                    <span className={styles.connectLine} />
+                    <span className={styles.hub}>✳</span>
+                    <span className={styles.connectLine} />
+                    <span className={styles.toolTile}>
+                      In sync <span>✓</span>
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className={styles.chatBubble}>
+                      Could AI help with this?
+                    </span>
+                    <span className={styles.chatBubble}>
+                      Let’s try it together. <span>✳</span>
+                    </span>
+                    <span className={styles.peopleDots}>
+                      <i />
+                      <i />
+                      <i />
+                    </span>
+                  </>
+                )}
+              </div>
+              <div className={styles.serviceBody}>
+                <span className={styles.cardLabel}>{service.label}</span>
+                <h3>{service.title}</h3>
+                <p>{service.body}</p>
+                <span className={styles.cardLink}>
+                  {service.cta}
+                  <Arrow diagonal />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className={styles.secondOpinion} id="second-opinion">
+          <span aria-hidden="true">↳</span>
+          <p>
+            <strong>Already tried AI, but it’s not quite working?</strong> Let’s
+            take a fresh look at what you have.
+          </p>
+          <a href="#start-a-conversation">
+            Get a second opinion <Arrow diagonal />
+          </a>
+        </div>
+      </section>
+
+      <section
+        className={styles.workSection}
+        id="our-work"
+        aria-labelledby="work-heading"
+      >
+        <div className={`page ${styles.section}`}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.eyebrow}>
+                02 / A difference you can see
+              </span>
+              <h2 id="work-heading">
+                Real work.
+                <br />
+                <span>Better working days.</span>
+              </h2>
+            </div>
+            <p>
+              A few systems delivered by our team. Real workflows, practical
+              outcomes. Client names are private by agreement.
             </p>
+          </div>
+          <SelectedWork />
+          <div className={styles.workLink}>
+            <span>Wondering what this could look like for your team?</span>
+            <Link href="/past-work" className={styles.quietLink}>
+              Explore all 10 examples <Arrow diagonal />
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="enquiry-section" id="start-a-conversation">
-        <div className="page enquiry-spread">
-          <div className="enquiry-intro">
-            <span className="studio-label">06 / Let’s start with you</span>
-            <h2>
-              Something
+      <section
+        className={styles.journey}
+        id="discovery-audit"
+        aria-labelledby="journey-heading"
+      >
+        <div className={`page ${styles.section}`}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.eyebrow}>
+                03 / People first. All the way through.
+              </span>
+              <h2 id="journey-heading">
+                Big on possibility.
+                <br />
+                <span>Personal by design.</span>
+              </h2>
+            </div>
+            <p>
+              The people you meet are the people who build. A small team,
+              working closely with yours from the first conversation onwards.
+            </p>
+          </div>
+          <ol className={styles.steps}>
+            {steps.map((step, i) => (
+              <li key={step.title}>
+                <div className={styles.stepTop}>
+                  <span className={styles.stepIcon} aria-hidden="true">
+                    {step.icon}
+                  </span>
+                  <span>0{i + 1}</span>
+                </div>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+                <div className={styles.outcome}>
+                  <span aria-hidden="true">↳</span>
+                  {step.outcome}
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className={styles.discoveryNote}>
+            <p>
+              <strong>A clear first step: the Discovery Audit.</strong>
+              <span>
+                2–3 weeks. Fixed scope, fixed fee. No obligation to build with
+                us.
+              </span>
+            </p>
+            <Link href="/approach">
+              See how we work <Arrow diagonal />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className={`page ${styles.faqSection}`}
+        aria-labelledby="faq-heading"
+      >
+        <div>
+          <span className={styles.eyebrow}>
+            A few things you might be wondering
+          </span>
+          <h2 id="faq-heading">Let’s make it clearer.</h2>
+          <Link href="/about" className={styles.quietLink}>
+            Get to know the firm <Arrow diagonal />
+          </Link>
+        </div>
+        <div className={styles.faqList}>
+          <details>
+            <summary>
+              Do we need to know what we want to build?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              No. Start with a task that takes too long, a problem you keep
+              running into, or an idea. We’ll help you decide where to focus and
+              whether AI is the right fit.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Can you work with the tools we already use?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              That’s where we start. We assess your existing systems and how
+              your team uses them, then recommend the integrations or changes
+              that make practical sense.
+            </p>
+          </details>
+          <details>
+            <summary>
+              What if we’ve already invested in AI?
+              <span aria-hidden="true">+</span>
+            </summary>
+            <p>
+              We can review what’s there, listen to your team and give you an
+              honest second opinion. Sometimes a few thoughtful changes are all
+              it takes; if more is needed, we’ll explain why.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section
+        className={styles.contactSection}
+        id="start-a-conversation"
+        aria-labelledby="contact-heading"
+      >
+        <div className={`page ${styles.contactGrid}`}>
+          <div className={styles.contactCopy}>
+            <span className={styles.contactSpark} aria-hidden="true">
+              ✳
+            </span>
+            <span className={styles.eyebrow}>
+              04 / Your next chapter starts here
+            </span>
+            <h2 id="contact-heading">
+              What would make
               <br />
-              on your mind?
+              your day <span>better?</span>
             </h2>
             <p>
               A time-consuming process. An idea you haven’t explored. A sense
               that things could work better. We’d love to hear it.
             </p>
-            <div className="conversation-promise">
-              <span className="promise-icon" aria-hidden="true">
-                ↗
-              </span>
-              <div>
+            <div className={styles.contactPromise}>
+              <span aria-hidden="true">↗</span>
+              <p>
                 <strong>A conversation, with a person.</strong>
-                <span>
-                  We’ll reply within one working day.
-                  <br />
-                  The first conversation is free.
-                </span>
-              </div>
+                <br />
+                The first conversation is free.
+                <br />
+                We’ll reply within one working day.
+              </p>
             </div>
-            <a href={`mailto:${site.email}`} className="text-link">
-              Prefer email? <Arrow diagonal />
+            <a href={`mailto:${site.email}`} className={styles.quietLink}>
+              Prefer email? Say hello <Arrow diagonal />
             </a>
           </div>
           <ContactForm source="home" />
         </div>
       </section>
-    </>
+    </div>
   );
 }
