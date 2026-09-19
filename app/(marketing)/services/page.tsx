@@ -142,7 +142,7 @@ function ServicesVisual() {
         ))}
       </svg>
       <figcaption>
-        <span>From possibility to part of your day.</span>
+        <span>Discover. Build. Embed.</span>
         <span>M&amp;Co.</span>
       </figcaption>
     </figure>
@@ -157,16 +157,16 @@ export default function ServicesPage() {
         label="Services / Built around your business"
         title={
           <>
-            Find the potential.
+            Automation, integration
             <br />
-            <span>Make it useful.</span>
+            <span>& applied AI.</span>
           </>
         }
         visual={<ServicesVisual />}
         links={
           <>
             <Link href="/contact" className="btn btn-primary">
-              Let’s find your starting point <Arrow />
+              Let’s talk <Arrow />
             </Link>
             <a href="#identify" className="text-link">
               Explore our services <span aria-hidden="true">↓</span>
@@ -174,13 +174,11 @@ export default function ServicesPage() {
           </>
         }
       >
-        From a fresh look at how you work to the systems that make your day
-        easier. Thoughtful advice, tailored implementation and a team that stays
-        close.
+        We find the work worth automating, build the system and train your team.
       </PageIntro>
       <div className="page">
         <nav className={s.jumpNav} aria-label="Service sections">
-          <span>A little clarity at every stage.</span>
+          <span>From audit to implementation.</span>
           <div>
             <a href="#identify">
               <span>01</span> Discover
@@ -202,18 +200,15 @@ export default function ServicesPage() {
               01 / AI strategy &amp; discovery
             </span>
             <h2>
-              A clearer picture.
+              Start with a
               <br />
-              <span>A better place to start.</span>
+              <span>Discovery Audit.</span>
             </h2>
             <p>
-              Our Discovery Audit follows the work through your business. We
-              listen to the people doing it, find the friction, and work out
-              where a change would make a meaningful difference.
+              We observe your daily work, speak to your staff and identify where AI and automation will help.
             </p>
             <p>
-              You leave with a business case and a prioritised roadmap,
-              including what we recommend leaving alone.
+              You receive the costs, expected benefits and next steps in priority order.
             </p>
             <div className={s.terms}>
               <span>2–3 weeks</span>
@@ -257,9 +252,9 @@ export default function ServicesPage() {
             label="02 / Tailored implementation"
             title={
               <>
-                Designed for your work.
+                What we build
                 <br />
-                <span>Built to fit right in.</span>
+                <span>after the audit.</span>
               </>
             }
           >
@@ -282,12 +277,7 @@ export default function ServicesPage() {
                     ? "Less copying between systems. Fewer manual handoffs. Information that gets where it needs to go."
                     : "Internal tools, applications and data infrastructure shaped around the way your business actually runs."}
                 </p>
-                <Link
-                  href={i === 0 ? "/past-work#sales-entries" : "/past-work#packing-lists"}
-                  className="text-link mt-5"
-                >
-                  {i === 0 ? "See a marketplace integration" : "See a custom packing list app"} <Arrow diagonal />
-                </Link>
+
               </div>
               <div>
                 {group.services.map((service) => (
@@ -309,14 +299,13 @@ export default function ServicesPage() {
             label="03 / Adoption & ongoing care"
             title={
               <>
-                Working well today.
+                Training &
                 <br />
-                <span>Ready for what’s next.</span>
+                <span>ongoing support.</span>
               </>
             }
           >
-            The handover is a beginning. We help your team find their confidence
-            and keep your systems useful as the business changes.
+            We train your staff on the real system. Optional ongoing support keeps it working.
           </SectionTitle>
           <div className={s.supportGrid}>
             {[serviceGroups[4], serviceGroups[2]].map((group, i) => (
@@ -327,8 +316,8 @@ export default function ServicesPage() {
               >
                 <h3>
                   {i === 0
-                    ? "Make it second nature."
-                    : "Keep making it better."}
+                    ? "Team training"
+                    : "Support & improvements"}
                 </h3>
                 {group.services.map((service) => (
                   <ServiceDetail key={service.code} service={service} />
@@ -348,9 +337,8 @@ export default function ServicesPage() {
           label="The practical details"
           title={
             <>
-              A clear commitment.
-              <br />
-              <span>At every stage.</span>
+              How we charge.
+
             </>
           }
         />

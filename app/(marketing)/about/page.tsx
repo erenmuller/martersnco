@@ -28,20 +28,6 @@ const principles = [
     "We keep our client list small so we can stay close to the work and the people who depend on it.",
   ],
 ];
-const fit = [
-  [
-    "A real operational problem",
-    "A finance, operations or onboarding workflow that takes more time and effort than it should.",
-  ],
-  [
-    "Someone to work alongside",
-    "An internal owner who can give us a few hours a week and bring the right people into the conversation.",
-  ],
-  [
-    "Room for an honest answer",
-    "A willingness to explore what is worth changing, including where automation may not be the right fit.",
-  ],
-];
 
 export default function AboutPage() {
   return (
@@ -50,9 +36,9 @@ export default function AboutPage() {
         label="The firm / Dubai, United Arab Emirates"
         title={
           <>
-            A small firm.
+            An AI consultancy.
             <br />
-            <span>On purpose.</span>
+            <span>Based in Dubai.</span>
           </>
         }
         visual={
@@ -77,7 +63,7 @@ export default function AboutPage() {
         links={
           <>
             <Link href="/contact" className="btn btn-primary">
-              Let’s get to know your business <Arrow />
+              Let’s talk <Arrow />
             </Link>
             <a href="#our-commitments" className="text-link">
               What you can expect <span aria-hidden="true">↓</span>
@@ -85,9 +71,7 @@ export default function AboutPage() {
           </>
         }
       >
-        We’re an independent AI and automation consultancy, working with growing
-        businesses across the UAE and the Gulf. A small team, close to the work
-        and the people behind it.
+        We help businesses across the UAE and the Gulf reduce manual work with automation, connected systems and applied AI.
       </PageIntro>
       <div className="page">
         <div className={s.jumpNav}>
@@ -98,35 +82,12 @@ export default function AboutPage() {
             <a href="#firm-details">
               DIFC licensed <Arrow diagonal />
             </a>
-            <a href="#working-together">
+            <a href="#firm-details">
               UAE &amp; GCC <Arrow diagonal />
             </a>
           </div>
         </div>
       </div>
-
-      <section className={`page ${s.story}`}>
-        <h2>
-          Good ideas deserve
-          <br />
-          someone who sees
-          <br />
-          them through.
-        </h2>
-        <div>
-          <p>
-            Finding a use for AI is only the beginning. The real work is making
-            it fit: the systems you already have, the exceptions your team knows
-            by heart, and the busy day that doesn’t pause for a new tool.
-          </p>
-          <p>
-            That’s why we bring advice and implementation together. We listen,
-            build, test with your people and stay for the handover. The same
-            team, carrying your context from the first conversation into the
-            everyday details.
-          </p>
-        </div>
-      </section>
 
       <section
         className="boutique-section"
@@ -137,11 +98,9 @@ export default function AboutPage() {
           <div className="boutique-intro">
             <span className="studio-label">01 / What you can expect</span>
             <h2>
-              Small enough
+              One team,
               <br />
-              to stay close.
-              <br />
-              <span>By design.</span>
+              <span>from start to finish.</span>
             </h2>
             <Link href="/approach" className="text-link">
               See how we work <Arrow diagonal />
@@ -202,47 +161,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section
-        className={s.softSection}
-        id="working-together"
-        style={{ scrollMarginTop: "6rem" }}
-      >
-        <div className={`page studio-section ${s.split}`}>
-          <div className={s.sectionCopy}>
-            <span className="studio-label">03 / Working together</span>
-            <h2>
-              The right fit
-              <br />
-              <span>starts with shared intent.</span>
-            </h2>
-            <p>
-              We work best with businesses that want to improve the working day
-              and are ready to involve the people who know it best.
-            </p>
-            <p>
-              You don’t need an AI strategy or a technical brief. A process
-              you’d like to make better is a good place to begin.
-            </p>
-          </div>
-          <ul className={s.fitList}>
-            {fit.map(([title, body], i) => (
-              <li key={title}>
-                <span>0{i + 1}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
       <NextConversation
         title={
           <>
-            Your business is personal.
+            Tell us what’s
             <br />
-            Let’s start there.
+            slowing you down.
           </>
         }
       >

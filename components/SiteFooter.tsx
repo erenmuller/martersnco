@@ -16,7 +16,6 @@ const columns = [
   {
     heading: "Firm",
     links: [
-      { href: "/past-work", label: "See our past work" },
       { href: "/approach", label: "How we work" },
       { href: "/about", label: "About" },
       { href: "/contact", label: "Contact" },
@@ -33,8 +32,8 @@ export default function SiteFooter() {
           <div>
             <Wordmark href={null} />
             <p className="mt-4 max-w-[30ch] text-[0.9375rem] leading-relaxed text-ink-70">
-              A boutique AI and automation implementation partner for small and
-              mid-sized businesses.
+              AI, automation and systems integration.
+              Based in Dubai.
             </p>
 
             <address className="mt-6 text-[0.8125rem] not-italic leading-relaxed text-ink-45">

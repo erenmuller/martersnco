@@ -18,7 +18,7 @@ export const site = {
   legalName,
   tagline: "Boutique AI consultancy & implementation",
   description:
-    "A boutique AI consultancy in Dubai. We help growing businesses find the right opportunities, build tailored AI and automation, and give their teams time back.",
+    "AI and automation consultancy in Dubai. We automate repetitive tasks, connect systems and build practical AI tools for businesses.",
   url: siteUrl,
   email:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
@@ -44,7 +44,6 @@ export const site = {
 
 export const nav = [
   { href: "/services", label: "Services" },
-  { href: "/past-work", label: "Past work" },
   { href: "/approach", label: "How we work" },
   { href: "/about", label: "The firm" },
 ] as const;
