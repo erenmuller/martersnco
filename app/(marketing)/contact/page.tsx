@@ -3,13 +3,14 @@ import Link from "next/link";
 import ContactForm from "./ContactForm";
 import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Let’s talk about your business",
+export const metadata: Metadata = pageMetadata({
+  title: "Contact — Let’s talk about your business",
   description:
     "Start a conversation with Marters & Co. Tell us what you’d like to improve and we’ll help you find a practical way forward. Your first conversation is free.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

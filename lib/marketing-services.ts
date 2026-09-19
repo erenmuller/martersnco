@@ -51,3 +51,6 @@ export const marketingServices = [
     examples: "AI basics · Practical prompting · Leadership briefings",
   },
 ] as const;
+
+export const discoveryAudit = marketingServices[0];
+export const deliveryServices = marketingServices.filter((service) => service.id !== "identify");

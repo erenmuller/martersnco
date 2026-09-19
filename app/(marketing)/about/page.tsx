@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import { NextConversation, PageIntro } from "../_components/Editorial";
 import s from "../_components/editorial.module.css";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata: Metadata = pageMetadata({
+  title: "About the firm — DIFC-licensed AI consultancy",
   description: `${site.legalName} is a boutique AI and automation consultancy licensed in the Dubai International Financial Centre, working with small and mid-sized businesses across the UAE and the Gulf.`,
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 const principles = [
   [
     "Direct access to the people doing the work.",

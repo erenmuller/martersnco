@@ -3,6 +3,7 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Arrow from "@/components/Arrow";
 import { faqs } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 import {
   NextConversation,
   PageIntro,
@@ -10,12 +11,12 @@ import {
 } from "../_components/Editorial";
 import s from "../_components/editorial.module.css";
 
-export const metadata: Metadata = {
-  title: "Approach",
+export const metadata: Metadata = pageMetadata({
+  title: "How we work — Discover, build, embed",
   description:
-    "How Marters & Co. runs an engagement: measure the process, prove one workflow in parallel, build the rest in return order, then hand over ownership with the source.",
-  alternates: { canonical: "/approach" },
-};
+    "How an automation project with Marters & Co. runs: a fixed-fee Discovery Audit, one workflow built and tested alongside your current process, then training and full handover.",
+  path: "/approach",
+});
 const phases = [
   {
     title: "Discover.",

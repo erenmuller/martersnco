@@ -2,6 +2,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
 import { site } from "@/lib/site";
+import { marketingServices } from "@/lib/marketing-services";
 
 const organisation = {
   "@context": "https://schema.org",
@@ -10,8 +11,20 @@ const organisation = {
   name: site.name,
   legalName: site.legalName,
   description: site.description,
+  alternateName: ["Marters and Co", "Marters & Co"],
   url: site.url,
+  logo: `${site.url}/icon.svg`,
+  image: `${site.url}/opengraph-image`,
   email: site.email,
+  ...(site.phoneE164 ? { telephone: site.phoneE164 } : {}),
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "sales",
+    email: site.email,
+    ...(site.phoneE164 ? { telephone: site.phoneE164 } : {}),
+    availableLanguage: ["English"],
+    areaServed: ["AE", "SA", "QA", "KW", "BH", "OM"],
+  },
   foundingDate: site.founded,
   slogan: site.tagline,
   areaServed: [
@@ -35,23 +48,21 @@ const organisation = {
     : {}),
   knowsAbout: [
     "Business process automation",
-    "Process mapping and identification",
-    "AI workflow design",
-    "Systems integration",
+    "Artificial intelligence for small and mid-sized businesses",
+    "Process mapping and discovery audits",
+    "Systems and ERP integration",
     "Custom software development",
-    "Data infrastructure",
-    "Staff training and enablement",
+    "Document data extraction with AI",
+    "Staff training and AI workshops",
   ],
-  makesOffer: [
-    "Process audit and mapping",
-    "Automation opportunity assessment",
-    "Automation build and rollout",
-    "AI workflow programmes",
-    "Custom application and infrastructure builds",
-    "Team enablement",
-  ].map((name) => ({
+  makesOffer: marketingServices.map((service) => ({
     "@type": "Offer",
-    itemOffered: { "@type": "Service", name },
+    itemOffered: {
+      "@type": "Service",
+      name: service.title,
+      description: service.description,
+      url: `${site.url}/services#${service.id}`,
+    },
   })),
 };
 

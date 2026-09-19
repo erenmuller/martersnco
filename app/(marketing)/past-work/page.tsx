@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Arrow from "@/components/Arrow";
+import { pageMetadata } from "@/lib/metadata";
 import { NextConversation, PageIntro, SectionTitle } from "../_components/Editorial";
 import WorkStories from "./WorkStories";
 import s from "./past-work.module.css";
 
 const description = "Explore eight past Marters & Co. projects and two illustrative ideas: ERP automation, packing lists, reconciliation, stock forecasting, payroll and practical AI workshops.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Past work & practical ideas",
   description,
-  alternates: { canonical: "/past-work" },
-  openGraph: { title: "Past work & practical ideas — Marters & Co.", description, url: "/past-work" },
-  twitter: { title: "Past work & practical ideas — Marters & Co.", description },
-};
+  path: "/past-work",
+});
 
 export default function PastWorkPage() {
   return (

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
-import Arrow from "@/components/Arrow";
-import { marketingServices } from "@/lib/marketing-services";
+import { marketingServices, deliveryServices } from "@/lib/marketing-services";
 import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
 import { NextConversation } from "../_components/Editorial";
+import DiscoveryPath from "../_components/DiscoveryPath";
 import styles from "./services.module.css";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Automation, systems integration, custom software & AI",
   description: "Discovery audits, automation, systems integration, custom software and AI tools, plus staff training and practical AI workshops. Based in Dubai.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 const schema = {
   "@context": "https://schema.org",
@@ -37,23 +37,17 @@ export default function ServicesPage() {
       <section className={`page ${styles.intro}`} aria-labelledby="services-heading">
         <span className="studio-label">Our services</span>
         <h1 id="services-heading">Less manual work.<br />Better connected systems.</h1>
-        <p>Start with a Discovery Audit. We identify what to improve, build the systems and train your team.</p>
+        <p>We recommend starting with a Discovery Audit. Its findings shape which services will make the biggest difference to your business.</p>
       </section>
 
       <section className={`page ${styles.serviceList}`} aria-label="What we do">
-        {marketingServices.map((service, index) => (
+        <DiscoveryPath detailed />
+        {deliveryServices.map((service) => (
           <article id={service.id} className={styles.service} key={service.id}>
-            <span className={styles.number}>0{index + 1}</span>
             <h2>{service.title}</h2>
             <div>
               <p>{service.description}</p>
-              <p className={styles.examples}><span>{service.id === "identify" ? "What you receive" : "Examples"}</span>{service.examples}</p>
-              {"terms" in service && (
-                <>
-                  <p className={styles.auditTerms}>{service.terms}</p>
-                  <Link href="/contact" className="text-link">Discuss an audit <Arrow diagonal /></Link>
-                </>
-              )}
+              <p className={styles.examples}><span>Examples</span>{service.examples}</p>
             </div>
           </article>
         ))}
