@@ -6,8 +6,9 @@ import { site } from "@/lib/site";
  *
  * Built as tables with inline styles, because that is still the only thing
  * every mail client agrees on. It follows the site's palette, and falls back
- * to Georgia for the headline — the closest widely-installed face to Fraunces,
- * so the mail reads as the same firm even though webfonts cannot be relied on.
+ * to Georgia for the wordmark — the closest widely-installed face to Cormorant
+ * Garamond — and to a system sans for everything a reader must understand,
+ * because webfonts cannot be relied on in mail.
  *
  * Two rules for this message:
  *   - One action. The button and the plain URL beneath it go to the same
@@ -17,13 +18,14 @@ import { site } from "@/lib/site";
  *     unless it names the sender and the reason.
  */
 
-const INK = "#15201b";
-const INK_SOFT = "#47544c";
-const INK_MUTE = "#76837a";
-const GROUND = "#e7eae3";
-const PAPER = "#f3f5f0";
-const RULE = "#c7cdc1";
-const PINE = "#1e4a3c";
+const INK = "#14243c";
+const INK_SOFT = "#3f4756";
+const INK_MUTE = "#63697a";
+const GROUND = "#f6f5f0";
+const PAPER = "#ffffff";
+const RULE = "#e0ddd2";
+const NAVY = "#14243c";
+const BRASS = "#8a6a2f";
 
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
@@ -107,7 +109,7 @@ export function onboardingEmail(input: OnboardingEmailInput): {
 
   <!-- Wordmark -->
   <tr><td style="padding:0 0 20px 4px;">
-    <span style="font-family:${SERIF};font-size:21px;color:${INK};letter-spacing:-0.01em;">Marters <em style="font-style:italic;color:${PINE};">&amp;</em> Co.</span>
+    <span style="font-family:${SERIF};font-size:21px;color:${INK};letter-spacing:0.03em;">Marters <span style="color:${BRASS};">&amp;</span> Co.</span>
   </td></tr>
 
   <!-- Card -->
@@ -115,7 +117,7 @@ export function onboardingEmail(input: OnboardingEmailInput): {
 
     <p style="margin:0 0 20px;font-family:${SANS};font-size:15px;line-height:1.6;color:${INK_SOFT};">${greeting}</p>
 
-    <h1 style="margin:0 0 18px;font-family:${SERIF};font-size:29px;line-height:1.2;font-weight:normal;color:${INK};letter-spacing:-0.015em;">
+    <h1 style="margin:0 0 18px;font-family:${SANS};font-size:29px;line-height:1.2;font-weight:normal;color:${INK};letter-spacing:-0.02em;">
       ${isAdmin ? "Set up your admin account" : "Your client portal is ready"}
     </h1>
 
@@ -125,8 +127,8 @@ export function onboardingEmail(input: OnboardingEmailInput): {
 
     <!-- Action -->
     <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 20px;">
-      <tr><td style="background-color:${PINE};">
-        <a href="${input.actionUrl}" style="display:inline-block;padding:14px 30px;font-family:${SANS};font-size:15px;font-weight:600;color:#f2f5f1;text-decoration:none;">
+      <tr><td style="background-color:${NAVY};">
+        <a href="${input.actionUrl}" style="display:inline-block;padding:14px 30px;font-family:${SANS};font-size:15px;font-weight:600;color:#f6f5f0;text-decoration:none;">
           Choose your password
         </a>
       </td></tr>
@@ -134,7 +136,7 @@ export function onboardingEmail(input: OnboardingEmailInput): {
 
     <p style="margin:0 0 28px;font-family:${SANS};font-size:13px;line-height:1.6;color:${INK_MUTE};">
       This link can only be used once and expires in ${escapeHtml(expiresIn)}. If the button does not work, paste this into your browser:<br>
-      <a href="${input.actionUrl}" style="color:${PINE};word-break:break-all;">${escapeHtml(input.actionUrl)}</a>
+      <a href="${input.actionUrl}" style="color:${NAVY};word-break:break-all;">${escapeHtml(input.actionUrl)}</a>
     </p>
 
     <!-- What is inside -->
@@ -156,7 +158,7 @@ export function onboardingEmail(input: OnboardingEmailInput): {
   <tr><td style="padding:22px 4px 0;">
     <p style="margin:0 0 10px;font-family:${SANS};font-size:13px;line-height:1.6;color:${INK_MUTE};">
       You are receiving this because someone at ${site.name} opened an account for this address. If you were not expecting it, ignore this email — the account cannot be used until a password is set — or tell us at
-      <a href="mailto:${site.email}" style="color:${PINE};">${site.email}</a>.
+      <a href="mailto:${site.email}" style="color:${NAVY};">${site.email}</a>.
     </p>
     <p style="margin:0;font-family:${SANS};font-size:12px;line-height:1.6;color:${INK_MUTE};">
       ${escapeHtml(site.legalName)} · ${escapeHtml(site.address.line1)}, ${escapeHtml(site.address.locality)}<br>

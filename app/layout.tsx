@@ -1,24 +1,28 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Public_Sans,
+  IBM_Plex_Mono,
+} from "next/font/google";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-// A distinctive serif is reserved for the wordmark.
-const fraunces = Fraunces({
+// Wordmark and monograms only — never a heading, never a sentence.
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-fraunces",
-  axes: ["SOFT", "WONK", "opsz"],
+  weight: ["400", "500"],
+  variable: "--font-cormorant",
 });
 
-// Instrument Sans brings the same clear, human voice to headlines and body.
-const instrument = Instrument_Sans({
+// Headings and body. Chosen for legibility for non-native English readers.
+const publicSans = Public_Sans({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-instrument",
+  variable: "--font-public-sans",
 });
 
-// Reserved for measured figures. Never for labels.
+// Eyebrows, step numbers, footers, the licence line. Never body copy.
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   display: "swap",
@@ -83,7 +87,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-AE"
-      className={`${instrument.variable} ${plexMono.variable} ${fraunces.variable}`}
+      className={`${publicSans.variable} ${plexMono.variable} ${cormorant.variable}`}
     >
       <body>{children}</body>
     </html>

@@ -635,11 +635,33 @@ predictable SEO rendering. The `public.services` table is the operational
 catalogue assigned to clients. Keep their service codes and names aligned when
 changing the offering.
 
-The marketing experience uses Instrument Sans for headlines and body text,
-with Fraunces reserved for the wordmark. The homepage's thread illustration is
-an inline SVG with CSS animation; it needs no image service or animation
-dependency and respects reduced-motion preferences. `SelectedWork.tsx` contains
-the existing project outcomes and keyboard-accessible case-study tabs.
+The site follows the Marters & Co. design blueprint. Two grounds — paper
+`#F6F5F0` and navy `#14243C` — one accent, brass (`#8A6A2F` on paper,
+`#C9A86A` on navy), and navy ink throughout. There is no fourth hue: where
+something must be distinguished, change weight or surface, not colour. Body
+text holds 4.5:1 against its ground and is never tinted or half-opacity.
+
+Three typefaces with strict jobs, all declared in `app/layout.tsx` and mapped
+to tokens in `app/globals.css`:
+
+```
+Public Sans           headings and body — everything a reader must understand
+IBM Plex Mono         eyebrows, step numbers, footers, the licence line;
+                      uppercase and letterspaced, never body copy
+Cormorant Garamond    the wordmark and monograms only — never a heading
+```
+
+The palette lives once, in the `@theme` block of `app/globals.css`. Every
+surface reads it through a token (`--color-bone`, `--color-ink`,
+`--color-brass`, `--color-on-navy`, …), so the scheme is changed in one place.
+`components/Wordmark.tsx` is the typeset lockup: Cormorant 500 at +0.03em with
+a brass ampersand as the only coloured glyph, and an `onNavy` flag that swaps
+it to `#C9A86A`.
+
+The homepage's thread illustration is an inline SVG with CSS animation; it
+needs no image service or animation dependency and respects reduced-motion
+preferences. `SelectedWork.tsx` contains the existing project outcomes and
+keyboard-accessible case-study tabs.
 
 The homepage and contact page share `contact/ContactForm.tsx`. The two-step
 enquiry keeps the visitor's draft when moving back or correcting validation

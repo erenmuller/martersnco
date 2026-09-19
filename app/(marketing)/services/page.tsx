@@ -91,7 +91,7 @@ function ServicesVisual() {
         role="img"
         aria-label="Discover, build and embed: three connected parts of an engagement"
       >
-        <circle cx="240" cy="178" r="152" fill="#e7ebdf" />
+        <circle cx="240" cy="178" r="152" fill="#edeae0" />
         {Array.from({ length: 12 }, (_, i) => (
           <ellipse
             key={i}
@@ -100,12 +100,12 @@ function ServicesVisual() {
             rx={113 + i * 3.5}
             ry={66 + i * 6}
             transform={`rotate(${i * 15} 240 178)`}
-            stroke="#78916d"
+            stroke="#c9c3b3"
             strokeWidth=".6"
             opacity=".55"
           />
         ))}
-        <path d="M95 178H385" stroke="#78916d" strokeDasharray="3 6" />
+        <path d="M95 178H385" stroke="#c9c3b3" strokeDasharray="3 6" />
         {[
           { x: 95, n: "01", name: "Discover" },
           { x: 240, n: "02", name: "Build" },
@@ -117,13 +117,13 @@ function ServicesVisual() {
               cy="178"
               r="49"
               fill="#f6f5f0"
-              stroke="#a8b79f"
+              stroke="#d6d2c6"
             />
             <text
               x={item.x}
               y="169"
               textAnchor="middle"
-              fill="#687568"
+              fill="#63697a"
               fontSize="10"
               fontFamily="monospace"
             >
@@ -133,7 +133,7 @@ function ServicesVisual() {
               x={item.x}
               y="192"
               textAnchor="middle"
-              fill="#315b43"
+              fill="#14243c"
               fontSize="15"
             >
               {item.name}

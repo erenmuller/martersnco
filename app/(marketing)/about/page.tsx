@@ -62,7 +62,10 @@ export default function AboutPage() {
               &amp;
             </span>
             <div>
-              <div className={s.firmName}>Marters &amp; Co.</div>
+              <div className={s.firmName}>
+                Marters{" "}
+                <span style={{ color: "var(--color-brass)" }}>&amp;</span> Co.
+              </div>
               <p>
                 A boutique AI consultancy.
                 <br />

@@ -55,10 +55,10 @@ export default function IntelligenceVisual() {
             x2="232"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#a2ad9c" stopOpacity=".5" />
-            <stop offset=".35" stopColor="#7e9279" stopOpacity=".9" />
-            <stop offset=".77" stopColor="#46765c" stopOpacity=".85" />
-            <stop offset="1" stopColor="#1e4a3c" stopOpacity="0" />
+            <stop stopColor="#9aa0ae" stopOpacity=".5" />
+            <stop offset=".35" stopColor="#63697a" stopOpacity=".9" />
+            <stop offset=".77" stopColor="#3c4d68" stopOpacity=".85" />
+            <stop offset="1" stopColor="#14243c" stopOpacity="0" />
           </linearGradient>
           {/* A denser packet riding the same path, so the threads read as live. */}
           <linearGradient
@@ -67,10 +67,10 @@ export default function IntelligenceVisual() {
             x2="232"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#2f6b4c" stopOpacity="0" />
-            <stop offset=".3" stopColor="#2f6b4c" stopOpacity=".95" />
-            <stop offset=".8" stopColor="#1f5543" stopOpacity=".85" />
-            <stop offset="1" stopColor="#1e4a3c" stopOpacity="0" />
+            <stop stopColor="#8a6a2f" stopOpacity="0" />
+            <stop offset=".3" stopColor="#8a6a2f" stopOpacity=".95" />
+            <stop offset=".8" stopColor="#8a6a2f" stopOpacity=".85" />
+            <stop offset="1" stopColor="#14243c" stopOpacity="0" />
           </linearGradient>
           {/* Emerging from the core: fewer, heavier, resolved. */}
           <linearGradient
@@ -79,9 +79,9 @@ export default function IntelligenceVisual() {
             x2="396"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#1e4a3c" stopOpacity="0" />
-            <stop offset=".5" stopColor="#25543f" stopOpacity=".88" />
-            <stop offset="1" stopColor="#1e4a3c" />
+            <stop stopColor="#14243c" stopOpacity="0" />
+            <stop offset=".5" stopColor="#1d3252" stopOpacity=".88" />
+            <stop offset="1" stopColor="#14243c" />
           </linearGradient>
           <linearGradient
             id="result-pulse"
@@ -89,12 +89,12 @@ export default function IntelligenceVisual() {
             x2="506"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#83b291" stopOpacity="0" />
-            <stop offset=".4" stopColor="#a4cbac" stopOpacity=".95" />
-            <stop offset=".78" stopColor="#b6c98c" stopOpacity=".8" />
-            <stop offset="1" stopColor="#b6c98c" stopOpacity="0" />
+            <stop stopColor="#c9a86a" stopOpacity="0" />
+            <stop offset=".4" stopColor="#c9a86a" stopOpacity=".95" />
+            <stop offset=".78" stopColor="#8a6a2f" stopOpacity=".8" />
+            <stop offset="1" stopColor="#8a6a2f" stopOpacity="0" />
           </linearGradient>
-          {/* The original thread palette, kept: sage into pine and back. */}
+          {/* The original thread palette, kept: brass into navy and back. */}
           <linearGradient
             id="thread-colour"
             x1="200"
@@ -103,10 +103,10 @@ export default function IntelligenceVisual() {
             y2="364"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#b6c98c" />
-            <stop offset=".35" stopColor="#487e62" />
-            <stop offset=".7" stopColor="#1f5543" />
-            <stop offset="1" stopColor="#9bb686" />
+            <stop stopColor="#8a6a2f" />
+            <stop offset=".35" stopColor="#3c4d68" />
+            <stop offset=".7" stopColor="#8a6a2f" />
+            <stop offset="1" stopColor="#8a6a2f" />
           </linearGradient>
         </defs>
 
@@ -129,7 +129,7 @@ export default function IntelligenceVisual() {
             ))}
           </g>
         </g>
-        <g fill="#8e9c88">
+        <g fill="#9aa0ae">
           {inputs.map((input) => (
             <circle key={input.y} cx={input.x} cy={input.y} r={input.dot} />
           ))}
@@ -179,7 +179,7 @@ export default function IntelligenceVisual() {
         <circle cx={CORE} cy={CORE} r="44" fill="#f6f5f0" />
 
         {/* Judgement at the centre — the part that stays still. */}
-        <g stroke="#1e4a3c">
+        <g stroke="#14243c">
           <circle cx={CORE} cy={CORE} r="30" strokeWidth=".8" opacity=".45" />
           <g strokeWidth="1.1" strokeLinecap="round">
             {Array.from({ length: 8 }, (_, i) => {
@@ -198,7 +198,7 @@ export default function IntelligenceVisual() {
             })}
           </g>
         </g>
-        <circle cx={CORE} cy={CORE} r="4.6" fill="#1e4a3c" />
+        <circle cx={CORE} cy={CORE} r="4.6" fill="#14243c" />
 
         {/* Terminus: the one figure the three lines add up to, and the margin
             they all stop against — set to the exact height of the stack. */}
@@ -206,17 +206,17 @@ export default function IntelligenceVisual() {
           cx="496"
           cy={CORE}
           r="4.6"
-          fill="#1e4a3c"
+          fill="#14243c"
           stroke="#f6f5f0"
           strokeWidth="2.4"
         />
-        <path d="M512 242V318" stroke="#b9c1b0" />
+        <path d="M512 242V318" stroke="#c9c3b3" />
 
         {/* Set to the exact width of the weave it names. */}
         <text className="intelligence-tag" x={CORE} y="150" textAnchor="middle">
           APPLIED INTELLIGENCE
         </text>
-        <path d={`M${CORE} 158V182`} stroke="#b9c1b0" strokeWidth=".8" />
+        <path d={`M${CORE} 158V182`} stroke="#c9c3b3" strokeWidth=".8" />
       </svg>
       <span className="visual-note visual-note-top">
         <span className="status-dot" /> Your people, tools &amp; data

@@ -1,40 +1,66 @@
 @import "tailwindcss";
 
-/* Marters & Co. — warm mineral tones, clear type and a signature serif mark. */
+/* Marters & Co. — the design blueprint, applied.
+   Two grounds (paper and navy), one accent (brass), one ink.
+   Never a fourth hue: to distinguish something, change weight or surface. */
 
 @theme {
-  /* Warm stone backgrounds and soft sage surfaces. */
-  --color-bone: #f6f5f0;
-  --color-paper: #fdfcf8;
-  --color-shade: #eeeee6;
-  --color-rule: #dcded3;
-  --color-rule-strong: #b9c1b0;
-  --color-step: #bcc4b6;
+  /* --- Grounds ------------------------------------------------------------
+     Paper is the default page ground; white is the card fill that sits on it.
+     The neutrals below are weights of the same warm paper hue, not new
+     colours. */
+  --color-bone: #f6f5f0; /* Paper — default page and slide ground */
+  --color-paper: #ffffff; /* Card fill */
+  --color-shade: #edeae0; /* Quiet surface: table heads, inset panels */
+  --color-rule: #e0ddd2; /* Card border */
+  --color-rule-strong: #d6d2c6; /* Hairline rule */
+  --color-edge: #c9c3b3; /* Control borders — the hairline one weight down */
+  --color-step: #c9c3b3;
 
-  /* Ink carries a green cast all the way down, so type and ground belong to
-     the same world. Never a neutral near-black. */
-  --color-ink: #15201b;
-  --color-ink-70: #47544c;
-  --color-ink-45: #687568;
-  --color-ink-25: #9ea89a;
+  /* --- Ink ----------------------------------------------------------------
+     Navy carries the type all the way down. Body holds 4.5:1 on paper. */
+  --color-ink: #14243c; /* Navy ink — all headings on paper */
+  --color-ink-70: #3f4756; /* Body text */
+  --color-ink-45: #63697a; /* Footers, labels */
+  --color-ink-25: #9aa0ae; /* Disabled and placeholder only */
 
-  --color-pine: #1e4a3c;
-  --color-pine-deep: #122f25;
-  --color-pine-wash: #dbe3dc;
+  /* --- Navy as a surface --------------------------------------------------
+     The second ground. Navy sections mark the turns; everything else is
+     paper. */
+  --color-pine: #14243c;
+  --color-pine-deep: #0d1a2c;
+  --color-pine-soft: #1d3252;
+  --color-pine-wash: #dfe4ec;
 
-  /* Brass is reserved for measured figures. If it is not a number the firm
-     recorded, it does not get this colour. */
-  --color-brass: #8e6b26;
-  --color-brass-wash: #ede6d5;
+  /* Type and rules that sit on navy. */
+  --color-on-navy: #ccd4e0; /* Body text on navy */
+  --color-on-navy-strong: #e3e8ef; /* Chip text */
+  --color-on-navy-mute: #8e9aae; /* Footers on navy */
+  --color-navy-rule: #3c4d68; /* Border on navy */
+
+  /* --- Brass --------------------------------------------------------------
+     The single accent. #8a6a2f on paper, #c9a86a on navy — never the
+     reverse. Rules, numerals, eyebrows. */
+  --color-brass: #8a6a2f; /* Brass on paper. Passes 4.5:1 */
+  --color-brass-light: #c9a86a; /* Brass on navy */
+  --color-brass-link: #a8874f; /* Links on navy */
+  --color-brass-wash: #efe7d6;
+
+  /* Outside the blueprint palette: destructive and error states only.
+     Never decorative, never a heading, never a surface on a marketing page. */
   --color-burgundy: #8a2f35;
   --color-burgundy-wash: #f0dfe0;
 
-  --font-display: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  /* --- Type ---------------------------------------------------------------
+     Three faces with strict jobs. Public Sans carries everything a reader
+     must understand; the other two are furniture. */
+  --font-display: var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans:
-    var(--font-instrument), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    var(--font-public-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, monospace;
-  --font-mark: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  /* Wordmark and monograms only. Never a heading, never a sentence. */
+  --font-mark: var(--font-cormorant), Georgia, "Times New Roman", serif;
 
   --spacing-rail: 10.5rem;
   --container-page: 84rem;
@@ -81,7 +107,7 @@
 
   ::selection {
     background-color: var(--color-pine);
-    color: var(--color-paper);
+    color: var(--color-bone);
   }
 
   :focus-visible {
@@ -101,14 +127,15 @@
     top: 1rem;
     padding: 0.625rem 1rem;
     background: var(--color-ink);
-    color: var(--color-paper);
+    color: var(--color-bone);
     font-size: 0.8125rem;
     font-weight: 500;
   }
 }
 
 @layer components {
-  /* Clear sans headlines; the serif is reserved for the wordmark. */
+  /* Public Sans carries every heading. Cormorant is the wordmark only, and
+     Plex Mono is label furniture — eyebrows, figures, footers. */
 
   .font-display,
   .display-xl,
@@ -116,45 +143,49 @@
   .display-m,
   .display-s {
     font-family: var(--font-display);
-    font-weight: 450;
+    font-weight: 400;
     font-variation-settings: normal;
-    letter-spacing: -0.012em;
-    line-height: 1.1;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
     text-wrap: balance;
     color: var(--color-ink);
   }
 
+  /* Wordmark and monograms only. Tracking never goes tighter than +0.03em
+     and the face is never condensed. */
   .font-mark {
     font-family: var(--font-mark);
-    font-weight: 400;
-    letter-spacing: -0.005em;
+    font-weight: 500;
+    letter-spacing: 0.03em;
   }
 
+  /* Cover headline — 112 / 1.06 / −.025em on a slide. */
   .display-xl {
     font-size: clamp(2.6rem, 5.6vw, 4.15rem);
-    line-height: 1.03;
-    letter-spacing: -0.021em;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
     font-variation-settings: normal;
   }
+  /* Slide title — 84–98 / 1.08 / −.02em. */
   .display-l {
     font-size: clamp(1.95rem, 3.6vw, 2.75rem);
-    line-height: 1.09;
-    letter-spacing: -0.017em;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
     font-variation-settings: normal;
   }
+  /* Card / item title — 46–52 / 1.15 / −.01em. */
   .display-m {
     font-size: clamp(1.5rem, 2.5vw, 1.95rem);
-    line-height: 1.16;
-    letter-spacing: -0.012em;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
-  /* Smaller headings use a little more weight. */
   .display-s {
     font-family: var(--font-sans);
     font-variation-settings: normal;
     font-size: 1.0625rem;
-    font-weight: 600;
-    line-height: 1.32;
-    letter-spacing: -0.011em;
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
 
   .lede {
@@ -166,17 +197,19 @@
     letter-spacing: -0.003em;
   }
 
-  /* Section label. Not an eyebrow: it sits in the right margin beside the
-     heading it names, and carries a short engraved tick so it reads as a
-     scale mark on a record rather than a caption floating above the text. */
+  /* Eyebrow — Plex Mono 400, caps, +0.18em. It sits in the right margin
+     beside the heading it names, and carries a short engraved tick so it
+     reads as a scale mark on a record rather than a caption floating above
+     the text. Never body copy. */
   .eyebrow {
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.002em;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
     color: var(--color-ink-45);
   }
   .eyebrow::before {
@@ -186,11 +219,12 @@
     height: 1px;
     background-color: var(--color-rule-strong);
   }
+  /* Brass is the eyebrow accent: #8a6a2f on paper, #c9a86a on navy. */
   .eyebrow-pine {
-    color: var(--color-pine);
+    color: var(--color-brass);
   }
   .eyebrow-pine::before {
-    background-color: var(--color-pine);
+    background-color: var(--color-brass);
   }
 
   /* Mono is for figures the firm measured. Nothing else. */
@@ -311,7 +345,7 @@
 
   .btn-primary {
     background-color: var(--color-pine);
-    color: #f2f5f1;
+    color: var(--color-bone);
     border-color: var(--color-pine);
   }
   .btn-primary:hover {
@@ -327,7 +361,7 @@
   .btn-secondary:hover {
     background-color: var(--color-ink);
     border-color: var(--color-ink);
-    color: var(--color-paper);
+    color: var(--color-bone);
   }
 
   .btn-quiet {
@@ -347,7 +381,7 @@
   }
   .btn-danger:hover {
     background-color: var(--color-burgundy);
-    color: var(--color-paper);
+    color: var(--color-bone);
   }
 
   .btn:disabled {
@@ -429,8 +463,8 @@
   .select {
     appearance: none;
     background-image:
-      linear-gradient(45deg, transparent 50%, #47544c 50%),
-      linear-gradient(135deg, #47544c 50%, transparent 50%);
+      linear-gradient(45deg, transparent 50%, var(--color-ink-70) 50%),
+      linear-gradient(135deg, var(--color-ink-70) 50%, transparent 50%);
     background-position:
       calc(100% - 18px) 55%,
       calc(100% - 13px) 55%;
@@ -459,7 +493,7 @@
   .notice-error {
     border-color: var(--color-burgundy);
     background-color: var(--color-burgundy-wash);
-    color: #5e1f26;
+    color: var(--color-burgundy);
   }
   .notice-ok {
     border-color: var(--color-pine);
@@ -885,8 +919,8 @@
   }
 
   .figure-xl {
-    word-spacing: -0.2em;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
+    font-weight: 500;
     font-size: clamp(1.6rem, 3vw, 2.3rem);
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.03em;
@@ -934,26 +968,26 @@
 
   .plate {
     background-color: var(--color-pine-deep);
-    color: #e2e8e2;
+    color: var(--color-on-navy);
   }
   .plate .display-l,
   .plate .display-m,
   .plate .display-xl {
-    color: #f0f3ee;
+    color: var(--color-on-navy-strong);
   }
   .plate .eyebrow {
-    color: rgba(226, 232, 226, 0.6);
+    color: var(--color-on-navy-mute);
   }
   .plate .eyebrow::before {
-    background-color: rgba(226, 232, 226, 0.4);
+    background-color: var(--color-navy-rule);
   }
   .plate .link-rule {
-    color: #e2e8e2;
-    box-shadow: inset 0 -1px 0 0 rgba(226, 232, 226, 0.4);
+    color: var(--color-on-navy);
+    box-shadow: inset 0 -1px 0 0 var(--color-navy-rule);
   }
   .plate .link-rule:hover {
-    color: #ffffff;
-    box-shadow: inset 0 -2px 0 0 #ffffff;
+    color: var(--color-on-navy-strong);
+    box-shadow: inset 0 -2px 0 0 var(--color-on-navy-strong);
   }
 }
 
@@ -994,8 +1028,8 @@
     border-bottom: 1px solid var(--color-rule);
     background-color: var(--color-bone);
     background-image:
-      linear-gradient(to right, rgba(21, 32, 27, 0.028) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(21, 32, 27, 0.028) 1px, transparent 1px);
+      linear-gradient(to right, rgba(20, 36, 60, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(20, 36, 60, 0.05) 1px, transparent 1px);
     background-size: 4rem 4rem;
   }
 
@@ -1088,14 +1122,14 @@
     overflow: hidden;
     border: 1px solid var(--color-pine-deep);
     background-color: var(--color-pine-deep);
-    color: #ffffff;
+    color: var(--color-on-navy-strong);
   }
   .discovery-service-head {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.35rem 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    border-bottom: 1px solid var(--color-navy-rule);
     padding: 1rem 1.25rem;
     font-family: var(--font-mono);
     font-size: 0.6875rem;
@@ -1103,7 +1137,7 @@
     text-transform: uppercase;
   }
   .discovery-service-head span:last-child {
-    color: rgba(255, 255, 255, 0.48);
+    color: var(--color-on-navy-mute);
   }
   .discovery-output-grid {
     display: grid;
@@ -1115,39 +1149,39 @@
   }
   .discovery-output-grid article {
     min-height: 12.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    border-bottom: 1px solid var(--color-navy-rule);
     padding: 1.35rem;
   }
   @media (min-width: 36rem) {
     .discovery-output-grid article:nth-child(odd) {
-      border-right: 1px solid rgba(255, 255, 255, 0.18);
+      border-right: 1px solid var(--color-navy-rule);
     }
   }
   .discovery-output-grid article > span {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--color-brass-light);
   }
   .discovery-output-grid h3 {
     margin-top: 2rem;
     font-size: 0.975rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--color-on-navy-strong);
   }
   .discovery-output-grid p {
     margin-top: 0.45rem;
     max-width: 29ch;
     font-size: 0.8375rem;
     line-height: 1.55;
-    color: rgba(255, 255, 255, 0.66);
+    color: var(--color-on-navy);
   }
   .discovery-service-note {
     margin: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid var(--color-navy-rule);
     padding: 1rem 1.25rem 1.2rem;
     font-size: 0.75rem;
     line-height: 1.55;
-    color: rgba(255, 255, 255, 0.62);
+    color: var(--color-on-navy);
   }
   .discovery-modules {
     display: grid;
@@ -1396,10 +1430,6 @@
 
 /* Boutique marketing experience. Shared portal controls retain their layout. */
 @layer components {
-  .marketing-site {
-    --color-pine: #315b43;
-    --color-pine-deep: #233e30;
-  }
   .marketing-site .btn {
     min-height: 3.25rem;
     border-radius: 6px;
@@ -1480,7 +1510,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #597655;
+    background: var(--color-brass);
     flex-shrink: 0;
     box-shadow: 0 0 0 4px rgb(89 118 85 / 8%);
   }
@@ -1566,8 +1596,8 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      #d6e0c5 0,
-      #e3e7d6 32%,
+      var(--color-pine-wash) 0,
+      var(--color-brass-wash) 32%,
       transparent 68%
     );
     filter: blur(22px);
@@ -1599,7 +1629,7 @@
     align-items: center;
     gap: 0.6rem;
     padding: 0.7rem 1rem;
-    border: 1px solid #e1e5d9;
+    border: 1px solid var(--color-rule);
     border-radius: 5px;
     background: rgb(253 252 248 / 89%);
     box-shadow: 0 6px 24px rgb(43 62 37 / 5%);
@@ -1740,7 +1770,7 @@
     color: var(--color-ink-45);
   }
   .work-section {
-    background: #eeeee7;
+    background: var(--color-shade);
     scroll-margin-top: 5rem;
   }
   .work-tabs {
@@ -1810,7 +1840,7 @@
     color: var(--color-ink-70);
   }
   .work-illustration {
-    background: #e3e7d9;
+    background: var(--color-pine-wash);
     border-radius: 8px;
     padding: 1.5rem 2rem;
     animation: work-appear 350ms ease both;
@@ -1819,7 +1849,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.625rem;
-    color: #5f6c57;
+    color: var(--color-ink-45);
   }
   .workflow-diagram {
     max-width: 19rem;
@@ -1829,12 +1859,12 @@
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    border: 1px solid #d5dcc9;
+    border: 1px solid var(--color-rule);
     border-radius: 5px;
-    background: #f6f6ef;
+    background: var(--color-paper);
     min-height: 3.4rem;
     padding: 0.75rem 1rem;
-    color: #46573d;
+    color: var(--color-ink-70);
     font-size: 0.75rem;
     box-shadow: 0 3px 5px rgb(58 75 41 / 2%);
   }
@@ -1845,24 +1875,24 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: #7b9470;
+    background: var(--color-ink-25);
     margin-left: auto;
     flex-shrink: 0;
   }
   .workflow-node-active {
-    color: #f4f5e8;
-    background: #355840;
-    border-color: #355840;
+    color: var(--color-on-navy-strong);
+    background: var(--color-pine);
+    border-color: var(--color-pine);
   }
   .workflow-node-active .node-dot {
-    background: #c3d79f;
+    background: var(--color-brass-light);
   }
   .workflow-connector {
     position: relative;
     width: 1px;
     height: 1.65rem;
     margin-inline: auto;
-    background: #b0bda3;
+    background: var(--color-rule-strong);
     overflow: hidden;
   }
   .workflow-connector > span {
@@ -1871,21 +1901,21 @@
     left: 0;
     height: 40%;
     width: 100%;
-    background: #315b43;
+    background: var(--color-brass);
     animation: workflow-travel 3s ease-in-out infinite;
   }
   .work-result {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-top: 1px solid #cbd4bf;
+    border-top: 1px solid var(--color-rule);
     padding-top: 0.9rem;
   }
   .work-result strong {
     font-size: clamp(2.8rem, 4.2vw, 3.6rem);
     font-weight: 450;
     letter-spacing: -0.06em;
-    color: #315039;
+    color: var(--color-ink);
     line-height: 1.2;
   }
   .work-result strong > span {
@@ -1894,7 +1924,7 @@
   .work-result > span {
     margin-top: 0.2rem;
     font-size: 0.6875rem;
-    color: #52674a;
+    color: var(--color-ink-45);
   }
   .work-footnote {
     margin-top: 1.4rem;
@@ -1919,8 +1949,8 @@
     color: var(--color-ink-70);
   }
   .boutique-section {
-    background: #273f31;
-    color: #f2f2e9;
+    background: var(--color-pine);
+    color: var(--color-on-navy-strong);
   }
   .boutique-spread {
     display: grid;
@@ -1929,7 +1959,7 @@
     padding-block: 6.75rem;
   }
   .boutique-intro .studio-label {
-    color: #c0cdb6;
+    color: var(--color-on-navy-mute);
   }
   .boutique-intro h2 {
     font-size: clamp(2.5rem, 4vw, 3.55rem);
@@ -1937,10 +1967,10 @@
     margin-top: 2rem;
   }
   .boutique-intro h2 > span {
-    color: #c8dba5;
+    color: var(--color-brass-light);
   }
   .boutique-intro .text-link {
-    color: #ecf0e4;
+    color: var(--color-on-navy-strong);
     margin-top: 2.5rem;
   }
   .boutique-lede {
@@ -1948,12 +1978,12 @@
     line-height: 1.7;
     max-width: 38ch;
     margin-bottom: 1.7rem;
-    color: #e1e7d9;
+    color: var(--color-on-navy);
   }
   .boutique-principles article {
     display: flex;
     gap: 1.25rem;
-    border-top: 1px solid #50604d;
+    border-top: 1px solid var(--color-navy-rule);
     padding-block: 1.4rem;
   }
   .boutique-principles article:last-child {
@@ -1963,7 +1993,7 @@
     font-family: var(--font-mono);
     font-size: 0.625rem;
     padding-top: 0.25rem;
-    color: #a1b692;
+    color: var(--color-brass-light);
   }
   .boutique-principles h3 {
     font-size: 0.9375rem;
@@ -1973,7 +2003,7 @@
   .boutique-principles article p {
     font-size: 0.8125rem;
     line-height: 1.75;
-    color: #c3ccba;
+    color: var(--color-on-navy);
     margin-top: 0.45rem;
   }
   .engagement-steps {
@@ -2038,7 +2068,7 @@
     padding: 1.2rem 1.5rem;
     margin-top: 2.8rem;
     border-radius: 6px;
-    background: #e9ecdf;
+    background: var(--color-shade);
   }
   .discovery-note p {
     flex: 1;
@@ -2083,7 +2113,7 @@
     padding: 2.25rem;
     border: 1px solid var(--color-rule);
     border-radius: 6px;
-    background: #eef0e7;
+    background: var(--color-paper);
   }
   .review-card > h3 {
     max-width: 24ch;
@@ -2121,7 +2151,7 @@
   }
   .enquiry-section {
     border-top: 1px solid var(--color-rule);
-    background: #efefe7;
+    background: var(--color-shade);
     scroll-margin-top: 6rem;
   }
   .enquiry-spread {
@@ -2155,7 +2185,7 @@
     place-items: center;
     height: 2.8rem;
     width: 2.8rem;
-    border: 1px solid #ced5bf;
+    border: 1px solid var(--color-edge);
     border-radius: 50%;
     color: var(--color-pine);
   }
@@ -2177,7 +2207,7 @@
   .conversation-form {
     position: relative;
     min-width: 0;
-    border: 1px solid #e0e2d6;
+    border: 1px solid var(--color-rule);
     border-radius: 9px;
     background: var(--color-paper);
     padding: 2.25rem;
@@ -2202,7 +2232,7 @@
     place-items: center;
     width: 1.5rem;
     height: 1.5rem;
-    background: #e9edde;
+    background: var(--color-rule);
     border-radius: 50%;
     font-size: 0.6rem;
   }
@@ -2210,11 +2240,11 @@
     color: var(--color-ink-45);
   }
   .conversation-progress > span[data-upcoming="true"] > span {
-    background: #f0f1ea;
+    background: var(--color-shade);
   }
   .progress-line {
     height: 1px;
-    background: #dfe3d4;
+    background: var(--color-rule);
     flex: 1;
   }
   .conversation-step {
@@ -2265,8 +2295,8 @@
     border-color: var(--color-pine);
   }
   .interest-options button[aria-pressed="true"] {
-    background: #e9efdf;
-    border-color: #829572;
+    background: var(--color-brass-wash);
+    border-color: var(--color-brass);
     color: var(--color-pine);
   }
   .conversation-step label {
@@ -2303,13 +2333,13 @@
   }
   .conversation-step textarea::placeholder,
   .conversation-step input::placeholder {
-    color: #737b6f;
+    color: var(--color-ink-25);
     opacity: 1;
   }
   .conversation-step textarea:focus,
   .conversation-step input:focus {
     border-color: var(--color-pine);
-    outline: 2px solid #a9b995;
+    outline: 2px solid var(--color-pine);
     outline-offset: 2px;
   }
   .conversation-step [aria-invalid="true"] {
@@ -2379,7 +2409,7 @@
     margin-bottom: 1.25rem;
     font-size: 0.8125rem;
     border-radius: 4px;
-    color: #72272c;
+    color: var(--color-burgundy);
   }
   .privacy-note {
     text-align: center;
@@ -2399,9 +2429,9 @@
     width: 3rem;
     height: 3rem;
     margin-bottom: 2rem;
-    border: 1px solid #c1cead;
+    border: 1px solid var(--color-brass);
     border-radius: 50%;
-    background: #e9efdf;
+    background: var(--color-brass-wash);
     color: var(--color-pine);
   }
   .conversation-success h2 {

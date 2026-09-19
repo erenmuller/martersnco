@@ -14,10 +14,10 @@ export function createSocialImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#f5f3ed",
-          color: "#16181a",
+          background: "#f6f5f0",
+          color: "#14243c",
           padding: "64px 72px",
-          fontFamily: "Georgia, serif",
+          fontFamily: "Helvetica, Arial, sans-serif",
         }}
       >
         <div
@@ -25,17 +25,26 @@ export function createSocialImage() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderBottom: "1px solid #d8d4c8",
+            borderBottom: "1px solid #e0ddd2",
             paddingBottom: 28,
           }}
         >
-          <div style={{ display: "flex", fontSize: 30, letterSpacing: -0.5 }}>
-            Marters <span style={{ color: "#1f4d3f" }}>&amp;</span> Co.
+          <div style={{
+              display: "flex",
+              fontSize: 30,
+              letterSpacing: 0.9,
+              fontFamily: "Georgia, serif",
+            }}>
+            Marters
+            <span style={{ color: "#8a6a2f", margin: "0 10px" }}>
+              &amp;
+            </span>
+            Co.
           </div>
           <div
             style={{
               display: "flex",
-              color: "#1f4d3f",
+              color: "#63697a",
               fontFamily: "monospace",
               fontSize: 15,
               letterSpacing: 2.2,
@@ -47,16 +56,15 @@ export function createSocialImage() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", maxWidth: 950 }}>
-          <div style={{ display: "flex", fontSize: 76, lineHeight: 1.04 }}>
+          <div style={{ display: "flex", fontSize: 76, lineHeight: 1.06, letterSpacing: -1.9 }}>
             Automation that survives contact with your business.
           </div>
           <div
             style={{
               display: "flex",
               marginTop: 30,
-              color: "#494d50",
-              fontFamily: "Arial, sans-serif",
-              fontSize: 25,
+              color: "#3f4756",
+                            fontSize: 25,
               lineHeight: 1.35,
             }}
           >
@@ -72,8 +80,8 @@ export function createSocialImage() {
                 display: "flex",
                 width,
                 height: 17,
-                border: "1px solid #b9b4a5",
-                background: index === 4 ? "#1f4d3f" : "#cbc5b3",
+                border: "1px solid #d6d2c6",
+                background: index === 4 ? "#8a6a2f" : "#e0ddd2",
               }}
             />
           ))}
@@ -82,7 +90,7 @@ export function createSocialImage() {
               display: "flex",
               height: 1,
               flex: 1,
-              background: "#d8d4c8",
+              background: "#e0ddd2",
               marginLeft: 12,
             }}
           />
@@ -90,7 +98,7 @@ export function createSocialImage() {
             style={{
               display: "flex",
               fontFamily: "monospace",
-              color: "#7b7f82",
+              color: "#63697a",
               fontSize: 14,
               letterSpacing: 1.2,
               textTransform: "uppercase",

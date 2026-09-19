@@ -1,31 +1,33 @@
 .feature {
   padding: 1.75rem 2rem;
   background: var(--color-pine);
-  color: var(--color-paper);
+  color: var(--color-on-navy);
 }
 .featureTop {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid #627e6a;
+  border-bottom: 1px solid var(--color-navy-rule);
   padding-bottom: 1.2rem;
-  color: #d1decb;
+  color: var(--color-on-navy);
   font-size: 0.6875rem;
 }
 .featureLabel {
   display: block;
   margin-top: 2rem;
   font-size: 0.8125rem;
-  color: #d1decb;
+  color: var(--color-on-navy);
 }
 .featureMetric {
-  font: 6rem/1.2 var(--font-mono);
-  letter-spacing: -0.08em;
+  font: 500 6rem/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: var(--color-brass-light);
   margin-top: 0.5rem;
 }
 .featureMetric > span {
-  font: 1.5rem var(--font-sans);
-  letter-spacing: -0.03em;
+  font: 400 1.5rem var(--font-sans);
+  letter-spacing: -0.01em;
 }
 .feature > p {
   font-size: 1.375rem;
@@ -39,10 +41,10 @@
   gap: 1rem;
   padding-block: 1.4rem;
   margin-top: 2rem;
-  border-block: 1px solid #627e6a;
+  border-block: 1px solid var(--color-navy-rule);
 }
 .featureBeforeAfter div > span {
-  color: #c8dba5;
+  color: var(--color-brass-light);
   font-size: 0.6875rem;
 }
 .featureBeforeAfter p {
@@ -58,7 +60,7 @@
   font-size: 0.8125rem;
 }
 .featureLink:hover { text-decoration: underline; text-underline-offset: 4px; }
-.feature a:focus-visible { outline-color: #c8dba5; }
+.feature a:focus-visible { outline-color: var(--color-brass-light); }
 .collectionNote {
   border-block: 1px solid var(--color-rule-strong);
   padding-block: 1.25rem;
@@ -105,7 +107,7 @@
 .comparison { display: grid; grid-template-columns: 1fr 1fr; }
 .comparison section { padding: 1.75rem; }
 .before { background: var(--color-shade); }
-.after { background: #e4eadc; }
+.after { background: var(--color-brass-wash); }
 .comparison h3 { font-size: 0.8125rem; font-weight: 500; letter-spacing: 0; }
 .comparison h3 > span { color: var(--color-ink-70); font-weight: 400; }
 .comparison p { color: var(--color-ink-70); font-size: 0.875rem; line-height: 1.8; margin-top: 1rem; }
