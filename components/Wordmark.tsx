@@ -15,13 +15,13 @@ export default function Wordmark({
   href = "/",
   className = "",
   onNavy = false,
-  descriptor = false,
+  descriptor = true,
 }: {
   href?: string | null;
   className?: string;
   /** Flips the ampersand and word to the on-navy pair. */
   onNavy?: boolean;
-  /** The "Applied intelligence" lockup. Omit where it would crowd. */
+  /** The quieter company-name line. Omit where it would crowd. */
   descriptor?: boolean;
 }) {
   const word = (
@@ -42,19 +42,19 @@ export default function Wordmark({
     </span>
   );
 
-  // Baseline-aligned, roughly half the wordmark size, mono caps at +0.16em.
+  // Keep the familiar wordmark prominent, with the full name beneath it.
   const content = descriptor ? (
-    <span className="inline-flex items-baseline gap-[0.9em]">
+    <span className="inline-flex flex-col items-start gap-1.5">
       {word}
       <span
-        className="mono text-[0.65rem] uppercase leading-none tracking-[0.16em]"
+        className="font-sans whitespace-nowrap text-[0.6rem] font-normal leading-tight tracking-[0.04em]"
         style={{
           color: onNavy
             ? "var(--color-on-navy-mute)"
             : "var(--color-ink-45)",
         }}
       >
-        Applied intelligence
+        Applied Intelligence Ltd.
       </span>
     </span>
   ) : (
@@ -71,7 +71,7 @@ export default function Wordmark({
           ? "text-on-navy-strong transition-colors hover:text-white"
           : "text-ink transition-colors hover:text-pine"
       }
-      aria-label="Marters & Co. — home"
+      aria-label="Marters & Co. Applied Intelligence Ltd."
     >
       {content}
     </Link>

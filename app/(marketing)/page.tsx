@@ -3,6 +3,7 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
+import { marketingServices } from "@/lib/marketing-services";
 import ContactForm from "./contact/ContactForm";
 import styles from "./home.module.css";
 
@@ -12,11 +13,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const services = [
-  { title: "Automation", body: "Remove repetitive work from finance, sales and operations.", link: "/services#implement" },
-  { title: "Systems integration", body: "Connect your existing software so data is entered once.", link: "/services#implement" },
-  { title: "Custom software & AI", body: "Build apps and AI assistants around the work your team does.", link: "/services#enterprise" },
-];
 const steps = [
   { title: "Discover", body: "We study your daily work and identify the changes worth making.", outcome: "A costed plan, in priority order." },
   { title: "Build", body: "We build one workflow and test it alongside your current process.", outcome: "Working software, checked with your team." },
@@ -57,11 +53,11 @@ export default function HomePage() {
           <div><span className={styles.eyebrow}>01 / What we do</span><h2 id="services-heading">Make everyday work simpler.</h2></div>
         </div>
         <div className={styles.serviceGrid}>
-          {services.map((service, i) => (
-            <Link className={styles.serviceCard} href={service.link} key={service.title}>
+          {marketingServices.map((service, i) => (
+            <Link className={styles.serviceCard} href={`/services#${service.id}`} key={service.title}>
               <div className={styles.serviceBody}>
                 <span className={styles.cardLabel}>0{i + 1}</span>
-                <h3>{service.title}</h3><p>{service.body}</p>
+                <h3>{service.title}</h3><p>{service.shortDescription}</p>
                 <span className={styles.cardLink}>Learn more <Arrow diagonal /></span>
               </div>
             </Link>

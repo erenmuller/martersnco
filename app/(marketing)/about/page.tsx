@@ -52,6 +52,9 @@ export default function AboutPage() {
                 Marters{" "}
                 <span style={{ color: "var(--color-brass)" }}>&amp;</span> Co.
               </div>
+              <span className="mt-2 block text-xs font-normal tracking-wide text-ink-45">
+                Applied Intelligence Ltd.
+              </span>
               <p>
                 A boutique AI consultancy.
                 <br />

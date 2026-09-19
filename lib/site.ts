@@ -6,7 +6,8 @@ const contactPhoneE164 = process.env.NEXT_PUBLIC_PHONE_E164?.trim() || null;
 const difcLicenceNumber =
   process.env.NEXT_PUBLIC_DIFC_LICENCE?.trim() || null;
 const legalName =
-  process.env.NEXT_PUBLIC_LEGAL_NAME?.trim() || "Marters & Co.";
+  process.env.NEXT_PUBLIC_LEGAL_NAME?.trim() ||
+  "Marters & Co. Applied Intelligence Ltd.";
 // An env var that is present but blank must fall back like a missing one, or
 // `new URL(site.url)` in the root layout throws and the whole build fails.
 const siteUrl =

@@ -7,10 +7,12 @@ const columns = [
     heading: "Services",
     links: [
       { href: "/services#identify", label: "Discovery Audit" },
-      { href: "/services#implement", label: "Automation implementation" },
-      { href: "/services#programme", label: "AI workflow programmes" },
-      { href: "/services#enterprise", label: "Custom builds" },
-      { href: "/services#people", label: "Team enablement" },
+      { href: "/services#implement", label: "Task automation" },
+      { href: "/services#integration", label: "Systems integration" },
+      { href: "/services#enterprise", label: "Custom software" },
+      { href: "/services#ai-assistants", label: "AI tools" },
+      { href: "/services#people", label: "Staff training" },
+      { href: "/services#ai-workshops", label: "AI workshops" },
     ],
   },
   {

@@ -2,19 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Arrow from "@/components/Arrow";
-import { serviceGroups, type ServiceCopy } from "@/lib/content";
+import { marketingServices } from "@/lib/marketing-services";
 import { site } from "@/lib/site";
-import {
-  NextConversation,
-  PageIntro,
-  SectionTitle,
-} from "../_components/Editorial";
-import s from "../_components/editorial.module.css";
+import { NextConversation } from "../_components/Editorial";
+import styles from "./services.module.css";
 
 export const metadata: Metadata = {
-  title: "AI and automation services for SMEs",
-  description:
-    "Start with a Discovery Audit, then turn the strongest opportunities into workflow automations, AI-assisted operations or custom internal software.",
+  title: "Automation, systems integration, custom software & AI",
+  description: "Discovery audits, automation, systems integration, custom software and AI tools, plus staff training and practical AI workshops. Based in Dubai.",
   alternates: { canonical: "/services" },
 };
 
@@ -22,365 +17,59 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Marters & Co. services",
-  itemListElement: serviceGroups
-    .flatMap((group) => group.services.map((service) => ({ group, service })))
-    .map(({ group, service }, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "Service",
-        name: service.name,
-        description: service.lede,
-        serviceType: group.title,
-        provider: { "@id": site.url + "/#organisation" },
-        areaServed: { "@type": "Country", name: "United Arab Emirates" },
-      },
-    })),
+  itemListElement: marketingServices.map((service, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Service",
+      name: service.title,
+      description: service.description,
+      provider: { "@id": site.url + "/#organisation" },
+      areaServed: { "@type": "Country", name: "United Arab Emirates" },
+    },
+  })),
 };
-
-const outputs = [
-  [
-    "A picture of today",
-    "Your workflows mapped, with the handoffs, delays and recurring errors made visible.",
-  ],
-  [
-    "The opportunities worth pursuing",
-    "AI, automation and simpler process changes, assessed against effort and return.",
-  ],
-  [
-    "A business case you can use",
-    "Estimated time saved, cost, risk and what it would take to make each change.",
-  ],
-  [
-    "Your next steps, in order",
-    "A practical roadmap. Yours to take forward with us, in-house or with another team.",
-  ],
-];
-
-function ServiceDetail({ service }: { service: ServiceCopy }) {
-  return (
-    <details className={s.serviceDetail}>
-      <summary>
-        <span>
-          <strong>{service.name}</strong>
-          <small>{service.lede}</small>
-        </span>
-        <span className={s.plus} aria-hidden="true">
-          +
-        </span>
-      </summary>
-      <div className={s.detailBody}>
-        <p>{service.detail}</p>
-        <ul>
-          {service.deliverables.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <span className={s.duration}>Typical timing · {service.duration}</span>
-      </div>
-    </details>
-  );
-}
-
-function ServicesVisual() {
-  return (
-    <figure className={s.serviceVisual}>
-      <svg
-        viewBox="0 0 480 360"
-        fill="none"
-        role="img"
-        aria-label="Discover, build and embed: three connected parts of an engagement"
-      >
-        <circle cx="240" cy="178" r="152" fill="#edeae0" />
-        {Array.from({ length: 12 }, (_, i) => (
-          <ellipse
-            key={i}
-            cx="240"
-            cy="178"
-            rx={113 + i * 3.5}
-            ry={66 + i * 6}
-            transform={`rotate(${i * 15} 240 178)`}
-            stroke="#c9c3b3"
-            strokeWidth=".6"
-            opacity=".55"
-          />
-        ))}
-        <path d="M95 178H385" stroke="#c9c3b3" strokeDasharray="3 6" />
-        {[
-          { x: 95, n: "01", name: "Discover" },
-          { x: 240, n: "02", name: "Build" },
-          { x: 385, n: "03", name: "Embed" },
-        ].map((item) => (
-          <g key={item.n}>
-            <circle
-              cx={item.x}
-              cy="178"
-              r="49"
-              fill="#f6f5f0"
-              stroke="#d6d2c6"
-            />
-            <text
-              x={item.x}
-              y="169"
-              textAnchor="middle"
-              fill="#63697a"
-              fontSize="10"
-              fontFamily="monospace"
-            >
-              {item.n}
-            </text>
-            <text
-              x={item.x}
-              y="192"
-              textAnchor="middle"
-              fill="#14243c"
-              fontSize="15"
-            >
-              {item.name}
-            </text>
-          </g>
-        ))}
-      </svg>
-      <figcaption>
-        <span>Discover. Build. Embed.</span>
-        <span>M&amp;Co.</span>
-      </figcaption>
-    </figure>
-  );
-}
 
 export default function ServicesPage() {
   return (
-    <>
+    <div className={styles.services}>
       <JsonLd data={schema} />
-      <PageIntro
-        label="Services / Built around your business"
-        title={
-          <>
-            Automation, integration
-            <br />
-            <span>& applied AI.</span>
-          </>
-        }
-        visual={<ServicesVisual />}
-        links={
-          <>
-            <Link href="/contact" className="btn btn-primary">
-              Let’s talk <Arrow />
-            </Link>
-            <a href="#identify" className="text-link">
-              Explore our services <span aria-hidden="true">↓</span>
-            </a>
-          </>
-        }
-      >
-        We find the work worth automating, build the system and train your team.
-      </PageIntro>
-      <div className="page">
-        <nav className={s.jumpNav} aria-label="Service sections">
-          <span>From audit to implementation.</span>
-          <div>
-            <a href="#identify">
-              <span>01</span> Discover
-            </a>
-            <a href="#implement">
-              <span>02</span> Build
-            </a>
-            <a href="#programme">
-              <span>03</span> Embed
-            </a>
-          </div>
-        </nav>
-      </div>
+      <section className={`page ${styles.intro}`} aria-labelledby="services-heading">
+        <span className="studio-label">Our services</span>
+        <h1 id="services-heading">Less manual work.<br />Better connected systems.</h1>
+        <p>Start with a Discovery Audit. We identify what to improve, build the systems and train your team.</p>
+      </section>
 
-      <section id="identify" className="page studio-section">
-        <div className={s.split}>
-          <div className={s.sectionCopy}>
-            <span className="studio-label">
-              01 / AI strategy &amp; discovery
-            </span>
-            <h2>
-              Start with a
-              <br />
-              <span>Discovery Audit.</span>
-            </h2>
-            <p>
-              We observe your daily work, speak to your staff and identify where AI and automation will help.
-            </p>
-            <p>
-              You receive the costs, expected benefits and next steps in priority order.
-            </p>
-            <div className={s.terms}>
-              <span>2–3 weeks</span>
-              <span>Fixed scope, fixed fee</span>
-              <span>No obligation to build</span>
+      <section className={`page ${styles.serviceList}`} aria-label="What we do">
+        {marketingServices.map((service, index) => (
+          <article id={service.id} className={styles.service} key={service.id}>
+            <span className={styles.number}>0{index + 1}</span>
+            <h2>{service.title}</h2>
+            <div>
+              <p>{service.description}</p>
+              <p className={styles.examples}><span>{service.id === "identify" ? "What you receive" : "Examples"}</span>{service.examples}</p>
+              {"terms" in service && (
+                <>
+                  <p className={styles.auditTerms}>{service.terms}</p>
+                  <Link href="/contact" className="text-link">Discuss an audit <Arrow diagonal /></Link>
+                </>
+              )}
             </div>
-            <Link href="/contact" className="text-link">
-              Discuss a Discovery Audit <Arrow diagonal />
-            </Link>
-          </div>
-          <div className={s.auditSheet}>
-            <div className={s.sheetHeader}>
-              <span>Discovery Audit / Your takeaways</span>
-              <Arrow diagonal />
-            </div>
-            <ol className={s.outputList}>
-              {outputs.map(([title, body], i) => (
-                <li key={title}>
-                  <span>0{i + 1}</span>
-                  <div>
-                    <h3>{title}</h3>
-                    <p>{body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <p className={s.sheetNote}>
-              ↳ A useful piece of work in its own right.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        className={s.softSection}
-        id="implement"
-        style={{ scrollMarginTop: "6rem" }}
-      >
-        <div className="page studio-section">
-          <SectionTitle
-            label="02 / Tailored implementation"
-            title={
-              <>
-                What we build
-                <br />
-                <span>after the audit.</span>
-              </>
-            }
-          >
-            We build around your people and the tools you already use, then test
-            the new workflow alongside the current process.
-          </SectionTitle>
-          {[serviceGroups[1], serviceGroups[3]].map((group, i) => (
-            <section
-              className={s.serviceGroup}
-              id={i === 1 ? "enterprise" : undefined}
-              key={group.slug}
-            >
-              <div className={s.groupIntro}>
-                <span>
-                  {i === 0 ? "Connect the everyday" : "Create what’s missing"}
-                </span>
-                <h3>{group.title}</h3>
-                <p>
-                  {i === 0
-                    ? "Less copying between systems. Fewer manual handoffs. Information that gets where it needs to go."
-                    : "Internal tools, applications and data infrastructure shaped around the way your business actually runs."}
-                </p>
-
-              </div>
-              <div>
-                {group.services.map((service) => (
-                  <ServiceDetail key={service.code} service={service} />
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      </section>
-
-      <section
-        className={s.darkSection}
-        id="programme"
-        style={{ scrollMarginTop: "6rem" }}
-      >
-        <div className="page studio-section">
-          <SectionTitle
-            label="03 / Adoption & ongoing care"
-            title={
-              <>
-                Training &
-                <br />
-                <span>ongoing support.</span>
-              </>
-            }
-          >
-            We train your staff on the real system. Optional ongoing support keeps it working.
-          </SectionTitle>
-          <div className={s.supportGrid}>
-            {[serviceGroups[4], serviceGroups[2]].map((group, i) => (
-              <section
-                key={group.slug}
-                id={i === 0 ? "people" : undefined}
-                className={s.supportColumn}
-              >
-                <h3>
-                  {i === 0
-                    ? "Team training"
-                    : "Support & improvements"}
-                </h3>
-                {group.services.map((service) => (
-                  <ServiceDetail key={service.code} service={service} />
-                ))}
-              </section>
-            ))}
-          </div>
-          <p className={s.supportNote}>
-            <span aria-hidden="true">↳</span>You own the source, the accounts
-            and the documentation. Ongoing support is your choice.
-          </p>
-        </div>
-      </section>
-
-      <section className="page studio-section">
-        <SectionTitle
-          label="The practical details"
-          title={
-            <>
-              How we charge.
-
-            </>
-          }
-        />
-        <div className={s.commercial}>
-          <article>
-            <span>Discovery Audit</span>
-            <h3>A fixed fee.</h3>
-            <p>
-              Scope and price agreed before we start. Your roadmap is useful
-              whether or not we build from it.
-            </p>
           </article>
-          <article>
-            <span>Implementation</span>
-            <h3>Quoted per workflow.</h3>
-            <p>
-              A proposal grounded in discovery, with the work, cost and expected
-              outcome made clear.
-            </p>
-          </article>
-          <article>
-            <span>Ongoing care</span>
-            <h3>A monthly arrangement.</h3>
-            <p>
-              A defined scope for support and improvements, reviewed as your
-              needs change.
-            </p>
-          </article>
+        ))}
+        <p className={styles.buildNote}>We work with the tools you already use and test each system with your team before the switch.</p>
+      </section>
+
+      <section id="programme" className={`page ${styles.support}`} aria-labelledby="support-heading">
+        <h2 id="support-heading">Ongoing support</h2>
+        <div>
+          <p>Optional monthly support covers monitoring, fixes and improvements to the systems we build.</p>
+          <p className={styles.pricing}>Builds are quoted per project or workflow. Ongoing support has an agreed monthly fee.</p>
         </div>
       </section>
-      <NextConversation
-        title={
-          <>
-            Start with what’s
-            <br />
-            slowing you down.
-          </>
-        }
-      >
-        A repetitive task, a disconnected system, an idea you want to explore.
-        You don’t need a brief to start a conversation.
+      <NextConversation title="Tell us what takes too much time.">
+        A repeated task or a system that needs improving is enough to start.
       </NextConversation>
-    </>
+    </div>
   );
 }
