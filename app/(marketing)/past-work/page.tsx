@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Arrow from "@/components/Arrow";
+import { breadcrumbs, pageMetadata } from "@/lib/metadata";
 import { NextConversation, PageIntro, SectionTitle } from "../_components/Editorial";
 import WorkStories from "./WorkStories";
 import s from "./past-work.module.css";
-import { breadcrumbs, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 
 const description = "Explore eight past Marters & Co. projects and two illustrative ideas: ERP automation, packing lists, reconciliation, stock forecasting, payroll and practical AI workshops.";

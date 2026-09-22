@@ -3,10 +3,11 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
-import { marketingServices } from "@/lib/marketing-services";
+import { pageMetadata } from "@/lib/metadata";
+import { deliveryServices } from "@/lib/marketing-services";
+import DiscoveryPath from "./_components/DiscoveryPath";
 import ContactForm from "./contact/ContactForm";
 import styles from "./home.module.css";
-import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: "AI consultancy & automation in Dubai",
@@ -23,7 +24,7 @@ const steps = [
 export default function HomePage() {
   return (
     <div className={styles.home}>
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: site.name, url: site.url, publisher: { "@id": site.url + "/#organisation" } }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", "@id": site.url + "/#website", name: site.name, alternateName: ["Marters and Co", "Marters & Co"], url: site.url, inLanguage: "en-AE", publisher: { "@id": site.url + "/#organisation" } }} />
       <section className={styles.hero} aria-labelledby="home-heading">
         <div className={`page ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
@@ -53,11 +54,11 @@ export default function HomePage() {
         <div className={styles.sectionHeading}>
           <div><span className={styles.eyebrow}>01 / What we do</span><h2 id="services-heading">Make everyday work simpler.</h2></div>
         </div>
+        <DiscoveryPath />
         <div className={styles.serviceGrid}>
-          {marketingServices.map((service, i) => (
+          {deliveryServices.map((service) => (
             <Link className={styles.serviceCard} href={`/services#${service.id}`} key={service.title}>
               <div className={styles.serviceBody}>
-                <span className={styles.cardLabel}>0{i + 1}</span>
                 <h3>{service.title}</h3><p>{service.shortDescription}</p>
                 <span className={styles.cardLink}>Learn more <Arrow diagonal /></span>
               </div>

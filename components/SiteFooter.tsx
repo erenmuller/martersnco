@@ -19,6 +19,7 @@ const columns = [
     heading: "Firm",
     links: [
       { href: "/approach", label: "How we work" },
+      { href: "/past-work", label: "Past work" },
       { href: "/about", label: "About" },
       { href: "/contact", label: "Contact" },
       { href: "/login", label: "Client login" },

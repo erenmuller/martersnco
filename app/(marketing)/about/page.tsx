@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
+import { breadcrumbs, pageMetadata } from "@/lib/metadata";
 import { NextConversation, PageIntro } from "../_components/Editorial";
 import s from "../_components/editorial.module.css";
-import { breadcrumbs, pageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 
 export const metadata: Metadata = pageMetadata({
-  title: "About the firm — a boutique AI consultancy in Dubai",
+  title: "About the firm — DIFC-licensed AI consultancy",
   description: `${site.legalName} is a boutique AI and automation consultancy licensed in the Dubai International Financial Centre, working with small and mid-sized businesses across the UAE and the Gulf.`,
   path: "/about",
 });

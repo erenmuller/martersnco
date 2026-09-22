@@ -3,18 +3,18 @@ import Link from "next/link";
 import JsonLd from "@/components/JsonLd";
 import Arrow from "@/components/Arrow";
 import { faqs } from "@/lib/content";
+import { breadcrumbs, pageMetadata } from "@/lib/metadata";
 import {
   NextConversation,
   PageIntro,
   SectionTitle,
 } from "../_components/Editorial";
 import s from "../_components/editorial.module.css";
-import { breadcrumbs, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "How we work — our approach to automation projects",
+  title: "How we work — Discover, build, embed",
   description:
-    "How Marters & Co. runs an engagement: measure the process, prove one workflow in parallel, build the rest in return order, then hand over ownership with the source.",
+    "How an automation project with Marters & Co. runs: a fixed-fee Discovery Audit, one workflow built and tested alongside your current process, then training and full handover.",
   path: "/approach",
 });
 const phases = [
