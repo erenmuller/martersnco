@@ -21,7 +21,7 @@ export default function ContactPage() {
         <Link href="/" className="contact-back">
           ← Back to the firm
         </Link>
-        <div className="enquiry-spread">
+        <div className="enquiry-spread" id="enquiry">
           <div className="enquiry-intro">
             <span className="studio-label">
               <span className="status-dot" /> Let’s talk

@@ -2,6 +2,8 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
 import WhatsAppBubble from "@/components/WhatsAppBubble";
+import DiscoveryAuditBanner from "@/components/DiscoveryAuditBanner";
+import bannerStyles from "@/components/discovery-audit-banner.module.css";
 import { site } from "@/lib/site";
 import { marketingServices } from "@/lib/marketing-services";
 
@@ -73,7 +75,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="marketing-site">
+    <div className={`marketing-site ${bannerStyles.site}`}>
       <JsonLd data={organisation} />
       <a href="#main" className="skip-link">
         Skip to content
@@ -81,6 +83,7 @@ export default function MarketingLayout({
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
+      <DiscoveryAuditBanner />
       <WhatsAppBubble />
     </div>
   );

@@ -1,7 +1,7 @@
 .bubble {
   position: fixed;
   right: max(1.25rem, env(safe-area-inset-right));
-  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  bottom: calc(var(--audit-banner-height, 0px) + 1.25rem);
   z-index: 40;
   display: inline-flex;
   align-items: center;
@@ -65,7 +65,7 @@
     min-height: 52px;
     padding: 0;
     right: max(0.75rem, env(safe-area-inset-right));
-    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    bottom: calc(var(--audit-banner-height, 0px) + 0.75rem);
   }
 
   .bubble > span {
