@@ -4,6 +4,7 @@ import { createHmac } from "node:crypto";
 import { headers } from "next/headers";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isSeoSpam } from "@/lib/lead-spam";
 import { site } from "@/lib/site";
 
 const LeadSchema = z.object({
@@ -75,6 +76,13 @@ async function recordLead(
       message: "Check the highlighted fields.",
       fieldErrors,
     };
+  }
+
+  // Unsolicited SEO pitches get the same silent success as the honeypot, so
+  // the sender has no signal to reword around. Checked before rate limiting.
+  if (isSeoSpam(parsed.data)) {
+    console.info("[submitLead] dropped SEO pitch from", parsed.data.email);
+    return { status: "ok" };
   }
 
   try {
