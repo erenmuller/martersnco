@@ -6,12 +6,13 @@ import { marketingServices } from "@/lib/marketing-services";
 import { site } from "@/lib/site";
 import { NextConversation } from "../_components/Editorial";
 import styles from "./services.module.css";
+import { breadcrumbs, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Automation, systems integration, custom software & AI",
   description: "Discovery audits, automation, systems integration, custom software and AI tools, plus staff training and practical AI workshops. Based in Dubai.",
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 const schema = {
   "@context": "https://schema.org",
@@ -34,6 +35,7 @@ export default function ServicesPage() {
   return (
     <div className={styles.services}>
       <JsonLd data={schema} />
+      <JsonLd data={breadcrumbs({ name: "Services", path: "/services" })} />
       <section className={`page ${styles.intro}`} aria-labelledby="services-heading">
         <span className="studio-label">Our services</span>
         <h1 id="services-heading">Less manual work.<br />Better connected systems.</h1>

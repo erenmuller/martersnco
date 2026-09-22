@@ -1,0 +1,74 @@
+.bubble {
+  position: fixed;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  min-height: 56px;
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  background: #176b45;
+  color: #fff;
+  box-shadow: 0 4px 20px #14243c26;
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+
+.bubble:hover {
+  background: #115336;
+}
+
+.bubble:focus-visible,
+.formButton:focus-visible {
+  outline: 3px solid var(--color-brass);
+  outline-offset: 4px;
+}
+
+.formOption {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-rule);
+}
+
+.formButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem;
+  border: 1px solid #176b45;
+  border-radius: 8px;
+  color: #176b45;
+  background: var(--color-paper);
+  font-size: 0.8125rem;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+.formButton:hover:not(:disabled) {
+  background: #edf6f0;
+}
+
+.formButton:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+@media (max-width: 600px) {
+  .bubble {
+    width: 52px;
+    min-height: 52px;
+    padding: 0;
+    right: max(0.75rem, env(safe-area-inset-right));
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .bubble > span {
+    display: none;
+  }
+}

@@ -28,6 +28,8 @@ export const site = {
   // number is preferable to publishing a plausible-looking placeholder.
   phoneDisplay: contactPhoneDisplay,
   phoneE164: contactPhoneE164,
+  whatsappNumber: "971588100447",
+  whatsappDisplay: "+971 58 810 0447",
   founded: "2026",
   address: {
     line1: "Dubai International Financial Centre",

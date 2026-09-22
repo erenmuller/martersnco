@@ -1,6 +1,7 @@
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import JsonLd from "@/components/JsonLd";
+import WhatsAppBubble from "@/components/WhatsAppBubble";
 import { site } from "@/lib/site";
 
 const organisation = {
@@ -13,6 +14,17 @@ const organisation = {
   url: site.url,
   email: site.email,
   foundingDate: site.founded,
+  // Phone is optional in site config, so it is spread in rather than
+  // emitted as an empty string, which would be worse than absent.
+  ...(site.phoneE164 ? { telephone: site.phoneE164 } : {}),
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "sales",
+    email: site.email,
+    ...(site.phoneE164 ? { telephone: site.phoneE164 } : {}),
+    areaServed: ["AE", "GCC"],
+    availableLanguage: ["en"],
+  },
   slogan: site.tagline,
   areaServed: [
     { "@type": "Country", name: "United Arab Emirates" },
@@ -69,6 +81,7 @@ export default function MarketingLayout({
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
+      <WhatsAppBubble />
     </div>
   );
 }

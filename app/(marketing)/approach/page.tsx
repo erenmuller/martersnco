@@ -9,13 +9,14 @@ import {
   SectionTitle,
 } from "../_components/Editorial";
 import s from "../_components/editorial.module.css";
+import { breadcrumbs, pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Approach",
+export const metadata: Metadata = pageMetadata({
+  title: "How we work — our approach to automation projects",
   description:
     "How Marters & Co. runs an engagement: measure the process, prove one workflow in parallel, build the rest in return order, then hand over ownership with the source.",
-  alternates: { canonical: "/approach" },
-};
+  path: "/approach",
+});
 const phases = [
   {
     title: "Discover.",
@@ -50,6 +51,7 @@ export default function ApproachPage() {
   return (
     <>
       <JsonLd data={faqSchema} />
+      <JsonLd data={breadcrumbs({ name: "How we work", path: "/approach" })} />
       <PageIntro
         label="How we work / A considered approach"
         title={

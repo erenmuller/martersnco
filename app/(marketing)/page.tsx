@@ -6,12 +6,13 @@ import { site } from "@/lib/site";
 import { marketingServices } from "@/lib/marketing-services";
 import ContactForm from "./contact/ContactForm";
 import styles from "./home.module.css";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "AI consultancy & automation in Dubai",
   description: site.description,
-  alternates: { canonical: "/" },
-};
+  path: "/",
+});
 
 const steps = [
   { title: "Discover", body: "We study your daily work and identify the changes worth making.", outcome: "A costed plan, in priority order." },
@@ -27,19 +28,19 @@ export default function HomePage() {
         <div className={`page ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}><span className={styles.dot} /> AI & automation · Dubai</span>
-            <h1 id="home-heading">Less manual work.<br /><span>More time to grow.</span></h1>
-            <p>We automate repetitive tasks, connect your systems and build practical AI tools for your business.</p>
+            <h1 id="home-heading">AI discovery<br /><span>specialists.</span></h1>
+            <p>Bring AI into your business with confidence. We help you find where it adds value, understand the risks and put it to work with the right safeguards.</p>
             <div className={styles.actions}>
-              <a href="#start-a-conversation" className="btn btn-primary">Let’s talk <Arrow diagonal /></a>
+              <a href="#start-a-conversation" className="btn btn-primary">Find your starting point <Arrow diagonal /></a>
               <a href="#what-we-do" className={styles.quietLink}>What we do <span aria-hidden="true">↓</span></a>
             </div>
           </div>
-          <Link href="/services#identify" className={styles.featuredWork}>
-            <span className={styles.eyebrow}>Your first step</span>
-            <h2>Discovery Audit</h2>
-            <p>Find where automation will help, what it will cost and what to do first.</p>
-            <div className={styles.featuredResult}><strong>2–3 weeks</strong><span>Fixed scope. Fixed fee.</span></div>
-            <span className={styles.cardLink}>Explore the audit <Arrow diagonal /></span>
+          <Link href="/approach" className={styles.featuredWork}>
+            <span className={styles.eyebrow}>A considered approach to AI</span>
+            <h2>Clarity before<br />commitment.</h2>
+            <p>Start with your business: the way your team works, the data you handle and the decisions that need a human.</p>
+            <div className={styles.featuredResult}><strong>A clear next step.</strong><span>What to pursue, what to protect and what to leave alone.</span></div>
+            <span className={styles.cardLink}>How we approach AI <Arrow diagonal /></span>
           </Link>
         </div>
         <div className={`page ${styles.credentials}`}>
@@ -91,8 +92,8 @@ export default function HomePage() {
         <div className={`page ${styles.contactGrid}`}>
           <div className={styles.contactCopy}>
             <span className={styles.eyebrow}>03 / Let’s talk</span>
-            <h2 id="contact-heading">Which task takes<br />the most time?</h2>
-            <p>Tell us what’s slowing you down. No brief needed.</p>
+            <h2 id="contact-heading">Where could AI<br />help your business?</h2>
+            <p>Share what you’d like to improve, an idea you’re exploring or a concern about getting started. We’ll help you make sense of the next step.</p>
             <div className={styles.contactPromise}><p>The first conversation is free.<br />We reply within one working day.</p></div>
             <a href={`mailto:${site.email}`} className={styles.quietLink}>{site.email} <Arrow diagonal /></a>
           </div>

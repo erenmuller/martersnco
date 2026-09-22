@@ -4,12 +4,14 @@ import Arrow from "@/components/Arrow";
 import { site } from "@/lib/site";
 import { NextConversation, PageIntro } from "../_components/Editorial";
 import s from "../_components/editorial.module.css";
+import { breadcrumbs, pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata: Metadata = pageMetadata({
+  title: "About the firm — a boutique AI consultancy in Dubai",
   description: `${site.legalName} is a boutique AI and automation consultancy licensed in the Dubai International Financial Centre, working with small and mid-sized businesses across the UAE and the Gulf.`,
-  alternates: { canonical: "/about" },
-};
+  path: "/about",
+});
 const principles = [
   [
     "Direct access to the people doing the work.",
@@ -32,6 +34,7 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={breadcrumbs({ name: "The firm", path: "/about" })} />
       <PageIntro
         label="The firm / Dubai, United Arab Emirates"
         title={

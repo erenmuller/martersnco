@@ -3,6 +3,9 @@
 import { useActionState, useEffect, useId, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import Arrow from "@/components/Arrow";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
+import whatsappStyles from "@/components/whatsapp.module.css";
+import { whatsappEnquiry, whatsappUrl } from "@/lib/whatsapp-contact";
 import { submitLead, submitProcessLead, type LeadState } from "./actions";
 
 const initial: LeadState = { status: "idle" };
@@ -151,9 +154,11 @@ export default function ContactForm({
         className="conversation-step"
       >
         <legend className="sr-only">Step 1: Your business</legend>
-        <h3>What would you like to make better?</h3>
+        <h3>{source === "home" ? "What would you like to explore?" : "What would you like to make better?"}</h3>
         <p className="conversation-description">
-          You don’t need a brief. Just a place to start.
+          {source === "home"
+            ? "You don’t need a plan or technical knowledge to start."
+            : "You don’t need a brief. Just a place to start."}
         </p>
         <div
           className="interest-options"
@@ -186,7 +191,9 @@ export default function ContactForm({
           required
           minLength={20}
           maxLength={3900}
-          placeholder="We spend hours each week copying data between systems. I’d love to give that time back to the team…"
+          placeholder={source === "home"
+            ? "We’d like to explore AI for our business, but we’re unsure where it would help or how to keep our data safe…"
+            : "We spend hours each week copying data between systems. I’d love to give that time back to the team…"}
           aria-invalid={!!currentMessageError}
           aria-describedby={`${id}-message-hint`}
         />
@@ -290,6 +297,25 @@ export default function ContactForm({
           Your details are only used to respond to your enquiry. No mailing
           lists.
         </p>
+        <div className={whatsappStyles.formOption}>
+          <button
+            type="button"
+            className={whatsappStyles.formButton}
+            disabled={pending}
+            aria-describedby={`${id}-whatsapp-hint`}
+            onClick={() => window.open(
+              whatsappUrl(whatsappEnquiry(draft, interest)),
+              "_blank",
+              "noopener,noreferrer",
+            )}
+          >
+            <WhatsAppIcon /> Send via WhatsApp instead
+          </button>
+          <p id={`${id}-whatsapp-hint`} className="conversation-hint">
+            Opens WhatsApp with your enquiry and the details you’ve entered.
+            Review your message and press send there.
+          </p>
+        </div>
       </fieldset>
       <div className="conversation-form-footer">
         <span className="status-dot" /> Thoughtfully read. Personally answered.
