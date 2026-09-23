@@ -50,7 +50,7 @@ async function clientAddress(): Promise<string | null> {
 
 async function recordLead(
   formData: FormData,
-  source: "website:contact" | "website:homepage-process-prompt",
+  source: "website:contact" | "website:homepage-process-prompt" | "website:discovery-audit",
 ): Promise<LeadState> {
   // Honeypot. A real person never fills a field they cannot see.
   if (formData.get("website")) {
@@ -165,4 +165,11 @@ export async function submitProcessLead(
   formData: FormData,
 ): Promise<LeadState> {
   return recordLead(formData, "website:homepage-process-prompt");
+}
+
+export async function submitDiscoveryLead(
+  _prev: LeadState,
+  formData: FormData,
+): Promise<LeadState> {
+  return recordLead(formData, "website:discovery-audit");
 }
